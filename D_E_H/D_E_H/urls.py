@@ -18,8 +18,10 @@ Including another URLconf
 from . import views
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),  
+    path('clientes/', include('clientes.urls')), 
 ]
