@@ -5,6 +5,7 @@ class Clientes(models.Model):
     Full_Name = models.CharField(max_length=50, unique=True)
     Document_type = models.CharField(max_length=20)
     Document = models.IntegerField(max_length=20)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

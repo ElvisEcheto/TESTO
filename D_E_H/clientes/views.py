@@ -10,5 +10,5 @@ def change_status_clientes(request, clientes_id):
     clientes = Clientes.objects.get(pk=clientes_id)
     clientes.status = not clientes.status
     clientes.save()
-    return redirect('clientes')
+    return redirect('Clientes')
 # Create your views here.
