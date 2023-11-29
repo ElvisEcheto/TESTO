@@ -1,13 +1,12 @@
 from django.db import models
 
-class Clientes(models.Model):
-    ID = models.IntegerField(primary_key=True,max_length=2)
-    Full_Name = models.CharField(max_length=50, unique=True)
+class Cliente(models.Model):
+    Full_Name = models.CharField(max_length=50)
     Document_type = models.CharField(max_length=20)
-    Document = models.IntegerField(max_length=20)
+    Document = models.IntegerField(unique=True)
     status = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return self.Full_Name
 
 # Create your models here.

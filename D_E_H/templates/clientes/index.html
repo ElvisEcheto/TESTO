@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
+
+
 {% block content %}
+
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -18,26 +21,26 @@
                 <thead class="table-dark">
                     <tr>
                         <th>ID</th>
-                        <th>Names</th>
-                        <th>Type Document</th>
-                        <th>Document</th>
-                        <th>Status</th>
+                        <th>Nombre</th>
+                        <th>Tipo Documento</th>
+                        <th>Documento</th>
+                        <th>Estado</th>
                         <th>Acciones</th>                        
                     </tr>
                 </thead>                
                 <tbody>
-                    {% for Clientes in clientes_list %}
+                    {% for cliente in clientes_list %}
                     <tr>
-                    <td>{{ clientes.ID }}</td>
-                    <td>{{ clientes.Full_Name }}</td>
-                    <td>{{ clientes.Document_type }}</td>
-                    <td>{{ clientes.Document}}</td>
+                    <td>{{ cliente.ID }}</td>
+                    <td>{{ cliente.Full_Name }}</td>
+                    <td>{{ author.Document_Type }}</td>
+                    <td>{{ author.Document }}</td>
                     <!-- Toggle Switch button -->
                     <td>
                         <form action="{% url 'author_status' author.id %}" method="POST">
                             {% csrf_token %}                            
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if clientes.status %} checked {% endif %} onchange="this.form.submit()">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if author.status %} checked {% endif %} onchange="this.form.submit()">
                                 <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
                             </div>                     
                         </form>
@@ -60,7 +63,6 @@
         </div>
     </div>
 </div>
-
 
 
 {%endblock%}

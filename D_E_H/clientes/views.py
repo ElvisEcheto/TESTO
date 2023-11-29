@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 
-from clientes.models import Clientes
+from clientes.models import Cliente
+def clientes(request):
+    return render(request, 'clientes/index.html')
 
 def clientes(request):    
-    clientes_list = Clientes.objects.all()    
+    clientes_list = Cliente.objects.all()    
     return render(request, 'clientes/index.html', {'clientes_list': clientes_list})
 
-def change_status_clientes(request, clientes_id):
-    clientes = Clientes.objects.get(pk=clientes_id)
-    clientes.status = not clientes.status
-    clientes.save()
-    return redirect('Clientes')
-# Create your views here.
+def change_status_cliente(request, cliente_id):
+    cliente = Cliente.objects.get(pk=cliente_id)
+    cliente.status = not cliente.status
+    cliente.save()
+    return redirect('clientes')
