@@ -45,7 +45,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'clientes'  %}">
+          <a class="nav-link " href="{% url 'costumers'  %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
@@ -355,12 +355,14 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{% static './js/argon-dashboard.min.js' %}"></script>
+
   <!-- Page level plugins -->
-  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+  <script src="{% static './vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static './vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
   <!-- Page level custom scripts -->
-  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+  <script src="{% static './js/demo/datatables-demo.js' %}"></script>
+
 </body>
 
 </html>
