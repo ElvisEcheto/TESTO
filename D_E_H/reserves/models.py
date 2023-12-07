@@ -5,8 +5,8 @@ class Reserve(models.Model):
     Status_R = models.CharField(max_length=255)
     Pay_T = models.IntegerField()
     Satisfaction = models.CharField(max_length=2000)
-    lodging = models.ForeignKey('lodgings.Lodging', on_delete=models.DO_NOTHING)
-    costumer =  models.ForeignKey('costumers.Costumer', on_delete=models.DO_NOTHING)
+    lodging = models.IntegerField()
+    costumer =  models.IntegerField()
    
 def __str__(self):
-        return self.title
+        return self.Date_I

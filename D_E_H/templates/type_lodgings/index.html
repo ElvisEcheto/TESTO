@@ -17,18 +17,14 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Nombre</th>
-                        <th>Documento</th>
-                        <th>k</th>
-                        <th>Acciones</th>    
-                        <th>9</th>                    
+                        <th>Estado</th>
+                        <th>Acciones</th>                      
                     </tr>
                 </thead>                
                 <tbody>
                     {% for type_lodging in type_lodgings_list %}
                     <tr>
                     <td>{{ type_lodging.name }}</td>
-                    <td>{{ type_lodging.document }}</td>
-                    <td>{{ type_lodging.nationality }}</td>
                     <!-- Toggle Switch button -->
                     <td>
                         <form action="{% url 'type_lodging_status' type_lodging.id %}" method="POST">

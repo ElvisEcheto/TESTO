@@ -18,17 +18,25 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Name</th>
-                        <th>Document</th>
-                        <th>Type Document</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
                         <th>Acciones</th>                        
                     </tr>
                 </thead>                
                 <tbody>
-                    {% for services in services_list %}
+                    {% for service in services_list %}
                     <tr>
-                    <td>{{ services.ID }}</td>
-                    <td>{{ services.Name }}</td>
-                    <td>{{ services.Price}}</td>
+                    <td>{{ service.Name }}</td>
+                    <td>{{ service.Price }}</td>
+                    <td>
+                        <form action="{% url 'service_status' service.id %}" method="POST">
+                            {% csrf_token %}                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if service.status %} checked {% endif %} onchange="this.form.submit()">
+                                <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
+                            </div>                     
+                        </form>
+                    </td>
                     <!-- Toggle Switch button -->
                     <td>
                         <a href="" class="btn btn-info btn-circle btn-sm">
