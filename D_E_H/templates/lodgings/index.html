@@ -30,15 +30,23 @@
                     </tr>
                 </thead>       
                 <tbody>
-                    {% for lodging in lodgings_list %}
+                    {% for lodging in lodging_list %}
                     <tr>
-                    <td><img src="{{ lodging.image.url }}" alt="" width="50"></td>
-                    <td>{{ lodging.ID }}</td>
+                    <td>{{ lodging.id }}</td>
                     <td>{{ lodging.N_Beds}}</td>
                     <td>{{ lodging.N_Bathrooms}}</td>
                     <td>{{ lodging.Capacitance_T }}</td>
-                    <td>{{ lodging.type_lodging_id }}</td>                                       
-                    
+                    <td>{{ lodging.type_lodging_id }}</td> 
+                </td>
+                    <td>
+                        <form action="{% url 'lodging_status' lodging.id %}" method="POST">
+                            {% csrf_token %}                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if lodging.status %} checked {% endif %} onchange="this.form.submit()">
+                                <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
+                            </div>                     
+                        </form>
+                    </td>
                     <td>
                         <a href="" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>

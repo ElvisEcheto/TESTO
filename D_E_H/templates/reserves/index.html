@@ -29,15 +29,15 @@
                     </tr>
                 </thead>                
                 <tbody>
-                    {% for reserve in reserves_list %}
+                    {% for reserve in reserve_list %}
                     <tr>
                     <td>{{ reserve.id }}</td>
                     <td>{{ reserve.Date_I }}</td>
                     <td>{{ reserve.Status_R}}</td>
                     <td>{{ reserve.Pay_T}}</td>
                     <td>{{ reserve.Satisfaction}}</td>
-                    <td>{{ reserve.costumer_id}}</td>
-                    <td>{{ reserve.lodging_id}}</td>
+                    <td>{{ reserve.costumer}}</td>
+                    <td>{{ reserve.lodging}}</td>
                     <!-- Toggle Switch button -->
                     <td>
                         <form action="{% url 'reserve_status' reserve.id %}" method="POST">

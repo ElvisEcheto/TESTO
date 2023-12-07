@@ -6,6 +6,7 @@ class Lodging(models.Model):
     N_Bathrooms = models.IntegerField()
     Capacitance_T = models.IntegerField()
     type_lodging = models.ForeignKey('type_lodgings.Type_Lodging', on_delete=models.DO_NOTHING)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
-     return self.N_Beds
+        return self.N_Beds
