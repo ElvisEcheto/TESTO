@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'facilities',
     'lodgings',
     'reserves',
+    'details_facilities',
+    'details_services',
 ]
 
 MIDDLEWARE = [

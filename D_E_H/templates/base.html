@@ -49,7 +49,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Costumers</span>
+            <span class="nav-link-text ms-1">Clientes</span>
           </a>
         </li>
         <li class="nav-item">
@@ -57,7 +57,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Services</span>
+            <span class="nav-link-text ms-1">Servicio</span>
           </a>
         </li>
         <li class="nav-item">
@@ -65,7 +65,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Type_Lodging</span>
+            <span class="nav-link-text ms-1">Tipo de cabaña</span>
           </a>
         </li>
         <li class="nav-item">
@@ -73,14 +73,14 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Facilities</span>
+            <span class="nav-link-text ms-1">Comodidades</span>
           </a>
 
           <a class="nav-link " href="{% url 'lodgings' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Lodgings</span>
+            <span class="nav-link-text ms-1">Cabañas</span>
           </a>
         </li>
         <li class="nav-item">
@@ -88,29 +88,26 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Reserves</span>
+            <span class="nav-link-text ms-1">Reservas</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="./pages/sign-up.html">
+          <a class="nav-link " href="{%  url 'details_facilities'  %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-collection text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Sign Up</span>
+            <span class="nav-link-text ms-1">Detalle</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="{%  url 'details_facilities'  %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-collection text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">detalle servicio</span>
           </a>
         </li>
       </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-      <div class="card card-plain shadow-none" id="sidenavCard">
-        <img class="w-50 mx-auto" src="{% static './img/illustrations/icon-documentation.svg'  %}" alt="sidebar_illustration">
-        <div class="card-body text-center p-3 w-100 pt-0">
-          <div class="docs-info">
-            <h6 class="mb-0">Welcome</h6>
-            <p class="text-xs font-weight-bold mb-0">You are the best</p>
-          </div>
-        </div>
-      </div>
     </div>
   </aside>
   <main class="main-content position-relative border-radius-lg ">
