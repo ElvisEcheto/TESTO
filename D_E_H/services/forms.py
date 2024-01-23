@@ -12,5 +12,5 @@ class ServiceForm(forms.ModelForm):
         }
         widgets = {
             'Name': forms.TextInput(attrs={'placeholder': 'Ingresa el nombre'}),
-            'Price': forms.TextInput(attrs={'placeholder': 'Ingresa el precio'}), 
+            'Price': forms.NumberInput(attrs={'placeholder': 'Ingresa el precio'}), 
         }

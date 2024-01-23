@@ -17,6 +17,6 @@ class ReserveForm(forms.ModelForm):
         widgets = {
             'Date_I': forms.DateInput(attrs={'type': 'date'}),
             'Status_R': forms.TextInput(attrs={'placeholder': 'Ingresa el estado de reserva'}),
-            'Pay_T': forms.NumberInput(attrs={'placeholder': 'Ingresa el pago'}),    
+            'Pay_T': forms.DateInput(attrs={'type': 'date'}),    
             'Satisfaction': forms.NumberInput(attrs={'placeholder': 'Ingresa la satisfaccion'}),           
         }

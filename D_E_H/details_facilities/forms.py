@@ -8,7 +8,7 @@ class Details_FacilitieForm(forms.ModelForm):
         exclude = ['status']
         labels = {
             'Lodging': 'Cabaña',
-            'Facilitie': 'Cli',
+            'Facilitie': 'Comodidad',
                               
         }
         widgets = {

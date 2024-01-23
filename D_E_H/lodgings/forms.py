@@ -1,7 +1,11 @@
 from django import forms
 from . models import Lodging
 
+from type_lodgings.models import Type_Lodging
+
 class LodgingForm(forms.ModelForm):
+    type_lodging = forms.ModelChoiceField(queryset=Type_Lodging.objects.filter(status=True).
+    order_by('name'))
     class Meta:
         model = Lodging
         fields = "__all__"

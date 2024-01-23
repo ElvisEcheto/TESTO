@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'reserves',
     'details_facilities',
     'details_services',
+     'packages',
 ]
 
 MIDDLEWARE = [

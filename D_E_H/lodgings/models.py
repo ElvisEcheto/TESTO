@@ -1,7 +1,7 @@
 from django.db import models
 
 class Lodging(models.Model):
-    image = models.ImageField(upload_to='lodgings_images', null=True)
+    image = models.ImageField(upload_to='static/lodging_images', null=True)
     N_Beds = models.IntegerField()
     N_Bathrooms = models.IntegerField()
     Capacitance_T = models.IntegerField()

@@ -13,6 +13,6 @@ class CostumerForm(forms.ModelForm):
         }
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Ingresa el nombre'}),
-            'document': forms.TextInput(attrs={'placeholder': 'Ingresa el documento'}),
+            'document': forms.NumberInput(attrs={'placeholder': 'Ingresa el documento'}),
             'type_document': forms.TextInput(attrs={'placeholder': 'Ingresa el tipo de documento'}),            
         }
