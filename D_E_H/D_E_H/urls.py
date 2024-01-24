@@ -22,11 +22,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('costumers/', include('costumers.urls')),
-    path('services/', include('services.urls')),
     path('type_lodgings/', include('type_lodgings.urls')),   
     path('facilities/', include('facilities.urls')),   
     path('lodgings/', include('lodgings.urls')),   
     path('reserves/', include('reserves.urls')), 
     path('details_facilities/', include('details_facilities.urls')),   
+    path('packages/', include('packages.urls')),   
 ]
+
 
