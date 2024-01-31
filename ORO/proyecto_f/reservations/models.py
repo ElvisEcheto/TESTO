@@ -1,6 +1,7 @@
 from django.db import models
 
 class Reservation(models.Model):
+    coder = models.CharField(max_length=200)
     daterr = models.DateField()
     datess = models.DateField()
     dateff = models.DateField()
@@ -9,4 +10,4 @@ class Reservation(models.Model):
     rstatu = models.ForeignKey('rstatus.Rstatu', on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.daterr
+        return self.coder

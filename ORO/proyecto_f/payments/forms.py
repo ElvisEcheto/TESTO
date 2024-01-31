@@ -1,9 +1,9 @@
 from django import forms
 from . models import Payment
-
 from reservations.models import Reservation
 
 class PaymentForm(forms.ModelForm):
+    reservation = forms.ModelChoiceField(queryset=Reservation.objects.all()),
     class Meta:
         model = Payment
         fields = "__all__"

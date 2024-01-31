@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 
 from typedocuments.models import Typedocument
 
-from django.http import JsonResponse
-
 from django.contrib import messages
+
+from django.http import JsonResponse
 
 from .forms import TypedocumentForm
 
@@ -27,7 +27,7 @@ def change_status_typedocument(request, typedocument_id):
 
 def detail_typedocument(request, typedocument_id):
     typedocument = Typedocument.objects.get(pk=typedocument_id)
-    data = { 'name': typedocument.name, 'acronyms' : typedocument.acronyms }    
+    data = { 'name': typedocument.name, 'acronyms': typedocument.acronyms }    
     return JsonResponse(data)
 
 
@@ -35,7 +35,7 @@ def delete_typedocument(request, typedocument_id):
     typedocument = Typedocument.objects.get(pk=typedocument_id)
     try:
         typedocument.delete()        
-        messages.success(request, 'tipo documento eliminado correctamente.')
+        messages.success(request, 'tipo de documento eliminado correctamente.')
     except:
-        messages.error(request, 'No se puede eliminar el autor porque está asociado a un libro.')
+        messages.error(request, 'No se puede eliminar el tipo de documento porque está asociado a un libro.')
     return redirect('typedocuments')

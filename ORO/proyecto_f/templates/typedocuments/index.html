@@ -7,7 +7,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h4 class="m-0 font-weight-bold text-primary">Tipo Documneto</h4>
+        <h4 class="m-0 font-weight-bold text-primary">Tipo Documento</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive">            
@@ -63,11 +63,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">Detalles del Autor</h5>
+                <h5 class="modal-title" id="modalTitleId">Detalles de tipo de documento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid" id="author-details"></div>
+                <div class="container-fluid" id="typedocument-details"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -80,9 +80,9 @@
 
 <script>
 // Función para cargar detalles del libro en el modal
-function loadTypedocumnetDetails(typedocument) {
+function loadTypedocumentDetails(typedocumentId) {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "{% url 'detail_typedocument' 0 %}".replace('0', typedocument), true);
+        xhr.open("GET", "{% url 'detail_typedocument' 0 %}".replace('0', typedocumentId), true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
@@ -91,10 +91,10 @@ function loadTypedocumnetDetails(typedocument) {
                     // Actualizar el contenido del modal con los detalles del libro
                     document.getElementById("typedocument-details").innerHTML =
                         "<p><strong>Nombre:</strong> " + data.name + "</p>" +
-                        "<p><strong>Acronico:</strong> " + data.acronyms + "</p>" +              
+                        "<p><strong>Acrónimo:</strong> " + data.acronyms + "</p>"            
                     $('#modalId').modal('show'); // Mover esta línea aquí
                 } else {
-                    console.error('Error fetching author details. Status code: ' + xhr.status);
+                    console.error('Error fetching typedocument details. Status code: ' + xhr.status);
                 }
             }
         };
@@ -105,12 +105,43 @@ function loadTypedocumnetDetails(typedocument) {
     document.addEventListener("click", function (event) {
         if (event.target && event.target.dataset.typedocumentId) {
             event.stopPropagation();
-            var typedocument = event.target.dataset.typedocument;
-            loadTypedocumentDetails(typedocument);
+            var typedocumentId = event.target.dataset.typedocumentId;
+            loadTypedocumentDetails(typedocumentId);
         }
     });
 
 </script>
 
+<script>
+    document.querySelectorAll('.deleteBtn').forEach(function(deleteBtn) {
+    deleteBtn.addEventListener('click', function (event) {
+        event.preventDefault(); 
+
+        swal({
+            title: "Estás seguro que deseas eliminar?",            
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {                
+                window.location.href = this.getAttribute('href');              
+            }
+        });
+    });
+});
+</script>
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            swal({                
+                text: "{{ message }}",
+                icon: "{{ message.tags }}",
+                button: "OK",
+            });
+        </script>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

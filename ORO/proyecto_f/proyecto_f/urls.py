@@ -29,5 +29,6 @@ urlpatterns = [
     path('lodgings/', include('lodgings.urls')),  
     path('reservations/', include('reservations.urls')),  
     path('payments/', include('payments.urls')), 
-
+    path('rservices/', include('rservices.urls')),
+    path('rlodgings/', include('rlodgings.urls')), 
 ]

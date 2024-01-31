@@ -4,7 +4,7 @@ from . models import Costumer
 from typedocuments.models import Typedocument
 
 class CostumerForm(forms.ModelForm):
-    typedocument = forms.ModelChoiceField(queryset=Typedocument.objects.filter(status=True).order_by('name'))
+    typedocument = forms.ModelChoiceField(queryset=Typedocument.objects.filter(status=True).order_by('name')),
     class Meta:
         model = Costumer
         fields = "__all__"

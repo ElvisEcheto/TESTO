@@ -12,6 +12,7 @@ class ReservationForm(forms.ModelForm):
         fields = "__all__"
         exclude = ['status']
         labels = {
+            'coder': 'codigo de reserva',
             'daterr': 'Fecha de Reserva',
             'datess': 'Fecha comienzo',
             'dateff': 'Fecha fin',
@@ -20,6 +21,7 @@ class ReservationForm(forms.ModelForm):
             'rstatu' : 'Estado Reserva',     
         }
         widgets = {
+            'coder': forms.TextInput(attrs={'placeholder': 'Ingrese el código de la reserva'}),
             'daterr': forms.DateInput(attrs={'type':'date'}),
             'datess': forms.DateInput(attrs={'type':'date'}),
             'dateff': forms.DateInput(attrs={'type':'date'}),
