@@ -41,13 +41,13 @@
                         </form>
                     </td>
                     <td>
-                        <a href="" class="btn btn-info btn-circle btn-sm">
+                        <a href="" class="btn btn-info btn-circle btn-sm"  data-bs-toggle="modal" data-bs-target="#modalId" data-rstatu-id="{{ rstatu.id }}">
                             <i class="fas fa-info-circle"></i>
                         </a>
                         <a href="" class="btn btn-warning btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="" class="btn btn-danger btn-circle btn-sm">
+                        <a href="{% url 'delete_rstatu' rstatu.id %}" class="deleteBtn btn btn-danger btn-circle btn-sm">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
@@ -58,6 +58,91 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">Detalles de Estado de reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="rstatu-details"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Función para cargar detalles del libro en el modal
+function loadRstatuDetails(rstatuId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "{% url 'detail_rstatu' 0 %}".replace('0', rstatuId), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    console.log(data);
+                    // Actualizar el contenido del modal con los detalles del libro
+                    document.getElementById("rstatu-details").innerHTML =
+                        "<p><strong>Nombre:</strong> " + data.name + "</p>" +
+                        "<p><strong>Descripcion:</strong> " + data.description + "</p>" ;            
+                    $('#modalId').modal('show'); // Mover esta línea aquí
+                } else {
+                    console.error('Error fetching rstatu details. Status code: ' + xhr.status);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Asignar evento click a los botones de detalle del libro
+    document.addEventListener("click", function (event) {
+        if (event.target && event.target.dataset.rstatuId) {
+            event.stopPropagation();
+            var rstatuId = event.target.dataset.rstatuId;
+            loadRstatuDetails(rstatuId);
+        }
+    });
+
+</script>
+
+<script>
+    document.querySelectorAll('.deleteBtn').forEach(function(deleteBtn) {
+    deleteBtn.addEventListener('click', function (event) {
+        event.preventDefault(); 
+
+        swal({
+            title: "Estás seguro que deseas eliminar?",            
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {                
+                window.location.href = this.getAttribute('href');              
+            }
+        });
+    });
+});
+</script>
+
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            swal({                
+                text: "{{ message }}",
+                icon: "{{ message.tags }}",
+                button: "OK",
+            });
+        </script>
+    {% endfor %}
+{% endif %}
 
 
 {% endblock %}
