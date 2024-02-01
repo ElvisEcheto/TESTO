@@ -122,7 +122,7 @@
 }
 
 // Modal background
-.modal-backdrop {
+/* .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -134,7 +134,7 @@
   // Fade for backdrop
   &.fade { opacity: 0; }
   &.show { opacity: $modal-backdrop-opacity; }
-}
+} */
 
 // Modal header
 // Top section of the modal w/ title and dismiss

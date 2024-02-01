@@ -1043,7 +1043,7 @@ $zindex-sticky:                     1020 !default;
 $zindex-fixed:                      1030 !default;
 $zindex-offcanvas-backdrop:         1040 !default;
 $zindex-offcanvas:                  1045 !default;
-$zindex-modal-backdrop:             1050 !default;
+/* $zindex-modal-backdrop:             1050 !default; */
 $zindex-modal:                      1055 !default;
 $zindex-popover:                    1070 !default;
 $zindex-tooltip:                    1080 !default;
@@ -1404,8 +1404,8 @@ $modal-content-inner-border-radius: subtract($modal-content-border-radius, $moda
 $modal-content-box-shadow-xs:       $box-shadow-sm !default;
 $modal-content-box-shadow-sm-up:    $box-shadow !default;
 
-$modal-backdrop-bg:                 $black !default;
-$modal-backdrop-opacity:            .5 !default;
+/* $modal-backdrop-bg:                 $black !default; */
+/* $modal-backdrop-opacity:            .5 !default; */
 
 $modal-header-border-color:         var(--#{$prefix}border-color) !default;
 $modal-header-border-width:         $modal-content-border-width !default;

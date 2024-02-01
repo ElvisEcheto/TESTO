@@ -17,7 +17,7 @@ def create_costumer(request):
 
 def costumers(request):    
     costumers_list = Costumer.objects.all()    
-    return render(request, 'costumers/index.html', {'costumers_list': costumers_list})
+    return render(request, 'costumers/index.html', {'costumers_list': costumers_list })
 
 def change_status_costumer(request, costumer_id):
     costumer = Costumer.objects.get(pk=costumer_id)
@@ -27,7 +27,7 @@ def change_status_costumer(request, costumer_id):
 
 def detail_costumer(request, costumer_id):
     costumer = Costumer.objects.get(pk=costumer_id)
-    data = { 'name': costumer.name, 'document': costumer.document, 'email': costumer.email, 'phone' : costumer.phone }    
+    data = { 'name': costumer.name, 'document': costumer.document, 'email': costumer.email, 'phone' : costumer.phone, 'typedocument': str(costumer.typedocument) }    
     return JsonResponse(data)
 
 def delete_costumer(request, costumer_id):

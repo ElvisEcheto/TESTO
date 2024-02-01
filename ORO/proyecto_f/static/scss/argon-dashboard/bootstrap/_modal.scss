@@ -110,7 +110,7 @@
 }
 
 // Modal background
-.modal-backdrop {
+/* .modal-backdrop {
   // scss-docs-start modal-backdrop-css-vars
   --#{$prefix}backdrop-zindex: #{$zindex-modal-backdrop};
   --#{$prefix}backdrop-bg: #{$modal-backdrop-bg};
@@ -118,7 +118,7 @@
   // scss-docs-end modal-backdrop-css-vars
 
   @include overlay-backdrop(var(--#{$prefix}backdrop-zindex), var(--#{$prefix}backdrop-bg), var(--#{$prefix}backdrop-opacity));
-}
+} */
 
 // Modal header
 // Top section of the modal w/ title and dismiss
