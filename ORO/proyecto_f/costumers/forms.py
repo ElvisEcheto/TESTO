@@ -19,6 +19,6 @@ class CostumerForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Ejemplo: Andrés Felipe Gómez Sáez'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Ejemplo: Andress@gmail.com'}),
-            'document': forms.NumberInput(attrs={'placeholder': 'Ejemplo: Andress@gmail.com'}),  
+            'document': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 1081843749'}),  
             'phone': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 30122254500'}),  
         }
