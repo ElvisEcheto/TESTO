@@ -10,5 +10,5 @@ class TypelodgingForm(forms.ModelForm):
             'name': 'Nombre',                 
         }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Ingresa el documento'}),        
+            'name': forms.TextInput(attrs={'placeholder': 'Ejemplo: Piramide'}),        
         }

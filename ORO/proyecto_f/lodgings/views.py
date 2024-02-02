@@ -4,6 +4,10 @@ from lodgings.models import Lodging
 
 from .forms import LodgingForm
 
+from django.http import JsonResponse
+
+from django.contrib import messages
+
 def create_lodging(request):
     form = LodgingForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -19,4 +23,18 @@ def change_status_lodging(request, lodging_id):
     lodging = Lodging.objects.get(pk=lodging_id)
     lodging.status = not lodging.status
     lodging.save()
+    return redirect('lodgings')
+
+def detail_lodging(request, lodging_id):
+    lodging = Lodging.objects.get(pk=lodging_id)
+    data = { 'name': lodging.name, 'price': lodging.price, 'description': lodging.description}
+    return JsonResponse(data)
+
+def delete_lodging(request, lodging_id):
+    lodging = Lodging.objects.get(pk=lodging_id)
+    try:
+        lodging.delete()        
+        messages.success(request, 'Cabaña eliminado correctamente.')
+    except:
+        messages.error(request, 'No se puede eliminar la cabaña porque está asociado a una reserva.')
     return redirect('lodgings')

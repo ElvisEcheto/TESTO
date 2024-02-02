@@ -36,5 +36,5 @@ def delete_costumer(request, costumer_id):
         costumer.delete()        
         messages.success(request, 'Cliente eliminado correctamente.')
     except:
-        messages.error(request, 'No se puede eliminar el cliente porque está asociado a un libro.')
+        messages.error(request, 'No se puede eliminar el cliente porque está asociado a una Reserva.')
     return redirect('costumers')

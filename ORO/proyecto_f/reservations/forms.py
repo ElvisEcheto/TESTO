@@ -21,9 +21,9 @@ class ReservationForm(forms.ModelForm):
             'rstatu' : 'Estado Reserva',     
         }
         widgets = {
-            'coder': forms.TextInput(attrs={'placeholder': 'Ingrese el código de la reserva'}),
+            'coder': forms.TextInput(attrs={'placeholder': 'Ejemplo: 22FF1'}),
             'daterr': forms.DateInput(attrs={'type':'date'}),
             'datess': forms.DateInput(attrs={'type':'date'}),
             'dateff': forms.DateInput(attrs={'type':'date'}),
-            'value': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),
+            'value': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 15000'}),
         }

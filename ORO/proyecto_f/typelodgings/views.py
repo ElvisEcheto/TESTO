@@ -28,13 +28,11 @@ def detail_typelodging(request, typelodging_id):
     data = { 'name': typelodging.name}
     return JsonResponse(data)
 
-
-
 def delete_typelodging(request, typelodging_id):
     typelodging = Typelodging.objects.get(pk=typelodging_id)
     try:
-        typelodging.delete()
-        messages.success(request, 'Tipo de Cabaña eliminado correctamente.')
+        typelodging.delete()        
+        messages.success(request, 'Tipo cabaña eliminado correctamente.')
     except:
-        messages.error(request, 'No se puede eliminar está cabaña porque está asociada a una reserva.')
+        messages.error(request, 'No se puede eliminar el tipo cabaña porque está asociado a una cabaña.')
     return redirect('typelodgings')

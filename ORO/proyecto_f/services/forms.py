@@ -13,9 +13,9 @@ class ServiceForm(forms.ModelForm):
             'description': 'Descripción',  
         }
         widgets = {
-            'image': forms.FileInput(attrs={'placeholder': 'Ingrese la imagen del libro'}),
-            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
-            'price': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),  
-            'description': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
+            'image': forms.FileInput(attrs={'placeholder': 'Ingrese la imagen del Servicio'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Ejemplo: Limpieza de cuarto '}),
+            'price': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 20000'}),  
+            'description': forms.TextInput(attrs={'placeholder': 'Ejemplo: diariamente se hace aseo..'}),
         }
         

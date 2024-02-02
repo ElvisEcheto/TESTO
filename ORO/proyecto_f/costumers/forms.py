@@ -17,8 +17,8 @@ class CostumerForm(forms.ModelForm):
             'phone': 'Telefono',                  
         }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Ingrese el código del libro'}),
-            'document': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),  
-            'phone': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),  
+            'name': forms.TextInput(attrs={'placeholder': 'Ejemplo: Andrés Felipe Gómez Sáez'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Ejemplo: Andress@gmail.com'}),
+            'document': forms.NumberInput(attrs={'placeholder': 'Ejemplo: Andress@gmail.com'}),  
+            'phone': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 30122254500'}),  
         }
