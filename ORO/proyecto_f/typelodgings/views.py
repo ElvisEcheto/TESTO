@@ -36,3 +36,16 @@ def delete_typelodging(request, typelodging_id):
     except:
         messages.error(request, 'No se puede eliminar el tipo cabaña porque está asociado a una cabaña.')
     return redirect('typelodgings')
+
+
+def edit_typelodging(request, typelodging_id):
+    typelodging = Typelodging.objects.get(pk=typelodging_id)
+    form = TypelodgingForm(request.POST or None, instance=typelodging)
+    if form.is_valid() and request.method == 'POST':
+        try:
+            form.save()
+            messages.success(request, 'tipo de cabaña actualizado correctamente.')
+        except:
+            messages.error(request, 'Ocurrió un error al editar el autor.')        
+        return redirect('typelodgings')    
+    return render(request, 'typelodgings/editar.html', {'form': form})

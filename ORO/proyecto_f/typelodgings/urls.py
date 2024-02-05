@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.create_typelodging, name='create_typelodging'),
     path('detail/<int:typelodging_id>/', views.detail_typelodging, name='detail_typelodging'),
     path('delete/<int:typelodging_id>/', views.delete_typelodging, name='delete_typelodging'),
+    path('edit/<int:typelodging_id>/', views.edit_typelodging, name='edit_typelodging'),
 ]
