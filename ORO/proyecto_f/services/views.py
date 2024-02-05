@@ -11,9 +11,13 @@ from django.contrib import messages
 
 def create_service(request):
     form = ServiceForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form.save()
-        return redirect('services')    
+    if form.is_valid() and request.method == 'POST':
+        try:
+            messages.success(request, 'Servicio creado correctamente.')
+            form.save()
+        except:
+            messages.error(request, 'Ocurrió un error al crear el servicio.')        
+        return redirect('services')  
     return render(request, 'services/create.html', {'form': form})
 
 def services(request):    
@@ -39,3 +43,15 @@ def delete_service(request, service_id):
     except:
         messages.error(request, 'No se puede eliminar el Servicio porque está asociado a una reserva.')
     return redirect('services')
+
+def edit_service(request, service_id):
+    service = Service.objects.get(pk=service_id)
+    form = ServiceForm(request.POST or None, instance=service)
+    if form.is_valid() and request.method == 'POST':
+        try:
+            form.save()
+            messages.success(request, 'Servicio actualizado correctamente.')
+        except:
+            messages.error(request, 'Ocurrió un error al editar el servicio.')        
+        return redirect('services')    
+    return render(request, 'services/edit.html', {'form': form})
