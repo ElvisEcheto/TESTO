@@ -52,7 +52,7 @@
                         <a href="" class="btn btn-info btn-circle btn-sm " data-bs-toggle="modal" data-bs-target="#modalId" data-lodging-id="{{ lodging.id }}" >
                             <i class="fas fa-info-circle"></i>
                         </a>
-                        <a href="" class="btn btn-warning btn-circle btn-sm">
+                        <a href="{% url 'edit_lodging' lodging.id %}" class="btn btn-warning btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a href="{% url 'delete_lodging' lodging.id %}" class="deleteBtn btn btn-danger btn-circle btn-sm">

@@ -38,3 +38,16 @@ def delete_lodging(request, lodging_id):
     except:
         messages.error(request, 'No se puede eliminar la cabaña porque está asociado a una reserva.')
     return redirect('lodgings')
+
+
+def edit_lodging(request, lodging_id):
+    lodging = Lodging.objects.get(pk=lodging_id)
+    form = LodgingForm(request.POST or None, request.FILES or None, instance=lodging)
+    if form.is_valid() and request.method == 'POST':
+        try:
+            form.save()
+            messages.success(request, 'cabaña actualizada correctamente.')
+        except:
+            messages.error(request, 'Ocurrió un error al editar la  cabaña.')
+        return redirect('lodgings')    
+    return render(request, 'lodgings/editar.html', {'form': form})
