@@ -12,6 +12,11 @@ def create_costumer(request):
     form = CostumerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
+        try:
+            messages.success(request, 'Cliente creado correctamente.')
+            form.save()
+        except:
+            messages.error(request, 'Ocurrió un error al crear un cliente.')         
         return redirect('costumers')    
     return render(request, 'costumers/create.html', {'form': form})
 
@@ -38,3 +43,15 @@ def delete_costumer(request, costumer_id):
     except:
         messages.error(request, 'No se puede eliminar el cliente porque está asociado a una Reserva.')
     return redirect('costumers')
+
+def edit_costumer(request, costumer_id):
+    costumer = Costumer.objects.get(pk=costumer_id)
+    form = CostumerForm(request.POST or None, request.FILES or None, instance=costumer)
+    if form.is_valid() and request.method == 'POST':
+        try:
+            form.save()
+            messages.success(request, 'cliente actualizado correctamente.')
+        except:
+            messages.error(request, 'Ocurrió un error al editar el cliente.')
+        return redirect('costumers')    
+    return render(request, 'costumers/editar.html', {'form': form})
