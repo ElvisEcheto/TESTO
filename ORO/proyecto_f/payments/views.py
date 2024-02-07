@@ -38,3 +38,15 @@ def delete_payment(request, payment_id):
     except:
         messages.error(request, 'No se puede eliminar el pago porque está asociado a una tabla externa.')
     return redirect('payments')
+
+def edit_payment(request, payment_id):
+    payment = Payment.objects.get(pk=payment_id)
+    form = PaymentForm(request.POST or None, request.FILES or None, instance=payment)
+    if form.is_valid() and request.method == 'POST':
+        try:
+            form.save()
+            messages.success(request, 'Libroactualizado correctamente.')
+        except:
+            messages.error(request, 'Ocurrió un error al editar el libro.')
+        return redirect('payments')    
+    return render(request, 'payments/edit.html', {'form': form})

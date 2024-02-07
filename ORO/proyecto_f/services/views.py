@@ -46,7 +46,7 @@ def delete_service(request, service_id):
 
 def edit_service(request, service_id):
     service = Service.objects.get(pk=service_id)
-    form = ServiceForm(request.POST or None, instance=service)
+    form = ServiceForm(request.POST or None, request.FILES or None, instance=service)
     if form.is_valid() and request.method == 'POST':
         try:
             form.save()
