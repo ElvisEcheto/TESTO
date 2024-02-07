@@ -20,7 +20,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('Dashaboar', views.index, name='index'),
     path('typedocuments/', include('typedocuments.urls')),
     path('rstatus/', include('rstatus.urls')),
     path('typelodgings/', include('typelodgings.urls')), 
@@ -30,5 +30,6 @@ urlpatterns = [
     path('reservations/', include('reservations.urls')),  
     path('payments/', include('payments.urls')), 
     path('rservices/', include('rservices.urls')),
-    path('rlodgings/', include('rlodgings.urls')), 
+    path('rlodgings/', include('rlodgings.urls')),
+    path('',views.login, name='login')
 ]
