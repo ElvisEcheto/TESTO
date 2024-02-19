@@ -4,25 +4,19 @@ from reservations.models import Reservation
 
 from .forms import ReservationForm
 
+from django.http import JsonResponse
+
 from django.contrib import messages
 
 from datetime import datetime
-
 from costumers.models import Costumer
-
 from lodgings.models import Lodging
-
 from services.models import Service
-
+from reservations.models import Reservation
 from rlodgings.models import Rlodging
-
 from rservices.models import Rservice
-
 from payments.models import Payment
 
-def reservations(request):    
-    reservations_list = Reservation.objects.all()    
-    return render(request, 'reservations/index.html', {'reservations_list': reservations_list})
 
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
@@ -30,13 +24,16 @@ def create_reservation(request):
     services_list = Service.objects.all()    
     
     if request.method == 'POST':
+        coder_str = request.POST['coder']
         datess_str = request.POST['datess']
         dateff_str = request.POST['dateff']        
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
+        coder = datetime.strptime(dateff_str, '%Y-%m-%d')
 
-        reservation = Reservation.objects.create(                        
-            daterr=datetime.now().date(),                                   
+        reservation = Reservation.objects.create(                   
+            daterr=datetime.now().date(),
+            coder=coder,                                
             datess=datess,
             dateff=dateff,
             price=request.POST['totalValue'],
@@ -77,6 +74,10 @@ def detail_reservation(request, reservation_id):
     payments = Payment.objects.filter(reservation=reservation)
     return render(request, 'reservations/detail.html', {'reservation': reservation, 'rlodgings': rlodgings, 'rservices': rservices, 'payments': payments})
 
+def reservations(request):    
+    reservations_list = Reservation.objects.all()    
+    return render(request, 'reservations/index.html', {'reservations_list': reservations_list})
+
 def delete_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
     try:
@@ -85,16 +86,3 @@ def delete_reservation(request, reservation_id):
     except:
         messages.error(request, 'No se puede eliminar la reserva porque está asociado a un pago.')
     return redirect('reservations')
-
-def edit_reservation(request, reservation_id):
-    reservation = Reservation.objects.get(pk=reservation_id)
-    form = ReservationForm(request.POST or None, request.FILES or None, instance=reservation)
-    if form.is_valid() and request.method == 'POST':
-        try:
-            form.save()
-            messages.success(request, 'Libroactualizado correctamente.')
-        except:
-            messages.error(request, 'Ocurrió un error al editar el libro.')
-        return redirect('reservations')    
-    return render(request, 'reservations/edit.html', {'form': form})
-

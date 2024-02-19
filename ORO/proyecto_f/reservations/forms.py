@@ -24,5 +24,5 @@ class ReservationForm(forms.ModelForm):
             'datess': forms.DateInput(attrs={'type':'date'}),
             'dateff': forms.DateInput(attrs={'type':'date'}),
             'value': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 15000'}),
-            'rstatu': forms.TextInput(attrs={'placeholder': 'Ejemplo: 22FF1'}),
+            'rstatu': forms.TextInput(attrs={'placeholder': 'Ejemplo: Confirmado'}),
         }

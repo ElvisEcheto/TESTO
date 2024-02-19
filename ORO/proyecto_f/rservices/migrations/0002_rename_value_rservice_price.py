@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reservations', '0003_alter_reservation_rstatu'),
+        ('rservices', '0001_initial'),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='reservation',
+            model_name='rservice',
             old_name='value',
             new_name='price',
         ),

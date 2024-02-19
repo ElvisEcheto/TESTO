@@ -1,7 +1,7 @@
 from django.db import models
 
 class Rlodging(models.Model):
-    value= models.IntegerField()
+    price = models.IntegerField()
     reservation = models.ForeignKey('reservations.Reservation', on_delete=models.DO_NOTHING)
     lodging = models.ForeignKey('lodgings.Lodging', on_delete=models.DO_NOTHING)
 

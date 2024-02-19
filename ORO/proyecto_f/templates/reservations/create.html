@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card shadow mb-4 p-4 ">
     <div class="card-header py-3 mb-3">
-        <h4 class="m-0 font-weight-bold text-primary">Reserva de cabaña y servicios</h4>
+        <h4 class="m-0 font-weight-bold text-primary">Reserva de cabañas y servicios</h4>
     </div>
     <form action="" method="post">
         {% csrf_token %}
@@ -19,9 +19,15 @@
             <div class="mb-3 mx-4">
                 <label for="" class="form-label">Fecha final</label>
                 <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="helpId"
-                    placeholder="Ingresa una fecha de final">
+                    placeholder="Ingresa una fecha de inicio">
                 <small id="helpId" class="form-text text-muted"></small>
             </div>
+        </div>
+        <div>
+            <label for="" class="form-label">Codigo</label>
+            <input type="text" class="form-control" name="coder" id="coder" aria-describedby="helpId"
+                placeholder="Ingresa codigo">
+            <small id="helpId" class="form-text text-muted"></small>
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Cliente</label>
@@ -33,11 +39,11 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="" class="form-label">Cabaña</label>
+            <label for="" class="form-label">Cabañas</label>
             <div class="d-flex">
                 <select class="form-control" name="lodging" id="">
                     <option value="">Selecciona un libro</option>
-                     {% for lodging in lodgings_list %}
+                    {% for lodging in lodgings_list %}
                     <option value="{{lodging.id}}">{{lodging.name}} - {{lodging.price}}</option>
                     {% endfor %}
                 </select>
@@ -61,7 +67,7 @@
             </div>
         </div>
         <div class="card-header py-3 mb-3">
-            <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabaña y servicios</h4>
+            <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabañas y servicios</h4>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -125,7 +131,7 @@
         event.preventDefault();
         let serviceSelect = $('select[name="service"]');
         let serviceId = serviceSelect.val();
-        let seviceName = serviceSelect.find('option:selected').text().split(' - ')[0];
+        let serviceName = serviceSelect.find('option:selected').text().split(' - ')[0];
         let servicePrice = serviceSelect.find('option:selected').text().split(' - ')[1];
         services_added.push(serviceId);
         totalReservation(parseFloat(servicePrice));
@@ -135,7 +141,7 @@
                 <td>
                     <input type="hidden" name="serviceId[]" value="${serviceId}">
                     <input type="hidden" name="servicePrice[]" value="${servicePrice}">
-                    ${seviceName}
+                    ${serviceName}
                 </td>
                 <td>${servicePrice}</td>                
                 <td>

@@ -7,8 +7,8 @@ class RlodgingForm(forms.ModelForm):
         fields = "__all__"
         exclude = ['status']
         labels = {
-            'value': 'Valor',   
+            'price': 'Valor',   
         }
         widgets = {
-            'value': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),
+            'price': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),
         }
