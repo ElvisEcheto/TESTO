@@ -1,11 +1,9 @@
 from django import forms
 from . models import Reservation
 
-from rstatus.models import Rstatu
 from costumers.models import Costumer
 
 class ReservationForm(forms.ModelForm):
-    Rstatu = forms.ModelChoiceField(queryset=Rstatu.objects.filter(status=True).order_by('name')),
     Costumer = forms.ModelChoiceField(queryset=Costumer.objects.filter(status=True).order_by('name')),
     class Meta:
         model = Reservation
@@ -26,4 +24,5 @@ class ReservationForm(forms.ModelForm):
             'datess': forms.DateInput(attrs={'type':'date'}),
             'dateff': forms.DateInput(attrs={'type':'date'}),
             'value': forms.NumberInput(attrs={'placeholder': 'Ejemplo: 15000'}),
+            'rstatu': forms.TextInput(attrs={'placeholder': 'Ejemplo: 22FF1'}),
         }

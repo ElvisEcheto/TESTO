@@ -1,11 +1,172 @@
 {% extends 'base.html' %}
 
+{% block title %}Library Store{% endblock %}
+
 {% block content %}
 <div class="card shadow mb-4 p-4 ">
     <div class="card-header py-3 mb-3">
-        <h4 class="m-0 font-weight-bold text-primary">Crear Reserva</h4>
+        <h4 class="m-0 font-weight-bold text-primary">Reserva de cabaña y servicios</h4>
     </div>
-    {% include 'reservations/form.html' %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="d-flex">
+            <div class="mb-3">
+                <label for="" class="form-label">Fecha inicio</label>
+                <input type="date" class="form-control" name="datess" id="datess" aria-describedby="helpId"
+                    placeholder="Ingresa una fecha de inicio">
+                <small id="helpId" class="form-text text-muted"></small>
+            </div>
+            <div class="mb-3 mx-4">
+                <label for="" class="form-label">Fecha final</label>
+                <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="helpId"
+                    placeholder="Ingresa una fecha de final">
+                <small id="helpId" class="form-text text-muted"></small>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Cliente</label>
+            <select class="form-control" name="costumer" id="">
+                <option value="">Selecciona un cliente</option>
+                {% for costumer in costumers_list %}
+                <option value="{{costumer.id}}">{{costumer.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Cabaña</label>
+            <div class="d-flex">
+                <select class="form-control" name="lodging" id="">
+                    <option value="">Selecciona un libro</option>
+                     {% for lodging in lodgings_list %}
+                    <option value="{{lodging.id}}">{{lodging.name}} - {{lodging.price}}</option>
+                    {% endfor %}
+                </select>
+                <a href="" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
+                    <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+                </a>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Servicio</label>
+            <div class="d-flex">
+                <select class="form-control" name="service" id="">
+                    <option value="">Selecciona un servicio</option>
+                    {% for service in services_list %}
+                    <option value="{{service.id}}">{{service.name}} - {{service.price}}</option>
+                    {% endfor %}
+                </select>
+                <a onclick="addService(event)" href="" class="btn btn-primary btn-icon-split mb-3">
+                    <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+                </a>
+            </div>
+        </div>
+        <div class="card-header py-3 mb-3">
+            <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabaña y servicios</h4>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="treservations">
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Total:</th>
+                        <th scope="col"><input class="text-success font-weight-bold" style="border: none;" type="text" name="totalValue" id="totalValue" readonly></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Crear reserva</button>
+
+        </div>
+    </form>
 </div>
+
+<script>
+    lodgings_added = [];
+    services_added = [];
+    let total = 0;
+    function addLodging(event) {
+        let datess = document.getElementById('datess').value
+        let dateff = document.getElementById('dateff').value
+        event.preventDefault();
+        let lodgingSelect = $('select[name="lodging"]');
+        let lodgingId = lodgingSelect.val();
+        let lodgingName = lodgingSelect.find('option:selected').text().split(' - ')[0];
+        let lodgingPrice = lodgingSelect.find('option:selected').text().split(' - ')[1];
+        lodgings_added.push(lodgingId);
+        totalReservation(parseFloat(lodgingPrice));
+        $('#treservations').append(`
+            <tr id=${lodgingId}>                               
+                <td>
+                    <input type="hidden" name="lodgingId[]" value="${lodgingId}">
+                    <input type="hidden" name="lodgingPrice[]" value="${lodgingPrice}">
+                    ${lodgingName}
+                </td>
+                <td>${lodgingPrice}</td>                
+                <td>
+                    <a onclick='removeReservation(event, "lodging")' class="btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        `);
+    }
+
+    function addService(event) {
+        event.preventDefault();
+        let serviceSelect = $('select[name="service"]');
+        let serviceId = serviceSelect.val();
+        let seviceName = serviceSelect.find('option:selected').text().split(' - ')[0];
+        let servicePrice = serviceSelect.find('option:selected').text().split(' - ')[1];
+        services_added.push(serviceId);
+        totalReservation(parseFloat(servicePrice));
+
+        $('#treservations').append(`
+            <tr id="${serviceId}">                                
+                <td>
+                    <input type="hidden" name="serviceId[]" value="${serviceId}">
+                    <input type="hidden" name="servicePrice[]" value="${servicePrice}">
+                    ${seviceName}
+                </td>
+                <td>${servicePrice}</td>                
+                <td>
+                    <a onclick='removeReservation(event, "service")' class="btn btn-danger btn-circle btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        `);
+    }
+
+    function totalReservation(value) {
+        total += value;
+        document.getElementById('totalValue').value = total;
+    }
+
+    function removeReservation(event, type) {
+        event.preventDefault();        
+        let element = event.target.parentElement.parentElement.parentElement;
+        let id = element.id;          
+        if (type == 'lodging') {
+            lodgings_added = lodgings_added.filter(lodging => lodging != id);
+        } else {
+            services_added = services_added.filter(service => service != id);
+        }
+        element.remove();
+        let price = parseFloat(element.children[1].textContent);        
+        total -= price;
+        document.getElementById('totalValue').value = total;
+    }
+</script>
+
 
 {% endblock %}

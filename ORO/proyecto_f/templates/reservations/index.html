@@ -24,7 +24,7 @@
                         <th>Fecha</th>
                         <th>Fecha</th>
                         <th>Fecha</th>
-                        <th>Valor</th>
+                        <th>Precio</th>
                         <th>Cliente</th>
                         <th>Estados reserva</th>
                         <th>Acciones</th>                        
@@ -37,14 +37,14 @@
                     <td>{{ reservation.daterr }}</td>
                     <td>{{ reservation.datess}}</td>
                     <td>{{ reservation.dateff }}</td>
-                    <td>{{ reservation.value }}</td>    
+                    <td>{{ reservation.price }}</td>    
                     <td>{{ reservation.costumer }}</td>  
                     <td>{{ reservation.rstatu}}</td>                                       
                     <td>
-                        <a href="" class="btn btn-info btn-circle btn-sm" data-bs-toggle="modal" data-bs-target="#modalId" data-reservation-id="{{ reservation.id }}">
+                        <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>
                         </a>
-                        <a href="" class="btn btn-warning btn-circle btn-sm">
+                        <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-warning btn-circle btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a  href="{% url 'delete_reservation' reservation.id %}" class="deleteBtn btn btn-danger btn-circle btn-sm">
@@ -59,90 +59,5 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">Detalles del Reserva</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid" id="reservation-details"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cerrar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Función para cargar detalles del libro en el modal
-    function loadReservationDetails(reservationId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "{% url 'detail_reservation' 0 %}".replace('0', reservationId), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        console.log(data);
-                        // Actualizar el contenido del modal con los detalles del libro
-                        document.getElementById("reservation-details").innerHTML =
-                            "<p><strong>Codigo:</strong> " + data.coder + "</p>" +
-                            "<p><strong>Fecha Reserva:</strong> " + data.daterr + "</p>" +
-                            "<p><strong>Valor:</strong> " + data.value + "</p>";                
-                        $('#modalId').modal('show'); // Mover esta línea aquí
-                    } else {
-                        console.error('Error fetching reservation details. Status code: ' + xhr.status);
-                    }
-                }
-            };
-            xhr.send();
-        }
-    
-        // Asignar evento click a los botones de detalle del libro
-        document.addEventListener("click", function (event) {
-            if (event.target && event.target.dataset.reservationId) {
-                event.stopPropagation();
-                var reservationId = event.target.dataset.reservationId;
-                loadReservationDetails(reservationId);
-            }
-        });
-    
-    </script>
-
-    <script>
-        document.querySelectorAll('.deleteBtn').forEach(function(deleteBtn) {
-        deleteBtn.addEventListener('click', function (event) {
-            event.preventDefault(); 
-
-            swal({
-                title: "Estás seguro que deseas eliminar?",            
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {                
-                    window.location.href = this.getAttribute('href');              
-                }
-            });
-        });
-    });
-    </script>
-
-    {% if messages %}
-        {% for message in messages %}
-            <script>
-                swal({                
-                    text: "{{ message }}",
-                    icon: "{{ message.tags }}",
-                    button: "OK",
-                });
-            </script>
-        {% endfor %}
-    {% endif %}
 
 {% endblock %}

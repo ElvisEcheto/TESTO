@@ -5,9 +5,9 @@ class Reservation(models.Model):
     daterr = models.DateField()
     datess = models.DateField()
     dateff = models.DateField()
-    value= models.IntegerField()
-    costumer = models.ForeignKey('costumers.Costumer', on_delete=models.DO_NOTHING)
-    rstatu = models.ForeignKey('rstatus.Rstatu', on_delete=models.DO_NOTHING)
+    price = models.IntegerField()
+    costumer = models.ForeignKey('costumers.Costumer', on_delete=models.CASCADE)
+    rstatu = models.CharField(max_length=200, default='Reservado' )
 
     def __str__(self):
         return self.coder
