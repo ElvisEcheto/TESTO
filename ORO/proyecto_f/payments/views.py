@@ -8,6 +8,17 @@ from .forms import PaymentForm
 
 from django.contrib import messages
 
+
+
+
+
+
+
+
+
+
+
+
 def create_payment(request):
     form = PaymentForm(request.POST or None, request.FILES or None)
     if form.is_valid():

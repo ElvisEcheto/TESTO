@@ -18,6 +18,28 @@ from rservices.models import Rservice
 from payments.models import Payment
 
 
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from payments.models import Payment
+
+@receiver(post_save, sender=Payment)
+def actualizar_columna_texto(sender, instance, created, **kwargs):
+    if instance.value > 10:
+        texto = 'pagado'
+    elif instance.value  >= 5:
+        texto = 'confirmado'
+    elif instance.value  <= 0:
+        texto = 'cancelado'
+    else:
+        texto = 'reservado'  # Valor predeterminado
+    
+    Reservation.objects.filter(id=instance.reservation_id).update(rstatu=texto)
+
+
+
+
+
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
