@@ -59,8 +59,8 @@
                     {% for lodging in rlodgings %}
                     <tr>
                         <td><img src="{{ lodging.lodging.image.url}}" alt="" width="50"></td>
-                        <td>{{ lodging.lodging.code }}</td>
                         <td>{{ lodging.lodging.name }}</td>
+                        <td>{{ lodging.lodging.description}}</td>
                         <td>{{ lodging.price}}</td>                        
                     </tr>
                     {% endfor %}

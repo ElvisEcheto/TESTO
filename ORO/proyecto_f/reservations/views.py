@@ -29,7 +29,7 @@ def create_reservation(request):
         dateff_str = request.POST['dateff']        
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
-        coder = datetime.strptime(dateff_str, '%Y-%m-%d')
+        coder = coder_str
 
         reservation = Reservation.objects.create(                   
             daterr=datetime.now().date(),
