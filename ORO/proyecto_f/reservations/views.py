@@ -24,17 +24,20 @@ from django.dispatch import receiver
 from payments.models import Payment
 
 @receiver(post_save, sender=Payment)
-def actualizar_columna_texto(sender, instance, created, **kwargs):
-    if instance.value > 10:
-        texto = 'pagado'
+def status_reservation(sender, instance, created, **kwargs):
+    reservation = Reservation.objects.get(pk=instance.reservation_id)
+    valor_reserva = reservation.price
+    if instance.value > 0.5 * valor_reserva:
+        texto = 'Pagado'
     elif instance.value  >= 5:
-        texto = 'confirmado'
+        texto = 'Confirmado'
     elif instance.value  <= 0:
-        texto = 'cancelado'
+        texto = 'Cancelado'
     else:
-        texto = 'reservado'  # Valor predeterminado
+        texto = 'Reservado' 
     
     Reservation.objects.filter(id=instance.reservation_id).update(rstatu=texto)
+
 
 
 
@@ -100,14 +103,6 @@ def reservations(request):
     reservations_list = Reservation.objects.all()    
     return render(request, 'reservations/index.html', {'reservations_list': reservations_list})
 
-def delete_reservation(request, reservation_id):
-    reservation = Reservation.objects.get(pk=reservation_id)
-    try:
-        reservation.delete()        
-        messages.success(request, 'Reserva eliminado correctamente.')
-    except:
-        messages.error(request, 'No se puede eliminar la reserva porque está asociado a un pago.')
-    return redirect('reservations')
 
 def edit_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
