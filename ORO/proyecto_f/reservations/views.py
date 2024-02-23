@@ -108,3 +108,61 @@ def delete_reservation(request, reservation_id):
     except:
         messages.error(request, 'No se puede eliminar la reserva porque está asociado a un pago.')
     return redirect('reservations')
+
+def edit_reservation(request, reservation_id):
+    reservation = Reservation.objects.get(pk=reservation_id)
+    costumers_list = Costumer.objects.all()
+    lodgings_list = Lodging.objects.all()
+    services_list = Service.objects.all()    
+    
+    if request.method == 'POST':
+        coder_str = request.POST['coder']
+        datess_str = request.POST['datess']
+        dateff_str = request.POST['dateff']        
+        datess = datetime.strptime(datess_str, '%Y-%m-%d')
+        dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
+        coder = coder_str
+
+        # Actualizar los campos del objeto reservation con los valores recibidos del formulario
+        reservation.datess = datess
+        reservation.dateff = dateff
+        reservation.coder = coder
+        reservation.price = request.POST['totalValue']
+        reservation.costumer_id = request.POST['costumer']
+        
+        # Guardar los cambios en la base de datos
+        reservation.save()        
+
+        # Actualizar los objetos relacionales Rlodging y Rservice
+        lodgings_Id = request.POST.getlist('lodgingId[]')
+        lodgings_price = request.POST.getlist('lodgingPrice[]')
+        services_Id = request.POST.getlist('serviceId[]')
+        services_price = request.POST.getlist('servicePrice[]')       
+
+        # Eliminar los objetos Rlodging y Rservice existentes asociados a esta reserva
+        reservation.rlodging_set.all().delete()
+        reservation.rservice_set.all().delete()
+
+        # Crear nuevos objetos Rlodging y Rservice con los valores actualizados
+        for i in range(len(lodgings_Id)):            
+            lodging = Lodging.objects.get(pk=int(lodgings_Id[i]))
+            rlodging = Rlodging.objects.create(
+                reservation=reservation,
+                lodging=lodging,
+                price=lodgings_price[i]
+            )
+        
+        for i in range(len(services_Id)):
+            service = Service.objects.get(pk=int(services_Id[i]))
+            rservice = Rservice.objects.create(
+                reservation=reservation,
+                service=service,
+                price=services_price[i]
+            )
+              
+        # Redireccionar a la página de listado de reservas con un mensaje de éxito
+        messages.success(request, 'Reserva editada con éxito.')
+        return redirect('reservations')
+    
+    # Si la solicitud es GET, renderizar el formulario de edición con los datos del objeto reservation
+    return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list})
