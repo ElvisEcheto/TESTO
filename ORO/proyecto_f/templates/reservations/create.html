@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 <div class="card shadow mb-4 p-4 ">
     <div class="card-header py-3 mb-3">
-        <h4 class="m-0 font-weight-bold text-primary">Reserva de cabañas y servicios</h4>
+        <h4 class="m-0 font-weight-bold text-primary">Editar reserva de cabañas y servicios</h4>
     </div>
     <form action="" method="post">
         {% csrf_token %}
@@ -34,7 +32,7 @@
             <select class="form-control" name="costumer" id="">
                 <option value="">Selecciona un cliente</option>
                 {% for costumer in costumers_list %}
-                <option value="{{costumer.id}}" value="{{field.value | default:'' }}">{{costumer.name}}</option>
+                <option value="{{costumer.id}}" {% if costumer.id == reservations.costumer.id %} selected {% endif %}>{{costumer.name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -44,7 +42,7 @@
                 <select class="form-control" name="lodging" id="">
                     <option value="">Selecciona un libro</option>
                     {% for lodging in lodgings_list %}
-                    <option value="{{lodging.id}}" value="{{field.value | default:'' }}">{{lodging.name}} - {{lodging.price}}</option>
+                    <option value="{{ lodging.id }}" {% if lodging.id in reservations.lodgings.all.values_list %} selected {% endif %}>{{ lodging.name }} - {{ lodging.price }}</option>
                     {% endfor %}
                 </select>
                 <a href="" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
@@ -58,9 +56,9 @@
                 <select class="form-control" name="service" id="">
                     <option value="">Selecciona un servicio</option>
                     {% for service in services_list %}
-                    <option value="{{service.id}} " value="{{field.value | default:'' }}">{{service.name}} - {{service.price}}</option>
+                    <option value="{{ service.id }}" {% if service.id in reservations.services.all.values_list %} selected {% endif %}>{{ service.name }} - {{ service.price }}</option>
                     {% endfor %}
-                </select>
+                </select>               
                 <a onclick="addService(event)" href="" class="btn btn-primary btn-icon-split mb-3">
                     <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
                 </a>
