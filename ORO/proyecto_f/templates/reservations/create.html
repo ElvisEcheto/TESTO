@@ -5,7 +5,7 @@
     <div class="card-header py-3 mb-3">
         <h4 class="m-0 font-weight-bold text-primary">Editar reserva de cabañas y servicios</h4>
     </div>
-    <form action="" method="post">
+    <form action="" method="post" onsubmit="return validateForm()">
         {% csrf_token %}
         <div class="d-flex">
             <div class="mb-3">
@@ -21,6 +21,7 @@
                 <small id="helpId" class="form-text text-muted"></small>
             </div>
         </div>
+        <div id="dateError" style="display: none;" class="alert text-danger">ª Por favor ingresa ambas fechas</div>
         <div>
             <label for="" class="form-label">Codigo</label>
             <input type="text" class="form-control" name="coder" id="coder" aria-describedby="helpId"
@@ -95,6 +96,18 @@
 </div>
 
 <script>
+        function validateForm() {
+        let datess = document.getElementById('datess').value.trim();
+        let dateff = document.getElementById('dateff').value.trim();
+        let lodgingsAdded = lodgings_added.length > 0;
+        let servicesAdded = services_added.length > 0;
+        if ((datess === '' && dateff === '') || (!lodgingsAdded && !servicesAdded)) {
+            document.getElementById('dateError').style.display = 'block';
+            return false; // Evita que el formulario se envíe
+        }
+        return true; // Envía el formulario
+    }
+
     lodgings_added = [];
     services_added = [];
     let total = 0;

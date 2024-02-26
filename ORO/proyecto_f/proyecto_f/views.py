@@ -1,6 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
+from proyecto_f.form import RegisterForm
+from costumers.models import Costumer
+from django.contrib.auth.models import Group
 
 
 def index(request):
@@ -30,4 +33,27 @@ def lading(request):
     return render(request,'lading.html')
 
 def register(request):
-    return render(request,'register.html')
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST or None)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            last_name = form.cleaned_data['last_name']
+            document = form.cleaned_data['document']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            phone = form.cleaned_data['phone']
+            username = email
+            user = User.objects.create_user(username, email, password, first_name=name, last_name=last_name)
+            user.save()
+            group = Group.objects.get(name='clientes')
+            user.groups.add(group)
+            if user is not None:            
+                costumer = Costumer.objects.filter(document=document).first()
+                if costumer is None:
+                    name = form.cleaned_data['name'] + ' ' + form.cleaned_data['last_name']
+                    costumer = Costumer(None, name, document=document, email=email, phone=phone)
+                    costumer.save()
+                    return redirect('login')               
+            return redirect('login')    
+    return render(request, 'register.html', {'form': form})
