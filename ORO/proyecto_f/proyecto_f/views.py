@@ -4,10 +4,15 @@ from django.contrib.auth.models import User
 from proyecto_f.form import RegisterForm
 from costumers.models import Costumer
 from django.contrib.auth.models import Group
-
+from django.db import models
+from payments.models import Payment
+from reservations.models import Reservation 
+from lodgings.models import Lodging
 
 def index(request):
-    return render(request, 'index.html')
+    total_payments = Payment.objects.all().aggregate(total=models.Sum('value'))['total'] or 0
+    total_reservations = Reservation.objects.count()
+    return render(request, 'index.html',{'total_payments': total_payments, 'total_reservations': total_reservations})
 
 def login(request):
     error = None
