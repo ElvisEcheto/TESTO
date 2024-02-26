@@ -9,61 +9,60 @@
         {% csrf_token %}
         <div class="d-flex">
             <div class="mb-3">
-                <label for="" class="form-label">Fecha inicio</label>
-                <input type="date" class="form-control" name="datess" id="datess" aria-describedby="helpId"
-                    placeholder="Ingresa una fecha de inicio" value="{{ reservations.datess }}">
-                <small id="helpId" class="form-text text-muted"></small>
+                <label for="datess" class="form-label">Fecha inicio</label>
+                <input type="date" class="form-control" name="datess" id="datess" aria-describedby="datessError" value="{{ reservations.datess }}">
+                <small id="datessError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha de inicio.</small>
             </div>
             <div class="mb-3 mx-4">
-                <label for="" class="form-label">Fecha final</label>
-                <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="helpId"
-                    placeholder="Ingresa una fecha de inicio" value="{{field.value | default:'' }}">
-                <small id="helpId" class="form-text text-muted"></small>
+                <label for="dateff" class="form-label">Fecha final</label>
+                <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="dateffError" value="{{ reservations.dateff }}">
+                <small id="dateffError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha final.</small>
             </div>
         </div>
-        <div id="dateError" style="display: none;" class="alert text-danger">ª Por favor ingresa ambas fechas</div>
         <div>
-            <label for="" class="form-label">Codigo</label>
-            <input type="text" class="form-control" name="coder" id="coder" aria-describedby="helpId"
-                placeholder="Ingresa codigo" value="{{field.value | default:'' }}">
-            <small id="helpId" class="form-text text-muted"></small>
+            <label for="coder" class="form-label">Codigo</label>
+            <input type="text" class="form-control" name="coder" id="coder" aria-describedby="coderError" value="{{ reservations.coder }}">
+            <small id="coderError" class="form-text text-danger" style="display: none;">Por favor ingresa un código.</small>
         </div>
         <div class="mb-3">
-            <label for="" class="form-label">Cliente</label>
-            <select class="form-control" name="costumer" id="">
+            <label for="costumer" class="form-label">Cliente</label>
+            <select class="form-control" name="costumer" id="costumer" aria-describedby="costumerError">
                 <option value="">Selecciona un cliente</option>
                 {% for costumer in costumers_list %}
-                <option value="{{costumer.id}}" {% if costumer.id == reservations.costumer.id %} selected {% endif %}>{{costumer.name}}</option>
+                <option value="{{ costumer.id }}" {% if costumer.id == reservations.costumer.id %} selected {% endif %}>{{ costumer.name }}</option>
                 {% endfor %}
             </select>
+            <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor selecciona un cliente.</small>
         </div>
         <div class="mb-3">
-            <label for="" class="form-label">Cabañas</label>
+            <label for="lodging" class="form-label">Cabañas</label>
             <div class="d-flex">
-                <select class="form-control" name="lodging" id="">
-                    <option value="">Selecciona un libro</option>
+                <select class="form-control" name="lodging" id="lodging" aria-describedby="lodgingError">
+                    <option value="">Selecciona una cabaña</option>
                     {% for lodging in lodgings_list %}
                     <option value="{{ lodging.id }}" {% if lodging.id in reservations.lodgings.all.values_list %} selected {% endif %}>{{ lodging.name }} - {{ lodging.price }}</option>
                     {% endfor %}
                 </select>
-                <a href="" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
+                <a href="#" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
                     <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
                 </a>
             </div>
+            <small id="lodgingError" class="form-text text-danger" style="display: none;">Por favor selecciona una cabaña.</small>
         </div>
         <div class="mb-3">
-            <label for="" class="form-label">Servicio</label>
+            <label for="service" class="form-label">Servicio</label>
             <div class="d-flex">
-                <select class="form-control" name="service" id="">
+                <select class="form-control" name="service" id="service" aria-describedby="serviceError">
                     <option value="">Selecciona un servicio</option>
                     {% for service in services_list %}
                     <option value="{{ service.id }}" {% if service.id in reservations.services.all.values_list %} selected {% endif %}>{{ service.name }} - {{ service.price }}</option>
                     {% endfor %}
-                </select>               
-                <a onclick="addService(event)" href="" class="btn btn-primary btn-icon-split mb-3">
+                </select>
+                <a onclick="addService(event)" href="#" class="btn btn-primary btn-icon-split mb-3">
                     <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
                 </a>
             </div>
+            <small id="serviceError" class="form-text text-danger" style="display: none;">Por favor selecciona un servicio.</small>
         </div>
         <div class="card-header py-3 mb-3">
             <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabañas y servicios</h4>
@@ -90,33 +89,79 @@
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Crear reserva</button>
-
         </div>
     </form>
 </div>
 
+
 <script>
-        function validateForm() {
+    function validateForm() {
         let datess = document.getElementById('datess').value.trim();
         let dateff = document.getElementById('dateff').value.trim();
+        let coder = document.getElementById('coder').value.trim();
+        let costumer = document.getElementById('costumer').value.trim();
+        let lodging = document.getElementById('lodging').value.trim();
+        let service = document.getElementById('service').value.trim();
         let lodgingsAdded = lodgings_added.length > 0;
         let servicesAdded = services_added.length > 0;
-        if ((datess === '' && dateff === '') || (!lodgingsAdded && !servicesAdded)) {
-            document.getElementById('dateError').style.display = 'block';
-            return false; // Evita que el formulario se envíe
+
+        let hasError = false;
+
+        if (datess === '') {
+            document.getElementById('datessError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('datessError').style.display = 'none';
         }
-        return true; // Envía el formulario
+
+        if (dateff === '') {
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('dateffError').style.display = 'none';
+        }
+
+        if (coder === '') {
+            document.getElementById('coderError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('coderError').style.display = 'none';
+        }
+
+        if (costumer === '') {
+            document.getElementById('costumerError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('costumerError').style.display = 'none';
+        }
+
+        if (lodging === '') {
+            document.getElementById('lodgingError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('lodgingError').style.display = 'none';
+        }
+
+        if (service === '') {
+            document.getElementById('serviceError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('serviceError').style.display = 'none';
+        }
+
+        return !hasError;
     }
 
     lodgings_added = [];
     services_added = [];
     let total = 0;
     function addLodging(event) {
-        let datess = document.getElementById('datess').value
-        let dateff = document.getElementById('dateff').value
         event.preventDefault();
         let lodgingSelect = $('select[name="lodging"]');
         let lodgingId = lodgingSelect.val();
+        if (!lodgingId) {
+            return; // No hacer nada si no se selecciona ninguna opción
+        }
         let lodgingName = lodgingSelect.find('option:selected').text().split(' - ')[0];
         let lodgingPrice = lodgingSelect.find('option:selected').text().split(' - ')[1];
         lodgings_added.push(lodgingId);
@@ -137,16 +182,19 @@
             </tr>
         `);
     }
-
+    
     function addService(event) {
         event.preventDefault();
         let serviceSelect = $('select[name="service"]');
         let serviceId = serviceSelect.val();
+        if (!serviceId) {
+            return; // No hacer nada si no se selecciona ninguna opción
+        }
         let serviceName = serviceSelect.find('option:selected').text().split(' - ')[0];
         let servicePrice = serviceSelect.find('option:selected').text().split(' - ')[1];
         services_added.push(serviceId);
         totalReservation(parseFloat(servicePrice));
-
+    
         $('#treservations').append(`
             <tr id="${serviceId}">                                
                 <td>
@@ -163,6 +211,7 @@
             </tr>
         `);
     }
+    
 
     function totalReservation(value) {
         total += value;
