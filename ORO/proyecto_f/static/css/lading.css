@@ -1,0 +1,309 @@
+:root{
+    --main-c:#fdd72d;
+    --border-r:2rem;
+  }
+  
+  
+  html *{
+   margin: 0; 
+   padding: 0;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  p{
+    font-size: 1.1rem;
+  }
+  
+  a{
+    text-decoration: none;
+  }
+  
+  ul, li{
+    list-style: none;
+  }
+  
+  .wrap-cta{
+    padding: 1.5rem 0;
+  }
+  
+  .cta-a{
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: var(--main-c);
+    padding: .5rem 1rem;
+    border-radius: var(--border-r);
+  }
+  
+  h1{
+    font-size: 2.8rem;
+    color: white;
+  }
+  h2{
+    font-size: 2.5rem;
+  }
+  h3{
+    font-size: 2.2rem;
+  }
+  
+  /** Header **/
+  
+  .hero-section{
+    display: flex;
+    justify-content: center;
+    background: #fffefe;
+    padding: 0.25rem;
+  }
+  
+  .logo-header{
+    max-width: 60px;
+    height: 100%;
+    width: 100%;
+  }
+  
+  /** Hero Section **/
+  
+  .hero-section{
+    height: 90vh;
+    background: url(static/img/glamping-universidad-manuela-beltran.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(36, 35, 163, 0.7);
+    background-blend-mode: multiply;
+    display: flex;
+    align-items: center;
+
+  }
+  
+  .wrap-hero-section{
+    max-width: 600px;
+    color: #fff;
+    padding: 15%;
+  }
+  
+  /** Logo Brand Section **/
+  .secetion{
+    margin: 5rem 0;
+  }
+  
+  .section h2{
+    padding: 2rem 0;
+  }
+  
+  .wrap-logos-section{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logo-brand{
+    width: 200px;
+    padding: 1rem 2rem;
+    filter: grayscale(1);
+  }
+  
+  /** Wrap Title **/
+  
+  .wrap-title-section{
+    display: flex;
+    justify-content: center;
+    margin: 3rem 1rem;
+  }
+  
+  /** Servicios Section **/
+  
+  .wrap-servicios-section{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  
+  .item-servicios-section{
+    padding: 1rem;
+  }
+   
+  .item-servicios-section img{
+    width: 300px;
+    height: 225px;
+  }
+  
+  /** Two Columns Section **/
+  
+  .wrap-two-column{
+    /* display: grid; */
+    /* grid-template-columns: 0fr 0fr; */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .wrap-img_two-column{
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+  }
+  
+  .wrap-text-column h3{
+    padding: 2rem 0;
+  }
+  
+  .wrap-text-column p{
+    padding-bottom: 1rem;
+  }
+  
+  /** Form Section **/
+  
+  section.two-column-section.form{
+    background-color: #f2f2f2;
+    padding: 3rem 0;
+  }
+  
+  .form input, .form textarea{
+    display: flex;
+    width: 100%;
+    line-height: 1.75rem;
+    border: 1.5px solid #fff;
+    border-radius: var(--border-r);
+  }
+  
+  .form textarea{
+    min-height: 200px;
+  }
+  
+  input[type="submit"]{
+    border: 0;
+    display: inline;
+    cursor: pointer;
+  }
+  
+  /** Footer **/
+  
+  .footer-section{
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .menu-footer-section{
+    padding: 1rem 0;
+  }
+  
+   .wrap-social-logos ul{            
+    display: flex;
+    justify-content: center;
+  }
+  
+   .wrap-menu-footer-section ul{
+   display: flex;
+   justify-content: center;
+  }
+
+
+  
+  .social-logo{
+    max-width: 75px;
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .wrap-menu-footer-section ul li{
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+  
+  .footer-creds{
+    display: flex;
+    justify-content: center;
+  }
+
+  #cate{
+    background-color: #a9a9a6;
+  }
+
+  .card {
+    padding: 4rem;
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.3s ease-out;
+    transform: translateY(100%);
+  }
+  
+  .card:hover .card-content {
+    transform: translateY(0);
+  }
+  
+  .card h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .fo p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .card p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .card form {
+    margin: 16px 0;
+  }
+
+ .card {
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px;    
+ }
+
+  #im {
+    max-height: 800px;
+    object-fit: cover;
+    width: 500px;
+    }
+
+
+ #se{
+    background-color: rgba(36, 35, 163, 0.7);
+ } 
+
+ .container {
+    max-width: max-content;
+  }
+
+#pee{
+    color: white;
+}
+
+#pa{
+    text-align: center;
+}
+
+#i{
+    background-color: #a9a9a6;
+}

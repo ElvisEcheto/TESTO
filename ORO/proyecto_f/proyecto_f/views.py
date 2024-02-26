@@ -5,3 +5,9 @@ def index(request):
 
 def login(request):
     return render(request,'login.html')
+
+def lading(request):
+    return render(request,'lading.html')
+
+def register(request):
+    return render(request,'register.html')
