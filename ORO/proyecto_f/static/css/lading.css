@@ -65,7 +65,7 @@
   
   .hero-section{
     height: 90vh;
-    background: url(static/img/glamping-universidad-manuela-beltran.webp);
+    background: url(/proyecto_f/static/img/glamping-universidad-manuela-beltran.webp);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
