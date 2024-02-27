@@ -95,62 +95,76 @@
 
 
 <script>
-    function validateForm() {
-        let datess = document.getElementById('datess').value.trim();
-        let dateff = document.getElementById('dateff').value.trim();
-        let coder = document.getElementById('coder').value.trim();
-        let costumer = document.getElementById('costumer').value.trim();
-        let lodging = document.getElementById('lodging').value.trim();
-        let service = document.getElementById('service').value.trim();
-        let lodgingsAdded = lodgings_added.length > 0;
-        let servicesAdded = services_added.length > 0;
+     function validateForm() {
+    let datess = document.getElementById('datess').value.trim();
+    let dateff = document.getElementById('dateff').value.trim();
+    let coder = document.getElementById('coder').value.trim();
+    let costumer = document.getElementById('costumer').value.trim();
+    let lodging = document.getElementById('lodging').value.trim();
+    let service = document.getElementById('service').value.trim();
+    let lodgingsAdded = lodgings_added.length > 0;
+    let servicesAdded = services_added.length > 0;
+    let hasError = false;
 
-        let hasError = false;
-
-        if (datess === '') {
-            document.getElementById('datessError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('datessError').style.display = 'none';
-        }
-
-        if (dateff === '') {
-            document.getElementById('dateffError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('dateffError').style.display = 'none';
-        }
-
-        if (coder === '') {
-            document.getElementById('coderError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('coderError').style.display = 'none';
-        }
-
-        if (costumer === '') {
-            document.getElementById('costumerError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('costumerError').style.display = 'none';
-        }
-
-        if (lodging === '') {
-            document.getElementById('lodgingError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('lodgingError').style.display = 'none';
-        }
-
-        if (service === '') {
-            document.getElementById('serviceError').style.display = 'block';
-            hasError = true;
-        } else {
-            document.getElementById('serviceError').style.display = 'none';
-        }
-
-        return !hasError;
+    if (datess === '') {
+        document.getElementById('datessError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('datessError').style.display = 'none';
     }
+
+    if (dateff === '') {
+        document.getElementById('dateffError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('dateffError').style.display = 'none';
+    }
+
+    if (coder === '') {
+        document.getElementById('coderError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('coderError').style.display = 'none';
+    }
+
+    if (costumer === '') {
+        document.getElementById('costumerError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('costumerError').style.display = 'none';
+    }
+
+    if (!lodgingsAdded && lodging === '') {
+        document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña';
+        document.getElementById('lodgingError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('lodgingError').style.display = 'none';
+    }
+
+    if (!servicesAdded && service === '') {
+        document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio';
+        document.getElementById('serviceError').style.display = 'block';
+        hasError = true;
+    } else {
+        document.getElementById('serviceError').style.display = 'none';
+    }
+
+    // Verificar si se ha seleccionado una opción pero no se ha agregado
+    if (lodging !== '' && !lodgingsAdded) {
+        document.getElementById('lodgingError').innerText = 'Por favor presiona el botón de agregar';
+        document.getElementById('lodgingError').style.display = 'block';
+        hasError = true;
+    }
+
+    if (service !== '' && !servicesAdded) {
+        document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
+        document.getElementById('serviceError').style.display = 'block';
+        hasError = true;
+    }
+
+    return !hasError;
+}
 
     lodgings_added = [];
     services_added = [];
@@ -164,23 +178,27 @@
         }
         let lodgingName = lodgingSelect.find('option:selected').text().split(' - ')[0];
         let lodgingPrice = lodgingSelect.find('option:selected').text().split(' - ')[1];
-        lodgings_added.push(lodgingId);
-        totalReservation(parseFloat(lodgingPrice));
-        $('#treservations').append(`
-            <tr id=${lodgingId}>                               
-                <td>
-                    <input type="hidden" name="lodgingId[]" value="${lodgingId}">
-                    <input type="hidden" name="lodgingPrice[]" value="${lodgingPrice}">
-                    ${lodgingName}
-                </td>
-                <td>${lodgingPrice}</td>                
-                <td>
-                    <a onclick='removeReservation(event, "lodging")' class="btn btn-danger btn-circle btn-sm">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        `);
+        // Convertir a número si es un valor válido, de lo contrario, asignar null
+        lodgingPrice = !isNaN(parseFloat(lodgingPrice)) ? parseFloat(lodgingPrice) : null;
+        if (lodgingPrice !== null) {
+            lodgings_added.push(lodgingId);
+            totalReservation(parseFloat(lodgingPrice));
+            $('#treservations').append(`
+                <tr id=${lodgingId}>                               
+                    <td>
+                        <input type="hidden" name="lodgingId[]" value="${lodgingId}">
+                        <input type="hidden" name="lodgingPrice[]" value="${lodgingPrice}">
+                        ${lodgingName}
+                    </td>
+                    <td>${lodgingPrice}</td>                
+                    <td>
+                        <a onclick='removeReservation(event, "lodging", "${lodgingId}")' class="btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            `);
+        }
     }
     
     function addService(event) {
@@ -192,46 +210,53 @@
         }
         let serviceName = serviceSelect.find('option:selected').text().split(' - ')[0];
         let servicePrice = serviceSelect.find('option:selected').text().split(' - ')[1];
-        services_added.push(serviceId);
-        totalReservation(parseFloat(servicePrice));
-    
-        $('#treservations').append(`
-            <tr id="${serviceId}">                                
-                <td>
-                    <input type="hidden" name="serviceId[]" value="${serviceId}">
-                    <input type="hidden" name="servicePrice[]" value="${servicePrice}">
-                    ${serviceName}
-                </td>
-                <td>${servicePrice}</td>                
-                <td>
-                    <a onclick='removeReservation(event, "service")' class="btn btn-danger btn-circle btn-sm">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        `);
+        // Convertir a número si es un valor válido, de lo contrario, asignar null
+        servicePrice = !isNaN(parseFloat(servicePrice)) ? parseFloat(servicePrice) : null;
+        if (servicePrice !== null) {
+            services_added.push(serviceId);
+            totalReservation(parseFloat(servicePrice));
+        
+            $('#treservations').append(`
+                <tr id="${serviceId}">                                
+                    <td>
+                        <input type="hidden" name="serviceId[]" value="${serviceId}">
+                        <input type="hidden" name="servicePrice[]" value="${servicePrice}">
+                        ${serviceName}
+                    </td>
+                    <td>${servicePrice}</td>                
+                    <td>
+                        <a onclick='removeReservation(event, "service", "${serviceId}")' class="btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            `);
+        }
     }
-    
 
     function totalReservation(value) {
         total += value;
         document.getElementById('totalValue').value = total;
     }
 
-    function removeReservation(event, type) {
-        event.preventDefault();        
-        let element = event.target.parentElement.parentElement.parentElement;
-        let id = element.id;          
-        if (type == 'lodging') {
-            lodgings_added = lodgings_added.filter(lodging => lodging != id);
-        } else {
-            services_added = services_added.filter(service => service != id);
-        }
-        element.remove();
-        let price = parseFloat(element.children[1].textContent);        
-        total -= price;
-        document.getElementById('totalValue').value = total;
+    function removeReservation(event, type, id) {
+    event.preventDefault();
+    let element = document.getElementById(id);
+    let price = parseFloat(element.children[1].textContent);
+
+    if (type == 'lodging') {
+        lodgings_added = lodgings_added.filter(lodging => lodging != id);
+    } else if (type == 'service') {
+        services_added = services_added.filter(service => service != id);
     }
+
+    if (!isNaN(price)) {
+        total -= price;
+    }
+
+    element.remove();
+    document.getElementById('totalValue').value = total;
+}
 </script>
 
 
