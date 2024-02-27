@@ -27,7 +27,7 @@
   }
   
   .cta-a{
-    color: #fff;
+    color: #030303;
     font-weight: bold;
     font-size: 1.2rem;
     background-color: var(--main-c);
@@ -65,7 +65,7 @@
   
   .hero-section{
     height: 90vh;
-    background: url(/proyecto_f/static/img/glamping-universidad-manuela-beltran.webp);
+    background: url("/static/img/glamping-universidad-manuela-beltran.webp");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -219,7 +219,7 @@
   }
 
   #cate{
-    background-color: #a9a9a6;
+    background-color: #8fa6ac;
   }
 
   .card {
@@ -305,5 +305,5 @@
 }
 
 #i{
-    background-color: #a9a9a6;
+    background-color: #8fa6ac;
 }
