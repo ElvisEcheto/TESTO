@@ -23,21 +23,32 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from payments.models import Payment
 from django.db.models import Sum
+from django.db.models import Q
 
 @receiver(post_save, sender=Payment)
 def status_reservation(sender, instance, created, **kwargs):
     reservation = Reservation.objects.get(pk=instance.reservation_id)
-    total_pagado = Payment.objects.filter(reservation_id=instance.reservation_id).aggregate(total=Sum('value'))['total']
+    
+    # Filtramos los pagos activos asociados a la reserva
+    pagos_activos = Payment.objects.filter(
+        reservation_id=instance.reservation_id,
+        status=True
+    )
+
+    # Calculamos la suma total de los valores de los pagos activos
+    total_pagado = pagos_activos.aggregate(total=Sum('value'))['total']
+    
+    # Si no hay pagos activos, la suma total será cero
     if total_pagado is None:
         total_pagado = 0
-    valor_reserva = reservation.price
 
-    if total_pagado == 0 * valor_reserva:
-        texto = 'Cancelado'
-    elif total_pagado == 0.5 * valor_reserva:
+    valor_reserva = reservation.price
+    if total_pagado == 0.5 * valor_reserva:
         texto = 'Confirmado'
     elif total_pagado == valor_reserva:
         texto = 'Pagado'
+    elif total_pagado == 0:
+        texto = 'Cancelado'
     else:
         texto = 'Reservado' 
     

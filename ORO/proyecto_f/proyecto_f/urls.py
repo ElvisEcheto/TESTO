@@ -32,6 +32,7 @@ urlpatterns = [
     path('rservices/', include('rservices.urls')),
     path('rlodgings/', include('rlodgings.urls')),
     path('login',views.login, name='login'),
+    path('logout',views.logout, name='logout'),
     path('',views.lading, name='lading'),
     path('Register',views.register, name='register'),
 ]
