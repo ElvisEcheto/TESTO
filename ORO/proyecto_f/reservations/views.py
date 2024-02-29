@@ -65,16 +65,13 @@ def create_reservation(request):
     services_list = Service.objects.all()    
     
     if request.method == 'POST':
-        coder_str = request.POST['coder']
         datess_str = request.POST['datess']
         dateff_str = request.POST['dateff']        
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
-        coder = coder_str
 
         reservation = Reservation.objects.create(                   
-            daterr=datetime.now().date(),
-            coder=coder,                                
+            daterr=datetime.now().date(),                            
             datess=datess,
             dateff=dateff,
             price=request.POST['totalValue'],
@@ -127,17 +124,14 @@ def edit_reservation(request, reservation_id):
     services_list = Service.objects.all()    
     
     if request.method == 'POST':
-        coder_str = request.POST['coder']
         datess_str = request.POST['datess']
         dateff_str = request.POST['dateff']        
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
-        coder = coder_str
 
         # Actualizar los campos del objeto reservation con los valores recibidos del formulario
         reservation.datess = datess
         reservation.dateff = dateff
-        reservation.coder = coder
         reservation.price = request.POST['totalValue']
         reservation.costumer_id = request.POST['costumer']
         

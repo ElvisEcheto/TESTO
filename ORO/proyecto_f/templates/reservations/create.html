@@ -19,11 +19,6 @@
                 <small id="dateffError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha final.</small>
             </div>
         </div>
-        <div>
-            <label for="coder" class="form-label">Codigo</label>
-            <input type="text" class="form-control" name="coder" id="coder" aria-describedby="coderError" value="{{ reservations.coder }}">
-            <small id="coderError" class="form-text text-danger" style="display: none;">Por favor ingresa un código.</small>
-        </div>
         <div class="mb-3">
             <label for="costumer" class="form-label">Cliente</label>
             <select class="form-control" name="costumer" id="costumer" aria-describedby="costumerError">
@@ -98,12 +93,9 @@
      function validateForm() {
     let datess = document.getElementById('datess').value.trim();
     let dateff = document.getElementById('dateff').value.trim();
-    let coder = document.getElementById('coder').value.trim();
     let costumer = document.getElementById('costumer').value.trim();
     let lodging = document.getElementById('lodging').value.trim();
     let service = document.getElementById('service').value.trim();
-    let lodgingsAdded = lodgings_added.length > 0;
-    let servicesAdded = services_added.length > 0;
     let hasError = false;
 
     if (datess === '') {
@@ -120,13 +112,6 @@
         document.getElementById('dateffError').style.display = 'none';
     }
 
-    if (coder === '') {
-        document.getElementById('coderError').style.display = 'block';
-        hasError = true;
-    } else {
-        document.getElementById('coderError').style.display = 'none';
-    }
-
     if (costumer === '') {
         document.getElementById('costumerError').style.display = 'block';
         hasError = true;
@@ -134,37 +119,21 @@
         document.getElementById('costumerError').style.display = 'none';
     }
 
-    if (!lodgingsAdded && lodging === '') {
-        document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña';
+    // Verificar si se ha seleccionado al menos una cabaña o un servicio
+    if (lodging === '' && service === '') {
+        document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña o presiona el botón de agregar';
+        document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio o presiona el botón de agregar';
         document.getElementById('lodgingError').style.display = 'block';
+        document.getElementById('serviceError').style.display = 'block';
         hasError = true;
     } else {
         document.getElementById('lodgingError').style.display = 'none';
-    }
-
-    if (!servicesAdded && service === '') {
-        document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio';
-        document.getElementById('serviceError').style.display = 'block';
-        hasError = true;
-    } else {
         document.getElementById('serviceError').style.display = 'none';
-    }
-
-    // Verificar si se ha seleccionado una opción pero no se ha agregado
-    if (lodging !== '' && !lodgingsAdded) {
-        document.getElementById('lodgingError').innerText = 'Por favor presiona el botón de agregar';
-        document.getElementById('lodgingError').style.display = 'block';
-        hasError = true;
-    }
-
-    if (service !== '' && !servicesAdded) {
-        document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
-        document.getElementById('serviceError').style.display = 'block';
-        hasError = true;
     }
 
     return !hasError;
 }
+
 
     lodgings_added = [];
     services_added = [];
