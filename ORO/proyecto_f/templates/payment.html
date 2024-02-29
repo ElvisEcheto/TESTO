@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Library Store{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Pago reserva</h1>    
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Pago reserva</h4>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="d-flex mb-3">
+                <label for="" class="form-label mr-3">Total reserva</label>
+                <input type="text" class="form-control col-3 mx-3" name="reservation_total" id="reservation_total" value="{{ reservation.price }}" readonly />
+                <label for="" class="form-label mx-3">Total pagos</label>
+                <input type="text" class="form-control col-3" name="payment_reservation" id="payment_reservation" value="{{ total_payments}}" readonly />
+            </div>
+            <div class="mb-3 d-flex">
+                <label for="" class="form-label">Método de pago</label>
+                <select
+                    class="form-control mx-2 col-3"
+                    name="methodpay"
+                    id="methodpay">
+                    <option selected>Select una opción</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Tarjeta Crédito">Tarjeta Crédito</option>
+                    <option value="Tarjeta Débito">Tarjeta Débito</option>
+                    <option value="Transferencia">Transferencia</option>
+                </select>
+                <label for="" class="form-label ml-4">Abono</label>
+                <input
+                    type="text" class="form-control col-3 mx-5" name="value" id="value" aria-describedby="helpId" placeholder="" />
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    let reservation_total = document.getElementById('reservation_total').value;
+    let payment_reservation = document.getElementById('payment_reservation').value;
+    let value = reservation_total / 2;
+    if (reservation_total != payment_reservation) {
+        document.getElementById('value').value = value;        
+    }
+    
+</script>
+{% endblock %}
