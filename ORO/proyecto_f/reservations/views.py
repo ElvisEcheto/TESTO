@@ -81,6 +81,9 @@ def reservations(request):
 
 def edit_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
+    rlodgings = Rlodging.objects.filter(reservation=reservation)
+    rservices = Rservice.objects.filter(reservation=reservation)
+    
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
     services_list = Service.objects.all()    
@@ -97,8 +100,7 @@ def edit_reservation(request, reservation_id):
         reservation.price = request.POST['totalValue']
         reservation.costumer_id = request.POST['costumer']
         
-        # Guardar los cambios en la base de datos
-        reservation.save()        
+        # Guardar los cambios en la base de datos      
 
         # Actualizar los objetos relacionales Rlodging y Rservice
         lodgings_Id = request.POST.getlist('lodgingId[]')
@@ -118,7 +120,7 @@ def edit_reservation(request, reservation_id):
                 lodging=lodging,
                 price=lodgings_price[i]
             )
-        
+                
         for i in range(len(services_Id)):
             service = Service.objects.get(pk=int(services_Id[i]))
             rservice = Rservice.objects.create(
@@ -126,10 +128,12 @@ def edit_reservation(request, reservation_id):
                 service=service,
                 price=services_price[i]
             )
+
+            rservice.save()
               
         # Redireccionar a la página de listado de reservas con un mensaje de éxito
         messages.success(request, 'Reserva editada con éxito.')
         return redirect('reservations')
     
     # Si la solicitud es GET, renderizar el formulario de edición con los datos del objeto reservation
-    return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list})
+    return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'rlodgings':rlodgings, 'rservices':rservices })

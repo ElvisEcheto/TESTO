@@ -18,9 +18,59 @@
                 <label for="" class="form-label">Fecha final</label>
                 <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="helpId"
                     placeholder="Ingresa una fecha de inicio" value="{{ reservation.dateff|date:'Y-m-d' }}">
-                <small id="helpId" class="form-text text-muted"></small>
+                    <small id="helpId" class="form-text text-muted"></small>
+                </div>
             </div>
-        </div>
+            
+            <div class="table-responsive">
+                <h5 class="text-primary font-weight-bold mt-4">Cabañas reservadas</h5>
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead class="table-dark">
+                        <tr> 
+                            <th>Cabaña</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lodging in rlodgings %}
+                        <tr>
+                            <td>{{ lodging.lodging.name}}</td>                         
+                            <td>{{ lodging.lodging.description}}</td>
+                            <td>{{ lodging.price}}</td>
+                            <th><a href="">Eliminar</a></th>                        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>            
+            </div>
+
+            <div class="table-responsive">
+                <h5 class="text-primary font-weight-bold mt-4">Servicos reservados</h5>
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead class="table-dark">
+                        <tr> 
+                            <th>Servicio</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in rservices %}
+                        <tr>
+                            <td>{{ service.service.name}}</td>                         
+                            <td>{{ service.service.description}}</td>
+                            <td>{{ service.price}}</td>
+                            <th><a href="">Eliminar</a></th>                        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>            
+            </div>
+
+
         <div>
             <label for="" class="form-label">Codigo</label>
             <input type="text" class="form-control" name="coder" id="coder" aria-describedby="helpId"
