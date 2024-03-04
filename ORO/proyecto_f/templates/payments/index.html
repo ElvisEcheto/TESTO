@@ -31,7 +31,7 @@
                 <tbody>
                     {% for payment in payments_list %}
                     <tr>
-                    <td>{{ payment.reservation }}</td>
+                    <td>{{ payment.reservation.id }}</td>
                     <td>{{ payment.date }}</td>
                     <td>{{ payment.value }}</td>
                     <td>{{ payment.methodpay }}</td>                                         
