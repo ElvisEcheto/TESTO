@@ -83,28 +83,32 @@ def edit_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
     rlodging = Rlodging.objects.filter(reservation=reservation)
     rservice = Rservice.objects.filter(reservation=reservation)
-
+    
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
-    services_list = Service.objects.all()    
-    
+    services_list = Service.objects.all()
+
     if request.method == 'POST':
         datess_str = request.POST['datess']
-        dateff_str = request.POST['dateff']        
+        dateff_str = request.POST['dateff']
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
 
         reservation.datess = datess
         reservation.dateff = dateff
         reservation.price = request.POST['totalValue']
+        reservation.rstatu = 'Reservado'
         reservation.costumer_id = request.POST['costumer']
-   
+        reservation.save()
+
+
+
         lodgings_Id = request.POST.getlist('lodgingId[]')
         lodgings_price = request.POST.getlist('lodgingPrice[]')
         services_Id = request.POST.getlist('serviceId[]')
-        services_price = request.POST.getlist('servicePrice[]')       
-                
-        for i in range(len(lodgings_Id)):            
+        services_price = request.POST.getlist('servicePrice[]')
+
+        for i in range(len(lodgings_Id)):
             lodging = Lodging.objects.get(pk=int(lodgings_Id[i]))
             rlodging = Rlodging.objects.create(
                 reservation=reservation,
@@ -112,8 +116,7 @@ def edit_reservation(request, reservation_id):
                 price=lodgings_price[i]
             )
             rlodging.save()
-            
-        
+
         for i in range(len(services_Id)):
             service = Service.objects.get(pk=int(services_Id[i]))
             rservice = Rservice.objects.create(
@@ -121,9 +124,9 @@ def edit_reservation(request, reservation_id):
                 service=service,
                 price=services_price[i]
             )
-            rservice.save()              
+            rservice.save()
+
         messages.success(request, 'Reserva editada con éxito.')
         return redirect('reservations')
-    return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'rlodgings':rlodging, 'rservices':rservice })
 
-
+    return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'rlodgings': rlodging, 'rservices': rservice})
