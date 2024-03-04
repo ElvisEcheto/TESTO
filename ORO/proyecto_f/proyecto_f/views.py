@@ -8,11 +8,19 @@ from django.db import models
 from payments.models import Payment
 from reservations.models import Reservation 
 from lodgings.models import Lodging
+from costumers.models import Costumer
+from payments.models import Payment
 
 def index(request):
     total_payments = Payment.objects.all().aggregate(total=models.Sum('value'))['total'] or 0
     total_reservations = Reservation.objects.count()
-    return render(request, 'index.html',{'total_payments': total_payments, 'total_reservations': total_reservations})
+    costumers = Costumer.objects.all().count()
+    lodgings = Lodging.objects.all()
+    payments = Payment.objects.all()
+    context = {'total_payments': total_payments, 
+               'total_reservations': total_reservations ,
+               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments}
+    return render(request, 'index.html', context)
 
 def login(request):
     error = None

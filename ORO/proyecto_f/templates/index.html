@@ -35,9 +35,9 @@
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">total usuarios</p>
                   <h5 class="font-weight-bolder">
-                    2,300
+                    {{costumers}}
                   </h5>
                   <p class="mb-0">
                     <span class="text-success text-sm font-weight-bolder">+3%</span>
@@ -135,16 +135,15 @@
                   <p>There’s nothing I really wanted to do in life that I wasn’t able to get good at.</p>
                 </div>
               </div>
-              <div class="carousel-item h-100" style="background-image: url('/static/img/carousel-2.jpg');
+              {% for lodging in lodgings %}
+              <div class="carousel-item h-100" style="background-image: url('{{lodging.image.url}}');
     background-size: cover;">
                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                  <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                    <i class="ni ni-bulb-61 text-dark opacity-10"></i>
-                  </div>
-                  <h5 class="text-white mb-1">Faster way to create web pages</h5>
-                  <p>That’s my skill. I’m not really specifically talented at anything except for the ability to learn.</p>
+                  <h5 class="text-white mb-1">{{lodging.name}}</h5>
+                  <p> {{lodging.description}} </p>
                 </div>
               </div>
+              {% endfor %}
               <div class="carousel-item h-100" style="background-image: url('/static/img/carousel-3.jpg');
     background-size: cover;">
                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
@@ -182,9 +181,7 @@
                 <tr>
                   <td class="w-30">
                     <div class="d-flex px-2 py-1 align-items-center">
-                      <div>
-                        <img src="./assets/img/icons/flags/US.png" alt="Country flag">
-                      </div>
+
                       <div class="ms-4">
                         <p class="text-xs font-weight-bold mb-0">Country:</p>
                         <h6 class="text-sm mb-0">United States</h6>
