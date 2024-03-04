@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'typedocuments',
     'rstatus',
-    'wkhtmltopdf',
     'typelodgings',
     'services',
     'costumers',
