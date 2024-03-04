@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card shadow mb-4 p-4 ">
+
     <div class="card-header py-3 mb-3">
         <h4 class="m-0 font-weight-bold text-primary">Editar reserva de cabañas y servicios</h4>
     </div>
@@ -142,7 +142,7 @@
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
         </div>
     </form>
-</div>
+
 
 <script>
     lodgings_added = [];
@@ -220,6 +220,85 @@
         total -= price;
         document.getElementById('totalValue').value = total;
     }
+
+
+    function validateForm() {
+        let datess = document.getElementById('datess').value.trim();
+        let dateff = document.getElementById('dateff').value.trim();
+        let costumer = document.getElementById('costumer').value.trim();
+        let lodging = document.getElementById('lodging').value.trim();
+        let service = document.getElementById('service').value.trim();
+        let hasError = false;
+
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let currentDate = yyyy + '-' + mm + '-' + dd;
+
+        if (datess === '') {
+            document.getElementById('datessError').style.display = 'block';
+            hasError = true;
+        } else if (datess < currentDate) {
+            document.getElementById('datessError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
+            document.getElementById('datessError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('datessError').style.display = 'none';
+        }
+
+        if (dateff === '') {
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else if (dateff < currentDate) {
+            document.getElementById('dateffError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else if (datess !== '' && dateff !== '' && dateff < datess) {
+            document.getElementById('dateffError').innerText = 'La fecha final debe ser posterior a la fecha de inicio.';
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('dateffError').style.display = 'none';
+        }
+
+        if (costumer === '') {
+            document.getElementById('costumerError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('costumerError').style.display = 'none';
+        }
+
+        // Verificar si se ha seleccionado al menos una cabaña o un servicio
+        if (lodging === '' && service === '') {
+            document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña o presiona el botón de agregar';
+            document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio o presiona el botón de agregar';
+            document.getElementById('lodgingError').style.display = 'block';
+            document.getElementById('serviceError').style.display = 'block';
+            hasError = true;
+        } else {
+            document.getElementById('lodgingError').style.display = 'none';
+            document.getElementById('serviceError').style.display = 'none';
+        }
+
+        // Verificar si se ha cambiado la selección de cabaña o servicio sin presionar el botón de agregar
+        let lodgingSelected = $('#lodging').find('option:selected').val();
+        let serviceSelected = $('#service').find('option:selected').val();
+        if (lodgingSelected !== '' && !lodgings_added.includes(lodgingSelected)) {
+            document.getElementById('lodgingError').innerText = 'Por favor presiona el botón de agregar';
+            document.getElementById('lodgingError').style.display = 'block';
+            hasError = true;
+        }
+
+        if (serviceSelected !== '' && !services_added.includes(serviceSelected)) {
+            document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
+            document.getElementById('serviceError').style.display = 'block';
+            hasError = true;
+        }
+
+        return !hasError;
+    }
+
 </script>
 
 {% endblock %}

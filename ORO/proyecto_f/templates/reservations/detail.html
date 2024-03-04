@@ -3,25 +3,25 @@
 {% block title %}Library Store{% endblock %}
 
 {% block content %}
-<div class="card shadow mb-4">
+
     <div class="card-header py-3">
         <h4 class="m-0 font-weight-bold text-primary">Detalle reserva</h4>
     </div>
     <div class="card-body">
-        <div class="d-flex">
-            <div class="mb-3 mr-5">
+        <div class="d-flex justify-content-center">
+            <div class="mb-3 mr-5 mx-auto">
                 <label for="" class="form-label">Código reserva</label>
                 <input type="text" class="form-control" value="{{reservation.id}}" readonly />
             </div>
-            <div class="mb-3 mr-5">
+            <div class="mb-3 mr-5 mx-auto">
                 <label for="" class="form-label">Fecha reserva</label>
                 <input type="text" class="form-control" value='{{reservation.daterr|date:"d/m/Y"}}' readonly />
             </div>
-            <div class="mb-3 mr-5">
+            <div class="mb-3 mr-5 mx-auto">
                 <label for="" class="form-label">Documento Cliente</label>
                 <input type="text" class="form-control" value="{{reservation.costumer.document}}" readonly />
             </div>
-            <div class="mb-3">
+            <div class="mb-3 mx-auto">
                 <label for="" class="form-label">Nombre Cliente</label>
                 <input type="text" class="form-control" value="{{reservation.costumer}}" readonly />
             </div>
@@ -118,5 +118,5 @@
             </table>
         </div>
     </div>
-</div>
+
 {% endblock %}

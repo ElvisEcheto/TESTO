@@ -2,7 +2,7 @@
   {% csrf_token %}
 
   {% for field in form %}
-      <div class="mb-3">
+
           <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
           {% if field.name == 'typedocument' %}
               <select class="form-control" name="{{ field.name }}">                    
@@ -26,7 +26,7 @@
                   aria-describedby="helpId" placeholder="{{ field.field.widget.attrs.placeholder }}" value="{{field.value | default:'' }}">
                   <small id="helpId" class="form-text text-danger">{{ field.errors }}</small>                    
           {% endif %}
-      </div>
+
   {% endfor %}
   <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

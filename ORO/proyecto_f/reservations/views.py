@@ -125,3 +125,19 @@ def edit_reservation(request, reservation_id):
         messages.success(request, 'Reserva editada con éxito.')
         return redirect('reservations')
     return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'rlodgings':rlodging, 'rservices':rservice })
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from wkhtmltopdf.views import PDFTemplateResponse
+
+def detail_pdf(request, id):
+    # Obtiene la reserva específica o muestra un error 404 si no existe
+    reservation = Reservation.objects.get(id=id)
+
+    # Lógica para obtener los datos necesarios para el template
+    # Por ejemplo, puedes obtener `rlodgings`, `rservices`, `payments` de alguna forma
+
+    context = {}
+
+    # Renderiza el template y retorna una respuesta PDF
+    return PDFTemplateResponse(request=request,template='reservations/detail.html', filename=f'detalle_reserva_{reservation.id}.pdf',context=context)
