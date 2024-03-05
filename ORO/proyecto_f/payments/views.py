@@ -21,9 +21,6 @@ from reservations.models import Reservation
 from django.db import models
 from . models import Payment
 
-def index(request):
-    payments_list = Payment.objects.all()
-    return render(request, 'payments/index.html', {'payments_list': payments_list})
 
 def payment_reservation(request, id):
     reservation = Reservation.objects.get(id=id)

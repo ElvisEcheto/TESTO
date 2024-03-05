@@ -16,7 +16,7 @@ def index(request):
     total_reservations = Reservation.objects.count()
     costumers = Costumer.objects.all().count()
     lodgings = Lodging.objects.all()
-    payments = Payment.objects.all()
+    payments = Payment.objects.all().order_by('-value')
     context = {'total_payments': total_payments, 
                'total_reservations': total_reservations ,
                'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments}
