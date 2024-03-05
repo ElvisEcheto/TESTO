@@ -16,10 +16,11 @@ def index(request):
     total_reservations = Reservation.objects.count()
     costumers = Costumer.objects.all().count()
     lodgings = Lodging.objects.all()
+    reservations = Reservation.objects.all().order_by('-price')
     payments = Payment.objects.all().order_by('-value')
     context = {'total_payments': total_payments, 
                'total_reservations': total_reservations ,
-               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments}
+               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations }
     return render(request, 'index.html', context)
 
 def login(request):
