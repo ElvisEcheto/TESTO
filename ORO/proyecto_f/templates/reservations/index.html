@@ -29,7 +29,8 @@
                     </tr>
                 </thead>                
                 <tbody>
-                    {% for reservation in reservations_list %}
+                {% for reservation in reservations_list %}
+                    {% if user.is_superuser or reservation.costumer.email == user.email %}
                     <tr>
                     <td>{{ reservation.id }}</td>
                     <td>{{ reservation.daterr }}</td>
@@ -53,7 +54,8 @@
                         </a>
                     </td>
                     </tr>
-                    {% endfor %}                                     
+                    {% endif %}
+                {% endfor %}                                     
                 </tbody>
             </table>
         </div>

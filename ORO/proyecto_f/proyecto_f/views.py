@@ -11,7 +11,12 @@ from lodgings.models import Lodging
 from costumers.models import Costumer
 from payments.models import Payment
 
+def tu_vista(request):
+    usuario = request.user
+    return render(request, 'tu_plantilla.html', {'usuario': usuario})
+
 def index(request):
+    usuario = request.user
     total_payments = Payment.objects.all().aggregate(total=models.Sum('value'))['total'] or 0
     total_reservations = Reservation.objects.count()
     costumers = Costumer.objects.all().count()
@@ -20,7 +25,7 @@ def index(request):
     payments = Payment.objects.all().order_by('-value')
     context = {'total_payments': total_payments, 
                'total_reservations': total_reservations ,
-               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations }
+               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations, 'usuario': usuario }
     return render(request, 'index.html', context)
 
 def login(request):

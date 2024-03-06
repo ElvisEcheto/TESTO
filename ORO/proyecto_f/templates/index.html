@@ -1,26 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<script>
-  function mostrarHora() {
-      var fecha = new Date();
-      var horas = fecha.getHours();
-      var minutos = fecha.getMinutes();
-      var segundos = fecha.getSeconds();
-
-      // Asegúrate de que los minutos y segundos tengan dos dígitos
-      minutos = (minutos < 10) ? "0" + minutos : minutos;
-      segundos = (segundos < 10) ? "0" + segundos : segundos;
-
-      var horaActual = horas + ":" + minutos + ":" + segundos;
-
-      // Mostrar la hora en el elemento con id "hora"
-      document.getElementById("hora").innerHTML = horaActual;
-
-      // Actualizar la hora cada segundo
-      setTimeout(mostrarHora, 1000);
-  }
-</script>
 
 <div class="container-fluid py-4">
   {% if request.user.is_superuser or request.user.is_user %}
@@ -130,9 +110,9 @@
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3 bg-gradient-dark">
-            <h1 class="text-capitalize mt-3">Bienvenido</h1>
+            <h1 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h1>
             <p class="text-sm mb-0 align-items-center text-center">
-              SE?
+            
             </p>
           </div>
           <div class="card-body p-1 bg-gradient-dark">
@@ -299,6 +279,27 @@
     </footer>
   </div>
 </main>
+
+<script>
+  function mostrarHora() {
+      var fecha = new Date();
+      var horas = fecha.getHours();
+      var minutos = fecha.getMinutes();
+      var segundos = fecha.getSeconds();
+
+      // Asegúrate de que los minutos y segundos tengan dos dígitos
+      minutos = (minutos < 10) ? "0" + minutos : minutos;
+      segundos = (segundos < 10) ? "0" + segundos : segundos;
+
+      var horaActual = horas + ":" + minutos + ":" + segundos;
+
+      // Mostrar la hora en el elemento con id "hora"
+      document.getElementById("hora").innerHTML = horaActual;
+
+      // Actualizar la hora cada segundo
+      setTimeout(mostrarHora, 1000);
+  }
+</script>
 
 
 {%endblock%}
