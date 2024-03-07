@@ -1,3 +1,5 @@
+
+from io import BytesIO
 from django.shortcuts import render, redirect
 
 from reservations.models import Reservation
@@ -130,3 +132,114 @@ def edit_reservation(request, reservation_id):
         return redirect('reservations')
 
     return render(request, 'reservations/edit.html', {'reservation': reservation, 'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'rlodgings': rlodging, 'rservices': rservice})
+
+
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from .models import Reservation
+import datetime
+
+def generate_pdf(request, reservation_id):
+    # Obtener la reserva
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+
+    # Obtener los servicios asociados a la reserva a través de la tabla de detalle
+    reservation_services = Rservice.objects.filter(reservation=reservation)
+
+    # Crear un buffer de bytes para almacenar el PDF
+    buffer = BytesIO()
+
+    # Crear el documento PDF
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    # Crear una lista para contener los elementos del PDF
+    elements = []
+
+    # Agregar el título
+    title = Paragraph("Reserva", styles['Title'])
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+
+    # Agregar los detalles de la reserva como párrafos
+    details = [
+        f"Fecha de Entrada: {reservation.datess}",
+        f"Fecha de Salida: {reservation.dateff}",
+        f"Precio: {reservation.price}",
+        f"Estado: {reservation.rstatu}",
+    ]
+    for detail in details:
+        elements.append(Paragraph(detail, styles['Normal']))
+        elements.append(Spacer(1, 6))
+
+    # Agregar los servicios asociados a la reserva
+    if reservation_services:
+        elements.append(Paragraph("Servicios:", styles['Heading2']))
+        for reservation_service in reservation_services:
+            service_detail = f"- {reservation_service.service.name}: ${reservation_service.price}"
+            elements.append(Paragraph(service_detail, styles['Normal']))
+            elements.append(Spacer(1, 3))
+
+    # Construir el PDF
+    pdf.build(elements)
+
+    # Obtener el contenido del buffer y crear la respuesta HTTP
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="reservation_{reservation_id}.pdf"'
+    response.write(pdf_buffer)
+    return response
+    # Obtener la reserva
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+    services = reservation.Service_set.all()
+
+    # Crear un buffer de bytes para almacenar el PDF
+    buffer = BytesIO()
+
+    # Crear el documento PDF
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    # Crear una lista para contener los elementos del PDF
+    elements = []
+
+    # Agregar el título
+    title = Paragraph("Reserva", styles['Title'])
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+
+    # Agregar los detalles de la reserva como párrafos
+    details = [
+        f"Fecha de Entrada: {reservation.datess}",
+        f"Fecha de Salida: {reservation.dateff}",
+        f"Precio: {reservation.price}",
+        f"Estado: {reservation.rstatu}",
+    ]
+    for detail in details:
+        elements.append(Paragraph(detail, styles['Normal']))
+        elements.append(Spacer(1, 6))
+    
+    if services:
+        elements.append(Paragraph("Servicios:", styles['Heading2']))
+        for service in services:
+            service_detail = f"- {service.name}: ${service.price}"
+            elements.append(Paragraph(service_detail, styles['Normal']))
+            elements.append(Spacer(1, 3))
+
+
+    # Construir el PDF
+    pdf.build(elements)
+
+    # Obtener el contenido del buffer y crear la respuesta HTTP
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="reservation_{reservation_id}.pdf"'
+    response.write(pdf_buffer)
+    return response
