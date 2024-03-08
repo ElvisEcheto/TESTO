@@ -10,6 +10,10 @@ from reservations.models import Reservation
 from lodgings.models import Lodging
 from costumers.models import Costumer
 from payments.models import Payment
+from services.models import Service
+
+def Return(request):
+    return render(request, 'Return.html')
 
 def tu_vista(request):
     usuario = request.user
@@ -21,11 +25,12 @@ def index(request):
     total_reservations = Reservation.objects.count()
     costumers = Costumer.objects.all().count()
     lodgings = Lodging.objects.all()
+    total_service = Service.objects.all()
     reservations = Reservation.objects.all().order_by('-price')
     payments = Payment.objects.all().order_by('-value')
     context = {'total_payments': total_payments, 
                'total_reservations': total_reservations ,
-               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations, 'usuario': usuario }
+               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations, 'usuario': usuario, 'total_service' : total_service, }
     return render(request, 'index.html', context)
 
 def login(request):

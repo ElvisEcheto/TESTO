@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load static %}
+
 <div class="container-fluid py-4">
   {% if request.user.is_superuser or request.user.is_user %}
     <div class="row">
@@ -111,9 +113,30 @@
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3 bg-gradient-dark">
             <h1 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h1>
-            <p class="text-sm mb-0 align-items-center text-center">
             
-            </p>
+
+          <div class="d-flex">
+            
+            <div class="card" style="width: 10rem;">
+              <img src="{% static './img/bruce-mars.jpg' %}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h6 class="card-title fs-6">Card title</h6>
+                <p class="card-text fs-6">Some quick example text .</p>
+                <a href="{% url 'retur' %}"" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+
+    
+
+          </div>
+
+
+
+
+
+
+
+
           </div>
           <div class="card-body p-1 bg-gradient-dark">
             <div class="chart">
