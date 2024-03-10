@@ -69,7 +69,21 @@ def recuperar_contraseña(email):
     correo_destino = email
     nueva_contraseña = generar_contraseña()
     enviar_correo(correo_destino, nueva_contraseña)
+    if cambiar_contraseña_usuario(correo_destino, nueva_contraseña):
+        print("La contraseña del usuario ha sido cambiada exitosamente.")
+    else:
+        print("No se pudo cambiar la contraseña del usuario. El usuario no fue encontrado.")
 
+from django.contrib.auth.models import User
+
+def cambiar_contraseña_usuario(email, nueva_contraseña):
+    try:
+        usuario = User.objects.get(email=email)
+        usuario.set_password(nueva_contraseña)
+        usuario.save()
+        return True  # Indica que la contraseña fue cambiada exitosamente
+    except User.DoesNotExist:
+        return False  # Indica que no se encontró ningún usuario con el correo electrónico especificado
 
 
 def index(request):
