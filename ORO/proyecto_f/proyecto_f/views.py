@@ -95,9 +95,14 @@ def index(request):
     total_service = Service.objects.all()
     reservations = Reservation.objects.all().order_by('-price')[:5]
     payments = Payment.objects.all().order_by('-value')[:5]
-    context = {'total_payments': total_payments, 
+    context = {'usuario': usuario, 
+               'total_payments': total_payments, 
                'total_reservations': total_reservations ,
-               'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations, 'usuario': usuario, 'total_service' : total_service, }
+               'costumers' : costumers , 
+               'lodgings' : lodgings ,
+               'total_service' : total_service,
+               'reservations' : reservations, 
+               'payments' : payments, }
     return render(request, 'index.html', context)
 
 def login(request):
