@@ -35,6 +35,6 @@ urlpatterns = [
     path('logout',views.logout, name='logout'),
     path('',views.lading, name='lading'),
     path('Register',views.register, name='register'),
-    path('Retur',views.Return, name='retur'),
+    path('Restore',views.recover_password, name='restore'),
 
 ]

@@ -6,18 +6,71 @@ from costumers.models import Costumer
 from django.contrib.auth.models import Group
 from django.db import models
 from payments.models import Payment
+
 from reservations.models import Reservation 
 from lodgings.models import Lodging
 from costumers.models import Costumer
 from payments.models import Payment
 from services.models import Service
 
-def Return(request):
-    return render(request, 'Return.html')
+def recover_password(request):    
+    if request.method == 'POST':
+        email = request.POST['email']
+        """ Cosultar el usuario por el correo  y cambiar la contraseña encriptada"""
+        recuperar_contraseña(email)
+    return render(request, 'restore.html')
 
-def tu_vista(request):
-    usuario = request.user
-    return render(request, 'tu_plantilla.html', {'usuario': usuario})
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import random
+import string
+
+from django.shortcuts import render
+
+
+
+
+def generar_contraseña():
+    caracteres = string.ascii_letters + string.digits
+    longitud = 10
+    return ''.join(random.choice(caracteres) for i in range(longitud))
+
+def enviar_correo(destinatario, contraseña):
+    # Configuración del servidor SMTP
+    smtp_server = 'smtp.gmail.com'
+    puerto = 587
+    remitente = 'glampingcelestial@gmail.com'
+    contraseña_smtp = 'uoob mcva wojt adal'
+
+    # Crear el mensaje
+    mensaje = MIMEMultipart()
+    mensaje['From'] = remitente
+    mensaje['To'] = destinatario
+    mensaje['Subject'] = 'Recuperación de contraseña'
+
+    cuerpo = f'Tu nueva contraseña es: {contraseña}'
+    mensaje.attach(MIMEText(cuerpo, 'plain'))
+
+    # Iniciar sesión en el servidor SMTP
+    servidor = smtplib.SMTP(smtp_server, puerto)
+    servidor.starttls()
+    servidor.login(remitente, contraseña_smtp)
+
+    # Enviar el correo electrónico
+    servidor.send_message(mensaje)
+
+    # Cerrar la conexión
+    servidor.quit()
+
+# Función principal
+def recuperar_contraseña(email):
+    correo_destino = email
+    nueva_contraseña = generar_contraseña()
+    enviar_correo(correo_destino, nueva_contraseña)
+
+
 
 def index(request):
     usuario = request.user
@@ -26,8 +79,8 @@ def index(request):
     costumers = Costumer.objects.all().count()
     lodgings = Lodging.objects.all()
     total_service = Service.objects.all()
-    reservations = Reservation.objects.all().order_by('-price')
-    payments = Payment.objects.all().order_by('-value')
+    reservations = Reservation.objects.all().order_by('-price')[:5]
+    payments = Payment.objects.all().order_by('-value')[:5]
     context = {'total_payments': total_payments, 
                'total_reservations': total_reservations ,
                'costumers' : costumers , 'lodgings' : lodgings , 'payments' : payments, 'reservations' : reservations, 'usuario': usuario, 'total_service' : total_service, }

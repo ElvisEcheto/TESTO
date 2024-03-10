@@ -39,7 +39,7 @@
                   <form  class="user" method="post" role="form">
                     {% csrf_token %}
                     <div class="mb-3">
-                      <input type="username" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="username" placeholder="Ingresa tu usuario">
+                      <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Ingresa tu email">
                     </div>
                     <span class="text-danger">{{error}}</span>
                     <div class="text-center mb-3">
@@ -50,7 +50,7 @@
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
                     ¿No recuerdas tu contraseña?
-                    <a href="{% url 'lading' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
+                    <a href="{% url 'restore' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
                   </p>
                   <p class="mb-4 text-sm mx-auto">
                     ¿No tienes una cuenta?
