@@ -92,7 +92,7 @@ def index(request):
     total_reservations = Reservation.objects.count()
     costumers = Costumer.objects.all().count()
     lodgings = Lodging.objects.all()
-    total_service = Service.objects.all()
+    services = Service.objects.all()
     reservations = Reservation.objects.all().order_by('-price')[:5]
     payments = Payment.objects.all().order_by('-value')[:5]
     context = {'usuario': usuario, 
@@ -100,7 +100,7 @@ def index(request):
                'total_reservations': total_reservations ,
                'costumers' : costumers , 
                'lodgings' : lodgings ,
-               'total_service' : total_service,
+               'services' : services,
                'reservations' : reservations, 
                'payments' : payments, }
     return render(request, 'index.html', context)

@@ -108,23 +108,24 @@
       </div>
     </div>
     {%  endif  %}
-    <div class="row mt-4">
+    <div class="row mt-4 rounded">
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3 bg-gradient-dark">
             <h1 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h1>
             
 
-          <div class="d-flex">
-            
-            <div class="card" style="width: 10rem;">
-              <img src="{% static './img/bruce-mars.jpg' %}" class="card-img-top" alt="...">
+          <div class="d-flex flex-wrap ">
+            {% for service in services %}
+            <div class="card  " style="width: 15rem;">
+              <img src="{{ service.image.url }}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h6 class="card-title fs-6">Card title</h6>
-                <p class="card-text fs-6">Some quick example text .</p>
-                <a href="" class="btn btn-primary">Go somewhere</a>
+                <h6 class="card-title fs-6">{{ service.name }}</h6>
+                <p class="card-text fs-6">{{ service.description }}</p>
               </div>
             </div>
+            {% endfor %}
+            
 
     
 
@@ -138,10 +139,10 @@
 
 
           </div>
-          <div class="card-body p-1 bg-gradient-dark">
+          <div class="card-body bg-gradient-dark">
             <div class="chart">
               <div id="chart-line" class="chart-canvas mb-7 mt-1" >
-                <h3 class="p-5 text-capitalize">Encontraras todo lo que buscas al precio adecuado para ti</h3>
+                <h3 class="p-5 text-capitalize"></h3>
               </div>
             </div>
           </div>
