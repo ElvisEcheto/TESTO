@@ -20,13 +20,21 @@ import math
 
 
 
-
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
     services_list = Service.objects.all()    
     
     if request.method == 'POST':
+        # Obtener el correo electrónico del cliente del formulario
+        costumer_email = request.POST['costumer']
+        # Intentar obtener el objeto Costumer correspondiente al correo electrónico
+        try:
+            costumer = Costumer.objects.get(email=costumer_email)
+        except Costumer.DoesNotExist:
+            # Manejar la situación en la que no se encuentra un Costumer
+            costumer = None  # Asignar None para manejarlo en la lógica de creación de la reserva
+        
         datess_str = request.POST['datess']
         dateff_str = request.POST['dateff']        
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
@@ -38,7 +46,7 @@ def create_reservation(request):
             dateff=dateff,
             price=request.POST['totalValue'],
             rstatu='Reservado',
-            costumer_id=request.POST['costumer']
+            costumer=costumer  # Asignar el objeto Costumer o None si no se encontró
         )
         reservation.save()        
         lodgings_Id = request.POST.getlist('lodgingId[]')
@@ -67,6 +75,7 @@ def create_reservation(request):
         return redirect('reservations')
     return render(request, 'reservations/create.html', {'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list})
 
+
 def detail_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
     rlodgings = Rlodging.objects.filter(reservation=reservation)
@@ -78,6 +87,8 @@ def reservations(request):
     reservations_list = Reservation.objects.all()    
     return render(request, 'reservations/index.html', {'reservations_list': reservations_list})
 
+
+from django.core.exceptions import ObjectDoesNotExist
 
 def edit_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
@@ -101,8 +112,7 @@ def edit_reservation(request, reservation_id):
         reservation.datess = datess
         reservation.dateff = dateff
         reservation.rstatu = 'Reservado'
-        reservation.costumer_id = request.POST.get('costumer')
-        
+
         # Guardar las nuevas cabañas y servicios seleccionados
         lodgings_Id = request.POST.getlist('lodgingId[]')
         lodgings_price = request.POST.getlist('lodgingPrice[]')
@@ -137,7 +147,8 @@ def edit_reservation(request, reservation_id):
         reservation.price = total
         reservation.save()
 
-        messages.success(request, 'Reserva editada con éxito.')
+        # Redireccionar y mostrar un mensaje de éxito
+        messages.success(request, '¡La reserva se ha editado exitosamente!')
         return redirect('reservations')
 
     # Calcular el total para mostrar en la vista
@@ -158,6 +169,8 @@ def edit_reservation(request, reservation_id):
         'rservices': rservices,
         'total': total,
     })
+
+
 
 
 

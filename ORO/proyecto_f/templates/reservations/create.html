@@ -20,15 +20,11 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="costumer" class="form-label">Cliente</label>
-            <select class="form-control" name="costumer" id="costumer" aria-describedby="costumerError">
-                <option value="">Selecciona un cliente</option>
-                {% for costumer in costumers_list %}
-                <option value="{{ costumer.id }}" {% if costumer.id == reservations.costumer.id %} selected {% endif %}>{{ costumer.name }}</option>
-                {% endfor %}
-            </select>
-            <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor selecciona un cliente.</small>
+            <label for="costumer" class="form-label">Cliente (Email)</label>
+            <input type="text" class="form-control" name="costumer" id="costumer" aria-describedby="costumerError" value="{{ user.email }}" readonly>
+            <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un correo electrónico válido.</small>
         </div>
+        
         <div class="mb-3">
             <label for="lodging" class="form-label">Cabañas</label>
             <div class="d-flex">
