@@ -213,14 +213,19 @@ from reportlab.lib.styles import getSampleStyleSheet
 from .models import Reservation
 from services.models import Service
 from rservices.models import Rservice
+from rlodgings.models import Rlodging
+from payments.models import Payment
 from io import BytesIO
 
 def generate_pdf(request, reservation_id):
     # Obtener la reserva
     reservation = get_object_or_404(Reservation, pk=reservation_id)
+    
 
     # Obtener los servicios asociados a la reserva a través de la tabla de detalle
     reservation_services = Rservice.objects.filter(reservation=reservation)
+    reservation_lodgings = Rlodging.objects.filter(reservation=reservation)
+    reservation_payments = Payment.objects.filter(reservation=reservation)
 
     # Crear un buffer de bytes para almacenar el PDF
     buffer = BytesIO()
@@ -243,6 +248,7 @@ def generate_pdf(request, reservation_id):
         f"Fecha de Salida: {reservation.dateff}",
         f"Precio: {reservation.price}",
         f"Estado: {reservation.rstatu}",
+        f"Estado: {reservation.costumer}",
     ]
     for detail in details:
         elements.append(Paragraph(detail, styles['Normal']))
@@ -255,6 +261,22 @@ def generate_pdf(request, reservation_id):
             service_detail = f"- {reservation_service.service.name}: ${reservation_service.price}"
             elements.append(Paragraph(service_detail, styles['Normal']))
             elements.append(Spacer(1, 3))
+
+    if reservation_lodgings:
+        elements.append(Paragraph("Cabañas:", styles['Heading2']))
+        for reservation_lodging in reservation_lodgings:
+            lodging_detail = f"- {reservation_lodging.lodging.name}: ${reservation_lodging.price}"
+            elements.append(Paragraph(lodging_detail, styles['Normal']))
+            elements.append(Spacer(1, 3))
+
+
+    if reservation_payments:
+        elements.append(Paragraph("Pagos:", styles['Heading2']))
+        for reservation_payment in reservation_payments:
+            payment_detail = f"- {reservation_payment.date}: ${reservation_payment.value}"
+            elements.append(Paragraph(payment_detail, styles['Normal']))
+            elements.append(Spacer(1, 3))
+
 
     # Construir el PDF
     pdf.build(elements)

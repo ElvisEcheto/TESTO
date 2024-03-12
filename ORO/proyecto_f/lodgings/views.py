@@ -46,7 +46,7 @@ def edit_lodging(request, lodging_id):
     if form.is_valid() and request.method == 'POST':
         try:
             form.save()
-            messages.success(request, 'cabaña actualizada correctamente.')
+            messages.success(request, 'cabaña creada correctamente.')
         except:
             messages.error(request, 'Ocurrió un error al editar la  cabaña.')
         return redirect('lodgings')    
