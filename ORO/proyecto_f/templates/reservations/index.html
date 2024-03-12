@@ -48,6 +48,9 @@
             <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-success btn-circle btn-sm">
                 <i class="fa fa-money"></i>
             </a>
+            <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-success btn-circle btn-sm">
+                <i class="fa fa-money"></i>
+            </a>
         </td>
     </tr>
 {% endfor %}
