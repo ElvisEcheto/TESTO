@@ -17,13 +17,25 @@ from django.db.models import Sum, F, FloatField
 from django.db.models.functions import Coalesce
 from decimal import Decimal
 import math
-
+from decimal import Decimal
 
 
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
-    services_list = Service.objects.all()    
+    services_list = Service.objects.all()
+
+    # Calcula days_difference aquí
+    datess = request.POST.get('datess')  # Obtén la fecha de inicio desde la solicitud
+    dateff = request.POST.get('dateff')  # Obtén la fecha final desde la solicitud
+
+    # Realiza la validación y cálculo de days_difference aquí
+    if datess and dateff:
+        datess_date = datetime.strptime(datess, '%Y-%m-%d').date()
+        dateff_date = datetime.strptime(dateff, '%Y-%m-%d').date()
+        days_difference = (dateff_date - datess_date).days
+    else:
+        days_difference = 0  # Define un valor por defecto si las fechas no están presentes   
     
     if request.method == 'POST':
         # Obtener el correo electrónico del cliente del formulario
@@ -40,11 +52,18 @@ def create_reservation(request):
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
 
+        # Calcular los días de diferencia entre las fechas
+        days_difference = (dateff - datess).days
+
+        # Convertir el valor del campo totalValue a tipo Decimal
+        total_value_str = request.POST['totalValue']
+        total_value = Decimal(total_value_str)
+
         reservation = Reservation.objects.create(                   
             daterr=datetime.now().date(),                            
             datess=datess,
             dateff=dateff,
-            price=request.POST['totalValue'],
+            price=total_value,  # Utilizar el valor convertido a Decimal
             rstatu='Reservado',
             costumer=costumer  # Asignar el objeto Costumer o None si no se encontró
         )
@@ -73,7 +92,8 @@ def create_reservation(request):
             rservice.save()              
         messages.success(request, 'Reserva creada con éxito.')
         return redirect('reservations')
-    return render(request, 'reservations/create.html', {'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list})
+    return render(request, 'reservations/create.html', {'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'days_difference': days_difference})
+
 
 
 def detail_reservation(request, reservation_id):
@@ -100,6 +120,7 @@ def edit_reservation(request, reservation_id):
     services_list = Service.objects.all()
 
     total = 0  # Inicializamos la variable total
+    total_with_days = 0  # Inicializamos el total con los días multiplicados
 
     if request.method == 'POST':
         # Procesar el formulario
@@ -107,6 +128,9 @@ def edit_reservation(request, reservation_id):
         dateff_str = request.POST.get('dateff')
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
+
+        # Calcular los días de diferencia entre las fechas
+        days_difference = (dateff - datess).days
 
         # Actualizar la reserva con los nuevos valores
         reservation.datess = datess
@@ -144,7 +168,8 @@ def edit_reservation(request, reservation_id):
 
         # Calcular el total y asignarlo a la reserva
         total = sum(float(price) for price in lodgings_price + services_price)
-        reservation.price = total
+        total_with_days = total * days_difference
+        reservation.price = total_with_days
         reservation.save()
 
         # Redireccionar y mostrar un mensaje de éxito
@@ -153,6 +178,7 @@ def edit_reservation(request, reservation_id):
 
     # Calcular el total para mostrar en la vista
     total = sum(rlodging.price for rlodging in rlodgings) + sum(rservice.price for rservice in rservices)
+    total_with_days = total * (reservation.dateff - reservation.datess).days
     
     # Formatear el total para mostrar 0 en lugar de 0.00 cuando sea un número entero
     if total % 1 == 0:  # Verificar si el total es un número entero
@@ -168,25 +194,29 @@ def edit_reservation(request, reservation_id):
         'rlodgings': rlodgings,
         'rservices': rservices,
         'total': total,
+        'total_with_days': total_with_days,  # Pasamos el total con los días multiplicados
     })
 
 
 
 
 
+from django.shortcuts import redirect
+from django.urls import reverse
+
 def delete_booking_cabin(request, id):
     rlodging = Rlodging.objects.get(pk=id)
-    price = rlodging.price
+    reservation_id = rlodging.reservation_id
     rlodging.delete()
-    # Redirigir a la página de edición
-    return redirect('edit_reservation', reservation_id=rlodging.reservation_id)
+    # Redirigir a la página de edición después de eliminar el registro
+    return redirect('edit_reservation', reservation_id=reservation_id)
 
 def delete_service_cabin(request, id):
     rservice = Rservice.objects.get(pk=id)
-    price = rservice.price
+    reservation_id = rservice.reservation_id
     rservice.delete()
-    # Redirigir a la página de edición
-    return redirect('edit_reservation', reservation_id=rservice.reservation_id)
+    # Redirigir a la página de edición después de eliminar el registro
+    return redirect('edit_reservation', reservation_id=reservation_id)
 
 from django.db.models import Sum
 

@@ -2,95 +2,100 @@
 
 {% block content %}
 
-    <div class="card-header py-3 mb-3">
-        <h4 class="m-0 font-weight-bold text-primary">Editar reserva de cabañas y servicios</h4>
+<div class="card-header py-3 mb-3">
+    <h4 class="m-0 font-weight-bold text-primary">Crear reserva de cabañas y servicios</h4>
+</div>
+<form action="" method="post" onsubmit="return validateForm()">
+    {% csrf_token %}
+    <div class="d-flex">
+        <div class="mb-3">
+            <label for="datess" class="form-label">Fecha inicio</label>
+            <input type="date" class="form-control" name="datess" id="datess" aria-describedby="datessError" value="{{ reservations.datess }}">
+            <small id="datessError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha de inicio.</small>
+        </div>
+        <div class="mb-3 mx-4">
+            <label for="dateff" class="form-label">Fecha final</label>
+            <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="dateffError" value="{{ reservations.dateff }}">
+            <small id="dateffError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha final.</small>
+        </div>
     </div>
-    <form action="" method="post" onsubmit="return validateForm()">
-        {% csrf_token %}
+    <small id="sameDateError" class="form-text text-danger" style="display: none;">La fecha final debe ser diferente a la fecha de inicio.</small>
+    <div id="messageContainer" style="display: none;" class="form-text text-success">
+        <p id="message"></p>
+    </div>
+    
+
+    <div class="mb-3">
+        <label for="costumer" class="form-label">Cliente (Email)</label>
+        <input type="text" class="form-control" name="costumer" id="costumer" aria-describedby="costumerError" value="{{ user.email }}" readonly>
+        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un correo electrónico válido.</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="lodging" class="form-label">Cabañas</label>
         <div class="d-flex">
-            <div class="mb-3">
-                <label for="datess" class="form-label">Fecha inicio</label>
-                <input type="date" class="form-control" name="datess" id="datess" aria-describedby="datessError" value="{{ reservations.datess }}">
-                <small id="datessError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha de inicio.</small>
-            </div>
-            <div class="mb-3 mx-4">
-                <label for="dateff" class="form-label">Fecha final</label>
-                <input type="date" class="form-control" name="dateff" id="dateff" aria-describedby="dateffError" value="{{ reservations.dateff }}">
-                <small id="dateffError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha final.</small>
-            </div>
+            <select class="form-control" name="lodging" id="lodging" aria-describedby="lodgingError">
+                <option value="">Selecciona una cabaña</option>
+                {% for lodging in lodgings_list %}
+                <option value="{{ lodging.id }}" {% if lodging.id in reservations.lodgings.all.values_list %} selected {% endif %}>{{ lodging.name }} - {{ lodging.price }}</option>
+                {% endfor %}
+            </select>
+            <a href="#" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
+                <span class="icon text-white-50 "><i class="fas fa-plus"></i></span>
+            </a>
         </div>
-        <div class="mb-3">
-            <label for="costumer" class="form-label">Cliente (Email)</label>
-            <input type="text" class="form-control" name="costumer" id="costumer" aria-describedby="costumerError" value="{{ user.email }}" readonly>
-            <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un correo electrónico válido.</small>
+        <small id="lodgingError" class="form-text text-danger" style="display: none;">Por favor selecciona una cabaña.</small>
+    </div>
+    <div class="mb-3">
+        <label for="service" class="form-label">Servicio</label>
+        <div class="d-flex">
+            <select class="form-control" name="service" id="service" aria-describedby="serviceError">
+                <option value="">Selecciona un servicio</option>
+                {% for service in services_list %}
+                <option value="{{ service.id }}" {% if service.id in reservations.services.all.values_list %} selected {% endif %}>{{ service.name }} - {{ service.price }}</option>
+                {% endfor %}
+            </select>
+            <a onclick="addService(event)" href="#" class="btn btn-primary btn-icon-split mb-3">
+                <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+            </a>
         </div>
-        
-        <div class="mb-3">
-            <label for="lodging" class="form-label">Cabañas</label>
-            <div class="d-flex">
-                <select class="form-control" name="lodging" id="lodging" aria-describedby="lodgingError">
-                    <option value="">Selecciona una cabaña</option>
-                    {% for lodging in lodgings_list %}
-                    <option value="{{ lodging.id }}" {% if lodging.id in reservations.lodgings.all.values_list %} selected {% endif %}>{{ lodging.name }} - {{ lodging.price }}</option>
-                    {% endfor %}
-                </select>
-                <a href="#" onclick="addLodging(event)" class="btn btn-primary btn-icon-split mb-3">
-                    <span class="icon text-white-50 "><i class="fas fa-plus"></i></span>
-                </a>
-            </div>
-            <small id="lodgingError" class="form-text text-danger" style="display: none;">Por favor selecciona una cabaña.</small>
-        </div>
-        <div class="mb-3">
-            <label for="service" class="form-label">Servicio</label>
-            <div class="d-flex">
-                <select class="form-control" name="service" id="service" aria-describedby="serviceError">
-                    <option value="">Selecciona un servicio</option>
-                    {% for service in services_list %}
-                    <option value="{{ service.id }}" {% if service.id in reservations.services.all.values_list %} selected {% endif %}>{{ service.name }} - {{ service.price }}</option>
-                    {% endfor %}
-                </select>
-                <a onclick="addService(event)" href="#" class="btn btn-primary btn-icon-split mb-3">
-                    <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
-                </a>
-            </div>
-            <small id="serviceError" class="form-text text-danger" style="display: none;">Por favor selecciona un servicio.</small>
-        </div>
-        <div class="card-header py-3 mb-3">
-            <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabañas y servicios</h4>
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="treservations">
-                </tbody>
-                <thead>
-                    <tr>
-                        <th>Total:</th>
-                        <th scope="col"><input class="text-success font-weight-bold" style="border: none;" type="text" name="totalValue" id="totalValue" readonly></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Crear reserva</button>
-        </div>
-    </form>
-
-
+        <small id="serviceError" class="form-text text-danger" style="display: none;">Por favor selecciona un servicio.</small>
+    </div>
+    <div class="card-header py-3 mb-3">
+        <h4 class="m-0 font-weight-bold text-primary">Detalle reserva de cabañas y servicios</h4>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="treservations">
+            </tbody>
+            <thead>
+                <tr>
+                    <th>Total:</th>
+                    <th scope="col">
+                        <input class="text-success font-weight-bold" style="border: none;" type="number" name="totalValue" id="totalValue" step="any" value="{{ total }}" readonly>
+                    </th>
+                </tr>
+            </thead>
+            
+        </table>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Crear reserva</button>
+    </div>
+</form>
 
 <script>
     lodgings_added = [];
     services_added = [];
     let total = 0;
-    let selectedLodging = null;
-    let selectedService = null;
+
     function addLodging(event) {
         event.preventDefault();
         let lodgingSelect = $('select[name="lodging"]');
@@ -122,7 +127,7 @@
             `);
         }
     }
-    
+
     function addService(event) {
         event.preventDefault();
         let serviceSelect = $('select[name="service"]');
@@ -137,7 +142,7 @@
         if (servicePrice !== null) {
             services_added.push(serviceId);
             totalReservation(parseFloat(servicePrice));
-        
+
             $('#treservations').append(`
                 <tr id="${serviceId}">                                
                     <td>
@@ -162,102 +167,295 @@
     }
 
     function removeReservation(event, type, id) {
+        event.preventDefault();
+        let element = document.getElementById(id);
+        let price = parseFloat(element.children[1].textContent);
+
+        if (type == 'lodging') {
+            lodgings_added = lodgings_added.filter(lodging => lodging != id);
+        } else if (type == 'service') {
+            services_added = services_added.filter(service => service != id);
+        }
+
+        if (!isNaN(price)) {
+            total -= price;
+        }
+
+        element.remove();
+        document.getElementById('totalValue').value = total;
+    }
+
+    function validateForm() {
+        let datess = document.getElementById('datess').value.trim();
+        let dateff = document.getElementById('dateff').value.trim();
+        let costumer = document.getElementById('costumer').value.trim();
+        let lodging = document.getElementById('lodging').value.trim();
+        let service = document.getElementById('service').value.trim();
+        let hasError = false;
+    
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let currentDate = yyyy + '-' + mm + '-' + dd;
+    
+        // Ocultar los mensajes de error si los campos tienen valores
+        if (datess !== '') {
+            document.getElementById('datessError').style.display = 'none';
+        }
+        if (dateff !== '') {
+            document.getElementById('dateffError').style.display = 'none';
+        }
+        if (costumer !== '') {
+            document.getElementById('costumerError').style.display = 'none';
+        }
+        if (lodging !== '') {
+            document.getElementById('lodgingError').style.display = 'none';
+        }
+        if (service !== '') {
+            document.getElementById('serviceError').style.display = 'none';
+        }
+    
+        if (datess === '') {
+            document.getElementById('datessError').style.display = 'block';
+            hasError = true;
+        } else if (datess < currentDate) {
+            document.getElementById('datessError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
+            document.getElementById('datessError').style.display = 'block';
+            hasError = true;
+        }
+    
+        if (dateff === '') {
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else if (dateff < currentDate) {
+            document.getElementById('dateffError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        } else if (datess !== '' && dateff !== '' && dateff < datess) {
+            document.getElementById('dateffError').innerText = 'La fecha final debe ser posterior a la fecha de inicio.';
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        }
+    
+        if (datess === dateff) { // Si las fechas de inicio y finalización son iguales
+            document.getElementById('dateffError').innerText = 'La fecha final debe ser diferente a la fecha de inicio.';
+            document.getElementById('dateffError').style.display = 'block';
+            hasError = true;
+        }
+    
+        if (costumer === '') {
+            document.getElementById('costumerError').style.display = 'block';
+            hasError = true;
+        }
+    
+        // Verificar si se ha seleccionado al menos una cabaña o un servicio
+        if (lodging === '' && service === '') {
+            document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña o presiona el botón de agregar';
+            document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio o presiona el botón de agregar';
+            document.getElementById('lodgingError').style.display = 'block';
+            document.getElementById('serviceError').style.display = 'block';
+            hasError = true;
+        }
+    
+        // Verificar si se ha cambiado la selección de cabaña o servicio sin presionar el botón de agregar
+        let lodgingSelected = $('#lodging').find('option:selected').val();
+        let serviceSelected = $('#service').find('option:selected').val();
+        if (lodgingSelected !== '' && !lodgings_added.includes(lodgingSelected)) {
+            document.getElementById('lodgingError').innerText = 'Por favor presiona el botón de agregar';
+            document.getElementById('lodgingError').style.display = 'block';
+            hasError = true;
+        }
+    
+        if (serviceSelected !== '' && !services_added.includes(serviceSelected)) {
+            document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
+            document.getElementById('serviceError').style.display = 'block';
+            hasError = true;
+        }
+    
+        return !hasError;
+    }
+    
+
+    // Ocultar los mensajes de error al ingresar valores en los campos
+    document.getElementById('datess').addEventListener('input', function() {
+        document.getElementById('datessError').style.display = 'none';
+    });
+    document.getElementById('dateff').addEventListener('input', function() {
+        document.getElementById('dateffError').style.display = 'none';
+    });
+    document.getElementById('costumer').addEventListener('input', function() {
+        document.getElementById('costumerError').style.display = 'none';
+    });
+    document.getElementById('lodging').addEventListener('input', function() {
+        // Ocultar el mensaje de error de selección de cabaña
+        document.getElementById('lodgingError').style.display = 'none';
+        // Ocultar el mensaje de error de agregar en el campo de servicio
+        document.getElementById('serviceError').style.display = 'none';
+    });
+    
+    document.getElementById('service').addEventListener('input', function() {
+        // Ocultar el mensaje de error de selección de servicio
+        document.getElementById('serviceError').style.display = 'none';
+        // Ocultar el mensaje de error de agregar en el campo de cabaña
+        document.getElementById('lodgingError').style.display = 'none';
+    });
+    
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Función para calcular el número de días entre dos fechas
+        function calculateDays() {
+            var datess = new Date($('#datess').val());
+            var dateff = new Date($('#dateff').val());
+            var differenceInDays = Math.floor((dateff - datess) / (1000 * 60 * 60 * 24));
+            return differenceInDays;
+        }
+
+        function updateTotalAndMessage() {
+            var total = 0;
+            var differenceInDays = calculateDays();
+
+            // Obtener los valores de las cabañas seleccionadas
+            $('input[name="lodgingPrice[]"]').each(function() {
+                var price = parseFloat($(this).val());
+                if (!isNaN(price)) { // Verificar si el valor es un número válido
+                    total += price;
+                }
+            });
+            // Obtener los valores de los servicios seleccionados
+            $('input[name="servicePrice[]"]').each(function() {
+                var price = parseFloat($(this).val());
+                if (!isNaN(price)) { // Verificar si el valor es un número válido
+                    total += price;
+                }
+            });
+
+            // Multiplicar el total por el número de días
+            total *= differenceInDays;
+
+            // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
+            if (differenceInDays <= 0 || $('#dateff').val() === '') {
+                // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
+                $('#dateErrorMessage').text('¡La fecha final debe ser posterior a la fecha de inicio!');
+                $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
+                total = 0; // Establecer total a 0
+            } else {
+                // Si la diferencia en días es válida, limpiar el mensaje de error
+                $('#dateErrorMessage').text('');
+            }
+
+            // Mostrar el total multiplicado por el número de días
+            $('#totalValue').val(total.toFixed(2));
+
+            // Mostrar el mensaje con el total actualizado y el número de días
+            $('#message').text('Se han agregado ' + (isNaN(differenceInDays) ? 0 : differenceInDays) + ' día(s). Total actualizado: ' + (isNaN(total) ? 0 : total.toFixed(2)));
+            $('#messageContainer').show(); // Mostrar el contenedor de mensaje
+
+            // Mostrar el mensaje adicional si el total se calcula por día
+            if (differenceInDays > 0) {
+                $('#additionalMessage').text('Para aplicar el total por día, vuelva a seleccionar la fecha hasta que se le aplique el total por fecha.');
+                $('#additionalMessageContainer').show();
+            } else {
+                $('#additionalMessageContainer').hide();
+            }
+        }
+
+        // Escuchar cambios en las fechas de inicio y fin para actualizar el total
+        $('#datess, #dateff').on('change', function() {
+            updateTotalAndMessage();
+        });
+
+        // Validar el formulario antes de enviarlo
+        $('form').on('submit', function(event) {
+            // Verificar si hay algún mensaje de error presente relacionado con la fecha final
+            if ($('#dateErrorMessage').text() !== '') {
+                // Si hay un mensaje de error de fecha final, impedir el envío del formulario
+                event.preventDefault();
+                // También podrías mostrar un mensaje al usuario indicando que hay errores que deben corregirse
+                alert('Por favor, corrige los errores antes de enviar el formulario.');
+            }
+        });
+
+        // Mostrar el total cuando se ingresan los registros
+        $('#treservations').on('DOMNodeInserted', function() {
+            updateTotalAndMessage();
+        });
+    });
+// Función para eliminar una reserva de la tabla y actualizar el total
+function removeReservation(event, type) {
     event.preventDefault();
-    let element = document.getElementById(id);
-    let price = parseFloat(element.children[1].textContent);
-
-    if (type == 'lodging') {
-        lodgings_added = lodgings_added.filter(lodging => lodging != id);
-    } else if (type == 'service') {
-        services_added = services_added.filter(service => service != id);
-    }
-
-    if (!isNaN(price)) {
-        total -= price;
-    }
-
-    element.remove();
-    document.getElementById('totalValue').value = total;
+    let price = parseFloat(event.currentTarget.closest('tr').children[1].innerText);
+    let days = calculateDays();
+    let totalToSubtract = price * days; // Calcular el total a restar
+    event.currentTarget.closest('tr').remove();
+    updateTotalAndMessage(); // Actualizar el total después de eliminar la reserva
 }
 
-function validateForm() {
-    let datess = document.getElementById('datess').value.trim();
-    let dateff = document.getElementById('dateff').value.trim();
-    let costumer = document.getElementById('costumer').value.trim();
-    let lodging = document.getElementById('lodging').value.trim();
-    let service = document.getElementById('service').value.trim();
-    let hasError = false;
+// Función para calcular el número de días entre dos fechas
+function calculateDays() {
+    var datess = new Date($('#datess').val());
+    var dateff = new Date($('#dateff').val());
+    var differenceInDays = Math.floor((dateff - datess) / (1000 * 60 * 60 * 24));
+    return differenceInDays;
+}
 
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
-    let currentDate = yyyy + '-' + mm + '-' + dd;
+// Función para actualizar el total y mostrar el mensaje
+function updateTotalAndMessage() {
+    var total = 0;
+    var differenceInDays = calculateDays();
 
-    if (datess === '') {
-        document.getElementById('datessError').style.display = 'block';
-        hasError = true;
-    } else if (datess < currentDate) {
-        document.getElementById('datessError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
-        document.getElementById('datessError').style.display = 'block';
-        hasError = true;
+    // Obtener los valores de las cabañas seleccionadas
+    $('input[name="lodgingPrice[]"]').each(function() {
+        var price = parseFloat($(this).val());
+        if (!isNaN(price)) { // Verificar si el valor es un número válido
+            total += price;
+        }
+    });
+    // Obtener los valores de los servicios seleccionados
+    $('input[name="servicePrice[]"]').each(function() {
+        var price = parseFloat($(this).val());
+        if (!isNaN(price)) { // Verificar si el valor es un número válido
+            total += price;
+        }
+    });
+
+    // Multiplicar el total por el número de días
+    total *= differenceInDays;
+
+    // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
+    if (differenceInDays <= 0 || $('#dateff').val() === '') {
+        // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
+        $('#dateErrorMessage').text('¡La fecha final debe ser posterior a la fecha de inicio!');
+        $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
+        total = 0; // Establecer total a 0
     } else {
-        document.getElementById('datessError').style.display = 'none';
+        // Si la diferencia en días es válida, limpiar el mensaje de error
+        $('#dateErrorMessage').text('');
     }
 
-    if (dateff === '') {
-        document.getElementById('dateffError').style.display = 'block';
-        hasError = true;
-    } else if (dateff < currentDate) {
-        document.getElementById('dateffError').innerText = 'Por favor selecciona una fecha a partir de hoy.';
-        document.getElementById('dateffError').style.display = 'block';
-        hasError = true;
-    } else if (datess !== '' && dateff !== '' && dateff < datess) {
-        document.getElementById('dateffError').innerText = 'La fecha final debe ser posterior a la fecha de inicio.';
-        document.getElementById('dateffError').style.display = 'block';
-        hasError = true;
+    // Mostrar el total multiplicado por el número de días
+    $('#totalValue').val(total.toFixed(2));
+
+    // Mostrar el mensaje con el total actualizado y el número de días
+    $('#message').text('Se han agregado ' + (isNaN(differenceInDays) ? 0 : differenceInDays) + ' día(s). Total actualizado: ' + (isNaN(total) ? 0 : total.toFixed(2)));
+    $('#messageContainer').show(); // Mostrar el contenedor de mensaje
+
+    // Mostrar el mensaje adicional si el total se calcula por día
+    if (differenceInDays > 0) {
+        $('#additionalMessage').text('Para aplicar el total por día, vuelva a seleccionar la fecha hasta que se le aplique el total por fecha.');
+        $('#additionalMessageContainer').show();
     } else {
-        document.getElementById('dateffError').style.display = 'none';
+        $('#additionalMessageContainer').hide();
     }
-
-    if (costumer === '') {
-        document.getElementById('costumerError').style.display = 'block';
-        hasError = true;
-    } else {
-        document.getElementById('costumerError').style.display = 'none';
-    }
-
-    // Verificar si se ha seleccionado al menos una cabaña o un servicio
-    if (lodging === '' && service === '') {
-        document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña o presiona el botón de agregar';
-        document.getElementById('serviceError').innerText = 'Por favor selecciona un servicio o presiona el botón de agregar';
-        document.getElementById('lodgingError').style.display = 'block';
-        document.getElementById('serviceError').style.display = 'block';
-        hasError = true;
-    } else {
-        document.getElementById('lodgingError').style.display = 'none';
-        document.getElementById('serviceError').style.display = 'none';
-    }
-
-    // Verificar si se ha cambiado la selección de cabaña o servicio sin presionar el botón de agregar
-    let lodgingSelected = $('#lodging').find('option:selected').val();
-    let serviceSelected = $('#service').find('option:selected').val();
-    if (lodgingSelected !== '' && !lodgings_added.includes(lodgingSelected)) {
-        document.getElementById('lodgingError').innerText = 'Por favor presiona el botón de agregar';
-        document.getElementById('lodgingError').style.display = 'block';
-        hasError = true;
-    }
-
-    if (serviceSelected !== '' && !services_added.includes(serviceSelected)) {
-        document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
-        document.getElementById('serviceError').style.display = 'block';
-        hasError = true;
-    }
-
-    return !hasError;
 }
 
 </script>
+
 
 
 {% endblock %}

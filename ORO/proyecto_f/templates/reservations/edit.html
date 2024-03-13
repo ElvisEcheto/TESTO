@@ -23,7 +23,14 @@
         </div>
     </div>
 
+    <div id="dateErrorMessage" class="text-danger">
+        {% if reservation.dateff <= reservation.datess %}
+            ¡La fecha final debe ser despues de la fecha de inicio!
+        {% endif %}
+    </div>
 
+    <!-- Mensaje de días y total -->
+    <div id="message" class="text-success"></div>
 
     <!-- Selección de cliente -->
     <div class="mb-3">
@@ -120,9 +127,9 @@
             </tbody>
             <thead>
                 <tr>
-                    <th>Total:</th>
+                    <th>Total (multiplicado por días):</th>
                     <th scope="col">
-                        <input class="text-success font-weight-bold" style="border: none;" type="text" name="totalValue" id="totalValue" value="{{ total }}" readonly>
+                    <input class="text-success font-weight-bold" style="border: none;" type="text" name="totalValue" id="totalValue" value="{{ total_with_days }}" readonly>
                     </th>
                     <th></th>
                 </tr>
@@ -193,19 +200,88 @@
         `);
     }
 
-    function totalReservation(value) {
-        value = parseFloat(value);
-        let total = parseFloat($('#totalValue').val() || 0);
-        total += value;
-        $('#totalValue').val(total.toFixed(2));
+    // Asegurarse de que el total se actualice también cuando se agregan o eliminan reservaciones
+function totalReservation(value) {
+    value = parseFloat(value);
+    let total = parseFloat($('#totalValue').val() || 0);
+    if (value >= 0) {
+        total += isNaN(value) ? 0 : value; // Sumar si value es positivo o cero
+    } else {
+        total -= isNaN(value) ? 0 : Math.abs(value); // Restar el valor absoluto si value es negativo
+    }
+    $('#totalValue').val(total.toFixed(0));
+}
+
+
+
+    // Función para eliminar una reserva de la tabla y actualizar el total
+function removeReservation(event, type) {
+    event.preventDefault();
+    let price = parseFloat(event.currentTarget.closest('tr').children[1].innerText);
+    let days = calculateDays();
+    let totalToSubtract = price * days; // Calcular el total a restar
+    event.currentTarget.closest('tr').remove();
+    updateTotalAndMessage(); // Actualizar el total después de eliminar la reserva
+}
+
+// Función para calcular el número de días entre dos fechas
+function calculateDays() {
+    var datess = new Date($('#datess').val());
+    var dateff = new Date($('#dateff').val());
+    var differenceInDays = Math.floor((dateff - datess) / (1000 * 60 * 60 * 24));
+    return differenceInDays;
+}
+
+// Función para actualizar el total y mostrar el mensaje
+function updateTotalAndMessage() {
+    var total = 0;
+    var differenceInDays = calculateDays();
+
+    // Obtener los valores de las cabañas seleccionadas
+    $('input[name="lodgingPrice[]"]').each(function() {
+        var price = parseFloat($(this).val());
+        if (!isNaN(price)) { // Verificar si el valor es un número válido
+            total += price;
+        }
+    });
+    // Obtener los valores de los servicios seleccionados
+    $('input[name="servicePrice[]"]').each(function() {
+        var price = parseFloat($(this).val());
+        if (!isNaN(price)) { // Verificar si el valor es un número válido
+            total += price;
+        }
+    });
+
+    // Multiplicar el total por el número de días
+    total *= differenceInDays;
+
+    // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
+    if (differenceInDays <= 0 || $('#dateff').val() === '') {
+        // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
+        $('#dateErrorMessage').text('¡La fecha final debe ser ¡La fecha final debe ser despues de la fecha de inicio!ior a la fecha de inicio!');
+        $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
+        total = 0; // Establecer total a 0
+    } else {
+        // Si la diferencia en días es válida, limpiar el mensaje de error
+        $('#dateErrorMessage').text('');
     }
 
-    function removeReservation(event, type) {
-        event.preventDefault();
-        let price = parseFloat(event.currentTarget.closest('tr').children[1].innerText);
-        totalReservation(-price);
-        event.currentTarget.closest('tr').remove();
+    // Mostrar el total multiplicado por el número de días
+    $('#totalValue').val(total.toFixed(2));
+
+    // Mostrar el mensaje con el total actualizado y el número de días
+    $('#message').text('Se han agregado ' + (isNaN(differenceInDays) ? 0 : differenceInDays) + ' día(s). Total actualizado: ' + (isNaN(total) ? 0 : total.toFixed(2)));
+    $('#messageContainer').show(); // Mostrar el contenedor de mensaje
+
+    // Mostrar el mensaje adicional si el total se calcula por día
+    if (differenceInDays > 0) {
+        $('#additionalMessage').text('Para aplicar el total por día, vuelva a seleccionar la fecha hasta que se le aplique el total por fecha.');
+        $('#additionalMessageContainer').show();
+    } else {
+        $('#additionalMessageContainer').hide();
     }
+}
+
 
     function validateTotal() {
         let total = parseFloat($('#totalValue').val());
@@ -252,11 +328,93 @@
         $('#totalValue').val(total.toFixed(0));
     }
     
+    // Función para calcular el número de días entre dos fechas
+    function calculateDays() {
+        var datess = new Date($('#datess').val());
+        var dateff = new Date($('#dateff').val());
+        var differenceInDays = Math.floor((dateff - datess) / (1000 * 60 * 60 * 24));
+        return differenceInDays;
+    }
 
+    function updateTotalAndMessage() {
+        var total = 0;
+        var differenceInDays = calculateDays();
 
+        // Obtener los valores de las cabañas seleccionadas
+        $('input[name="lodgingPrice[]"]').each(function() {
+            var price = parseFloat($(this).val());
+            if (!isNaN(price)) { // Verificar si el valor es un número válido
+                total += price;
+            }
+        });
+        // Obtener los valores de los servicios seleccionados
+        $('input[name="servicePrice[]"]').each(function() {
+            var price = parseFloat($(this).val());
+            if (!isNaN(price)) { // Verificar si el valor es un número válido
+                total += price;
+            }
+        });
+
+        // Multiplicar el total por el número de días
+        total *= differenceInDays;
+
+        // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
+        if (differenceInDays <= 0 || $('#dateff').val() === '') {
+            // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
+            $('#dateErrorMessage').text('¡La fecha final debe ser ¡La fecha final debe ser despues de la fecha de inicio!ior a la fecha de inicio!');
+            $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
+            total = 0; // Establecer total a 0
+        } else {
+            // Si la diferencia en días es válida, limpiar el mensaje de error
+            $('#dateErrorMessage').text('');
+        }
+
+        // Mostrar el total multiplicado por el número de días
+        $('#totalValue').val(total.toFixed(2));
+
+        // Mostrar el mensaje con el total actualizado y el número de días
+        $('#message').text('Se han agregado ' + (isNaN(differenceInDays) ? 0 : differenceInDays) + ' día(s). Total actualizado: ' + (isNaN(total) ? 0 : total.toFixed(2)));
+        $('#messageContainer').show(); // Mostrar el contenedor de mensaje
+
+        // Mostrar el mensaje adicional si el total se calcula por día
+        if (differenceInDays > 0) {
+            $('#additionalMessage').text('Para aplicar el total por día, vuelva a seleccionar la fecha hasta que se le aplique el total por fecha.');
+            $('#additionalMessageContainer').show();
+        } else {
+            $('#additionalMessageContainer').hide();
+        }
+    }
+
+    // Escuchar cambios en las fechas de inicio y fin para actualizar el total
+    $('#datess, #dateff').on('change', function() {
+        updateTotalAndMessage();
+    });
+
+    // Validar el formulario antes de enviarlo
+    $('form').on('submit', function(event) {
+        // Verificar si hay algún mensaje de error presente relacionado con la fecha final
+        if ($('#dateErrorMessage').text() !== '') {
+            // Si hay un mensaje de error de fecha final, impedir el envío del formulario
+            event.preventDefault();
+            // También podrías mostrar un mensaje al usuario indicando que hay errores que deben corregirse
+            alert('Por favor, corrige los errores antes de enviar el formulario.');
+        }
+    });
+
+    // Mostrar el total al cargar la página
+    updateTotalAndMessage();
+
+    // Mostrar el total cuando se ingresan los registros
+    $('#treservations').on('DOMNodeInserted', function() {
+        updateTotalAndMessage();
+    });
+
+    // Eliminar registro y actualizar total
+    $('#treservations').on('DOMNodeRemoved', function() {
+        updateTotalAndMessage();
+    });
 
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -285,6 +443,95 @@ $(document).ready(function() {
     updateTotal();
 });
 
+</script>
+<script>
+$(document).ready(function() {
+    // Función para calcular el número de días entre dos fechas
+    function calculateDays() {
+        var datess = new Date($('#datess').val());
+        var dateff = new Date($('#dateff').val());
+        var differenceInDays = Math.floor((dateff - datess) / (1000 * 60 * 60 * 24));
+        return differenceInDays;
+    }
+
+    function updateTotalAndMessage() {
+        var total = 0;
+        var differenceInDays = calculateDays();
+
+        // Obtener los valores de las cabañas seleccionadas
+        $('input[name="lodgingPrice[]"]').each(function() {
+            var price = parseFloat($(this).val());
+            if (!isNaN(price)) { // Verificar si el valor es un número válido
+                total += price;
+            }
+        });
+        // Obtener los valores de los servicios seleccionados
+        $('input[name="servicePrice[]"]').each(function() {
+            var price = parseFloat($(this).val());
+            if (!isNaN(price)) { // Verificar si el valor es un número válido
+                total += price;
+            }
+        });
+
+        // Multiplicar el total por el número de días
+        total *= differenceInDays;
+
+        // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
+        if (differenceInDays <= 0 || $('#dateff').val() === '') {
+            // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
+            $('#dateErrorMessage').text('¡La fecha final debe ser despues de la fecha de inicio!');
+            $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
+            total = 0; // Establecer total a 0
+        } else {
+            // Si la diferencia en días es válida, limpiar el mensaje de error
+            $('#dateErrorMessage').text('');
+        }
+
+        // Mostrar el total multiplicado por el número de días
+        $('#totalValue').val(total.toFixed(2));
+
+        // Mostrar el mensaje con el total actualizado y el número de días
+        $('#message').text('Se han agregado ' + (isNaN(differenceInDays) ? 0 : differenceInDays) + ' día(s). Total actualizado: ' + (isNaN(total) ? 0 : total.toFixed(2)));
+        $('#messageContainer').show(); // Mostrar el contenedor de mensaje
+
+        // Mostrar el mensaje adicional si el total se calcula por día
+        if (differenceInDays > 0) {
+            $('#additionalMessage').text('Para aplicar el total por día, vuelva a seleccionar la fecha hasta que se le aplique el total por fecha.');
+            $('#additionalMessageContainer').show();
+        } else {
+            $('#additionalMessageContainer').hide();
+        }
+    }
+
+    // Escuchar cambios en las fechas de inicio y fin para actualizar el total
+    $('#datess, #dateff').on('change', function() {
+        updateTotalAndMessage();
+    });
+
+    // Validar el formulario antes de enviarlo
+    $('form').on('submit', function(event) {
+        // Verificar si hay algún mensaje de error presente relacionado con la fecha final
+        if ($('#dateErrorMessage').text() !== '') {
+            // Si hay un mensaje de error de fecha final, impedir el envío del formulario
+            event.preventDefault();
+            // También podrías mostrar un mensaje al usuario indicando que hay errores que deben corregirse
+            alert('Por favor, corrige los errores antes de enviar el formulario.');
+        }
+    });
+
+    // Mostrar el total al cargar la página
+    updateTotalAndMessage();
+
+    // Mostrar el total cuando se ingresan los registros
+    $('#treservations').on('DOMNodeInserted', function() {
+        updateTotalAndMessage();
+    });
+
+    // Eliminar registro y actualizar total
+    $('#treservations').on('DOMNodeRemoved', function() {
+        updateTotalAndMessage();
+    });
+});
 </script>
 
 {% endblock %}
