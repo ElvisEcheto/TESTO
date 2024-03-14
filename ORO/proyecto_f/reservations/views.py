@@ -323,4 +323,4 @@ def cancelar_reserva(request, reservation_id):
     reserva = Reservation.objects.get(id=reservation_id)
     reserva.rstatu = 'Cancelado'
     reserva.save()
-    return redirect('nombre_de_tu_vista')  # Redirige a la página que desees después de cancelar la reserva
+    return redirect('reservations')  # Redirige a la página que desees después de cancelar la reserva

@@ -18,9 +18,9 @@ class LodgingForm(forms.ModelForm):
             'typelodging': 'Tipo cabaña',            
         }
         widgets = {
-            'image': forms.FileInput(attrs={'placeholder': 'Ingrese la imagen del libro'}),
-            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
-            'price': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),  
-            'capacity': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),
-            'description': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
+            'image': forms.FileInput(attrs={'placeholder': 'Ingrese la imagen'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el nombre'}),
+            'price': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio'}),  
+            'capacity': forms.NumberInput(attrs={'placeholder': 'Ingrese la capacidad'}),
+            'description': forms.TextInput(attrs={'placeholder': 'Ingrese la descripción'}),
         }

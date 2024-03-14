@@ -30,37 +30,48 @@
                 </thead>                
                 <tbody>
                 {% for reservation in reservations_list %}
-    <tr>
-        <td>{{ reservation.id }}</td>
-        <td>{{ reservation.daterr }}</td>
-        <td>{{ reservation.datess }}</td>
-        <td>{{ reservation.dateff }}</td>
-        <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
-        <td>{{ reservation.costumer }}</td>
-        <td>{{ reservation.rstatu }}</td>
-        <td>
-            <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-info btn-circle btn-sm">
-                <i class="fas fa-info-circle"></i>
-            </a>
-            <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-warning btn-circle btn-sm">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-success btn-circle btn-sm">
-                <i class="fa fa-money"></i>
-            </a>
-            <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-success btn-circle btn-sm">
-                <i class="fa fa-money"></i>
-            </a>
-            <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-success btn-circle btn-sm">
-                <i class="fa fa-money"></i>
-            </a>
-        </td>
-    </tr>
-{% endfor %}
-                                    
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.daterr }}</td>
+                    <td>{{ reservation.datess }}</td>
+                    <td>{{ reservation.dateff }}</td>
+                    <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
+                    <td>{{ reservation.costumer }}</td>
+                    <td>{{ reservation.rstatu }}</td>
+                    <td>
+                        <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-info btn-circle btn-sm">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-warning btn-circle btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-success btn-circle btn-sm">
+                            <i class="fa fa-money"></i>
+                        </a>
+                        <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-success btn-circle btn-sm">
+                            <i class="fa fa-money"></i>
+                        </a>
+                        <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-success btn-circle btn-sm">
+                            <i class="fa fa-money"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}                   
                 </tbody>
             </table>
         </div>
     </div>
+
+    {% if messages %}
+    {% for message in messages %}
+        <script>
+            swal({                
+                text: "{{ message }}",
+                icon: "{{ message.tags }}",
+                button: "OK",
+            });
+        </script>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

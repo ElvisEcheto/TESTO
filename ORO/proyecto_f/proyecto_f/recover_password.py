@@ -6,9 +6,6 @@ import string
 
 from django.shortcuts import render
 
-
-
-
 def generar_contraseña():
     caracteres = string.ascii_letters + string.digits
     longitud = 10

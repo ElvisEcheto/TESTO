@@ -12,13 +12,15 @@ from lodgings.models import Lodging
 from costumers.models import Costumer
 from payments.models import Payment
 from services.models import Service
-
 def recover_password(request):    
     if request.method == 'POST':
-        email = request.POST['email']
-        """ Cosultar el usuario por el correo  y cambiar la contraseña encriptada"""
-        recuperar_contraseña(email)
-    return render(request, 'restore.html')
+        email = request.POST.get('email')
+        """ Consultar el usuario por el correo y cambiar la contraseña encriptada """
+        if recuperar_contraseña(email):
+            return render(request, 'restore.html', {'not_found': False})
+        else:
+            return render(request, 'restore.html', {'not_found': True})
+    return render(request, 'restore.html', {'not_found': False})
 
 
 import smtplib

@@ -32,7 +32,7 @@ def change_status_costumer(request, costumer_id):
 
 def detail_costumer(request, costumer_id):
     costumer = Costumer.objects.get(pk=costumer_id)
-    data = { 'name': costumer.name, 'document': costumer.document, 'email': costumer.email, 'phone' : costumer.phone, 'typedocument': str(costumer.typedocument) }    
+    data = { 'name': costumer.name, 'document': costumer.document, 'email': costumer.email, 'phone' : costumer.phone,}    
     return JsonResponse(data)
 
 def delete_costumer(request, costumer_id):
