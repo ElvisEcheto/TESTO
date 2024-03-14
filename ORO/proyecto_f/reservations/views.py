@@ -318,3 +318,9 @@ def generate_pdf(request, reservation_id):
     response['Content-Disposition'] = f'attachment; filename="reservation_{reservation_id}.pdf"'
     response.write(pdf_buffer)
     return response
+
+def cancelar_reserva(request, reservation_id):
+    reserva = Reservation.objects.get(id=reservation_id)
+    reserva.rstatu = 'Cancelado'
+    reserva.save()
+    return redirect('nombre_de_tu_vista')  # Redirige a la página que desees después de cancelar la reserva
