@@ -25,7 +25,7 @@
 
     <div id="dateErrorMessage" class="text-danger">
         {% if reservation.dateff <= reservation.datess %}
-            ¡La fecha final debe ser despues de la fecha de inicio!
+            ¡La fecha final debe ser despues a la fecha de inicio!
         {% endif %}
     </div>
 
@@ -258,7 +258,7 @@ function updateTotalAndMessage() {
     // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
     if (differenceInDays <= 0 || $('#dateff').val() === '') {
         // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
-        $('#dateErrorMessage').text('¡La fecha final debe ser ¡La fecha final debe ser despues de la fecha de inicio!ior a la fecha de inicio!');
+        $('#dateErrorMessage').text('¡La fecha final debe ser despues de la fecha de inicio!');
         $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
         total = 0; // Establecer total a 0
     } else {
@@ -286,7 +286,7 @@ function updateTotalAndMessage() {
     function validateTotal() {
         let total = parseFloat($('#totalValue').val());
         if (total === 0 || $('#treservations tr').length === 0) {
-            $('#error-message').text('Debes seleccionar al menos un elemento y el total no puede ser 0.');
+            $('#error-message').text('Debes seleccionar al menos una cabaña/servicio y agregarlo, Total no puede ser 0.');
             return false;
         }
         return true;
@@ -361,7 +361,7 @@ function updateTotalAndMessage() {
         // Validar si la fecha final es posterior a la fecha de inicio o si no se ha agregado dateff
         if (differenceInDays <= 0 || $('#dateff').val() === '') {
             // Si la diferencia en días es menor o igual a cero o no se ha agregado dateff, mostrar un mensaje de error
-            $('#dateErrorMessage').text('¡La fecha final debe ser ¡La fecha final debe ser despues de la fecha de inicio!ior a la fecha de inicio!');
+            $('#dateErrorMessage').text('¡La fecha final debe ser a la fecha de inicio!');
             $('#messageContainer').hide(); // Ocultar el contenedor de mensaje
             total = 0; // Establecer total a 0
         } else {

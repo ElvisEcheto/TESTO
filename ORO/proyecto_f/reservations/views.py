@@ -234,6 +234,7 @@ def is_valid_price(price, field_type):
 
 
 
+
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from reportlab.lib import colors

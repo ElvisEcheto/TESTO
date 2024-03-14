@@ -19,11 +19,11 @@
             <small id="dateffError" class="form-text text-danger" style="display: none;">Por favor ingresa una fecha final.</small>
         </div>
     </div>
-    <small id="sameDateError" class="form-text text-danger" style="display: none;">La fecha final debe ser diferente a la fecha de inicio.</small>
+    <!-- Mensaje de error para días agregados igual a 0 -->
+    <div id="dateAddedError" class="form-text text-danger" style="display: none;">Ingrese un rango de fechas válido.</div>
     <div id="messageContainer" style="display: none;" class="form-text text-success">
         <p id="message"></p>
     </div>
-    
 
     <div class="mb-3">
         <label for="costumer" class="form-label">Cliente (Email)</label>
@@ -80,10 +80,11 @@
                     <th>Total:</th>
                     <th scope="col">
                         <input class="text-success font-weight-bold" style="border: none;" type="number" name="totalValue" id="totalValue" step="any" value="{{ total }}" readonly>
+                        <!-- Mensaje de error para total igual a 0 -->
+    <div id="totalError" class="form-text text-danger" style="display: none;">El la  no puede ser 0.</div>
                     </th>
                 </tr>
             </thead>
-            
         </table>
     </div>
     <div class="text-center">
@@ -192,13 +193,13 @@
         let lodging = document.getElementById('lodging').value.trim();
         let service = document.getElementById('service').value.trim();
         let hasError = false;
-    
+
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0');
         let yyyy = today.getFullYear();
         let currentDate = yyyy + '-' + mm + '-' + dd;
-    
+
         // Ocultar los mensajes de error si los campos tienen valores
         if (datess !== '') {
             document.getElementById('datessError').style.display = 'none';
@@ -215,7 +216,7 @@
         if (service !== '') {
             document.getElementById('serviceError').style.display = 'none';
         }
-    
+
         if (datess === '') {
             document.getElementById('datessError').style.display = 'block';
             hasError = true;
@@ -224,7 +225,7 @@
             document.getElementById('datessError').style.display = 'block';
             hasError = true;
         }
-    
+
         if (dateff === '') {
             document.getElementById('dateffError').style.display = 'block';
             hasError = true;
@@ -237,18 +238,12 @@
             document.getElementById('dateffError').style.display = 'block';
             hasError = true;
         }
-    
-        if (datess === dateff) { // Si las fechas de inicio y finalización son iguales
-            document.getElementById('dateffError').innerText = 'La fecha final debe ser diferente a la fecha de inicio.';
-            document.getElementById('dateffError').style.display = 'block';
-            hasError = true;
-        }
-    
+
         if (costumer === '') {
             document.getElementById('costumerError').style.display = 'block';
             hasError = true;
         }
-    
+
         // Verificar si se ha seleccionado al menos una cabaña o un servicio
         if (lodging === '' && service === '') {
             document.getElementById('lodgingError').innerText = 'Por favor selecciona una cabaña o presiona el botón de agregar';
@@ -257,7 +252,7 @@
             document.getElementById('serviceError').style.display = 'block';
             hasError = true;
         }
-    
+
         // Verificar si se ha cambiado la selección de cabaña o servicio sin presionar el botón de agregar
         let lodgingSelected = $('#lodging').find('option:selected').val();
         let serviceSelected = $('#service').find('option:selected').val();
@@ -266,16 +261,24 @@
             document.getElementById('lodgingError').style.display = 'block';
             hasError = true;
         }
-    
+
         if (serviceSelected !== '' && !services_added.includes(serviceSelected)) {
             document.getElementById('serviceError').innerText = 'Por favor presiona el botón de agregar';
             document.getElementById('serviceError').style.display = 'block';
             hasError = true;
         }
-    
+
+        if (parseFloat(document.getElementById('totalValue').value) === 0) {
+            document.getElementById('totalError').innerText = 'El total no puede ser cero, seleccione una fecha valida para que funcione';
+            document.getElementById('totalError').style.display = 'block';
+            hasError = true;
+        } else {
+            // Ocultar el mensaje de error si el total es válido
+            document.getElementById('totalError').style.display = 'none';
+        }
+
         return !hasError;
     }
-    
 
     // Ocultar los mensajes de error al ingresar valores en los campos
     document.getElementById('datess').addEventListener('input', function() {
@@ -453,6 +456,17 @@ function updateTotalAndMessage() {
         $('#additionalMessageContainer').hide();
     }
 }
+// Validar el formulario antes de enviarlo
+$('form').on('submit', function(event) {
+            // Verificar si hay algún mensaje de error presente relacionado con la fecha final o el total
+            if ($('#dateErrorMessage').text() !== '' || $('#totalError').text() !== '') {
+                // Si hay un mensaje de error, impedir el envío del formulario
+                event.preventDefault();
+                // También podrías mostrar un mensaje al usuario indicando que hay errores que deben corregirse
+                alert('Por favor, corrige los errores antes de enviar el formulario.');
+            }
+        });
+</script>
 
 </script>
 
