@@ -164,3 +164,4 @@ def register(request):
                     return redirect('login')               
             return redirect('login')    
     return render(request, 'register.html', {'form': form})
+
