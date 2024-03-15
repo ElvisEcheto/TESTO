@@ -54,7 +54,11 @@
                         <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-dark btn-circle btn-sm">
                             <i class="fa fa-money"></i>
                         </a>
+                        <a href="{% url 'generate_reporte' reservation.id %}" class="btn btn-danger btn-circle btn-sm">
+                            <i class="fa fa-money"></i>
+                        </a>
                     </td>
+
                 </tr>
                 {% endfor %}                   
                 </tbody>

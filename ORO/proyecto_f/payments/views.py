@@ -103,3 +103,6 @@ def edit_payment(request, payment_id):
             messages.error(request, 'Ocurrió un error al editar el libro.')
         return redirect('payments')    
     return render(request, 'payments/edit.html', {'form': form})
+
+
+

@@ -22,6 +22,7 @@ def recover_password(request):
         if User.objects.filter(email=email).exists():
             """ Cosultar el usuario por el correo  y cambiar la contraseña encriptada"""
             recuperar_contraseña(email)
+            messages.success(request, 'correo existente.')
         else:
             messages.error(request, 'Inserte un correo existente.')
             return render(request, 'restore.html')

@@ -44,7 +44,7 @@
                       <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Ingresa tu email">
                       {% if messages %}
                         {% for message in messages %}
-                          <div class="text-danger " role="alert">
+                          <div class="text-warning " role="alert">
                               {{ message }}
                           </div>
                         {% endfor %}
@@ -59,7 +59,7 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
-                    ¿No recuerdas tu contraseña?
+                    ¿Quieres volver?
                     <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
                   </p>
                   <p class="mb-4 text-sm mx-auto">

@@ -325,3 +325,69 @@ def cancelar_reserva(request, reservation_id):
     reserva.rstatu = 'Cancelado'
     reserva.save()
     return redirect('reservations')  # Redirige a la página que desees después de cancelar la reserva
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from .models import Reservation
+from services.models import Service
+from rservices.models import Rservice
+from rlodgings.models import Rlodging
+from payments.models import Payment
+from io import BytesIO
+
+def generate_reporte(request, reservation_id):
+    # Obtener la reserva
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+    
+
+    # Obtener los servicios asociados a la reserva a través de la tabla de detalle
+
+    reservation_payments = Payment.objects.filter(reservation=reservation)
+
+    # Crear un buffer de bytes para almacenar el PDF
+    buffer = BytesIO()
+
+    # Crear el documento PDF
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    # Crear una lista para contener los elementos del PDF
+    elements = []
+
+    # Agregar el título
+    title = Paragraph("Reserva", styles['Title'])
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+
+    # Agregar los detalles de la reserva como párrafos
+    details = [
+        f"Precio: {reservation.price}",
+        f"Estado: {reservation.costumer}",
+    ]
+    for detail in details:
+        elements.append(Paragraph(detail, styles['Normal']))
+        elements.append(Spacer(1, 6))
+
+
+    if reservation_payments:
+        elements.append(Paragraph("Pagos:", styles['Heading2']))
+        for reservation_payment in reservation_payments:
+            payment_detail = f" {reservation_payment.date}: ${reservation_payment.value}"
+            elements.append(Paragraph(payment_detail, styles['Normal']))
+            elements.append(Spacer(1, 3))
+
+
+    # Construir el PDF
+    pdf.build(elements)
+
+    # Obtener el contenido del buffer y crear la respuesta HTTP
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="reservation_{reservation_id}.pdf"'
+    response.write(pdf_buffer)
+    return response
