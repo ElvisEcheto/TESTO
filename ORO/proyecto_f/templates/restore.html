@@ -36,16 +36,21 @@
                   <p class="mb-0">Colaca tu correo</p>
                 </div>
                 <div class="card-body">
+                  
                   <form  class="user" method="post" role="form">
                     {% csrf_token %}
+                   
                     <div class="mb-3">
                       <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Ingresa tu email">
+                      {% if messages %}
+                        {% for message in messages %}
+                          <div class="text-danger " role="alert">
+                              {{ message }}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
                     </div>
-                    {% if not_found %}
-                    <p class="text-danger">Ingrese un correo que exista.</p>
-                    {% else %}
-                      <p class="text-success">Ingreso que exista.</p>
-                    {% endif %}
+                    
         
                     <div class="text-center mb-3">
                       <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Iniciar</button>

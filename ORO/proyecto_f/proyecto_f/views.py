@@ -12,15 +12,21 @@ from lodgings.models import Lodging
 from costumers.models import Costumer
 from payments.models import Payment
 from services.models import Service
+from django.contrib import messages
+
 def recover_password(request):    
     if request.method == 'POST':
-        email = request.POST.get('email')
-        """ Consultar el usuario por el correo y cambiar la contraseña encriptada """
-        if recuperar_contraseña(email):
-            return render(request, 'restore.html', {'not_found': False})
+        email = request.POST.get('email', '')  # Obtener el email del formulario
+        
+        # Verificar si el email existe en la base de datos
+        if User.objects.filter(email=email).exists():
+            """ Cosultar el usuario por el correo  y cambiar la contraseña encriptada"""
+            recuperar_contraseña(email)
         else:
-            return render(request, 'restore.html', {'not_found': True})
-    return render(request, 'restore.html', {'not_found': False})
+            messages.error(request, 'Inserte un correo existente.')
+            return render(request, 'restore.html')
+    
+    return render(request, 'restore.html')
 
 
 import smtplib
@@ -30,9 +36,6 @@ import random
 import string
 
 from django.shortcuts import render
-
-
-
 
 def generar_contraseña():
     caracteres = string.ascii_letters + string.digits
@@ -53,7 +56,7 @@ def enviar_correo(destinatario, contraseña):
     mensaje['Subject'] = 'Recuperación de contraseña'
 
     cuerpo = f'Tu nueva contraseña es: {contraseña}'
-    mensaje.attach(MIMEText(cuerpo, 'plain'))
+    mensaje.attach(MIMEText(cuerpo, 'plain' , 'utf-8'))
 
     # Iniciar sesión en el servidor SMTP
     servidor = smtplib.SMTP(smtp_server, puerto)
@@ -87,6 +90,9 @@ def cambiar_contraseña_usuario(email, nueva_contraseña):
     except User.DoesNotExist:
         return False  # Indica que no se encontró ningún usuario con el correo electrónico especificado
 
+def dasboard(request):
+    lodgings = Lodging.objects.all()
+    return render(request,'lading.html')
 
 def index(request):
     usuario = request.user
@@ -128,7 +134,9 @@ def logout(request):
     return redirect('login')
 
 def lading(request):
-    return render(request,'lading.html')
+    lodgings = Lodging.objects.all()
+    
+    return render(request, 'lading.html', {'lodgings': lodgings})
 
 def register(request):
     form = RegisterForm()

@@ -25,7 +25,7 @@
 
 <body class="">
 
-  <main class="main-content bg-primary mt-0">
+  <main class="main-content bg-white  mt-0">
     <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container">
@@ -37,32 +37,28 @@
         </div>
       </div>
     </div>
-    <div class="container mb-2 ">
-      <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
-          <div class="card z-index-0">
-            <div class="card-header text-center pt-4">
-              <h5>Registrese</h5>
+    <div class="container mb-2   ">
+      <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center ">
+        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto ">
+          <div class="card z-index-0 bg-primary ">
+            <div class="card-header text-center pt-4 bg-primary">
+              <h5 class="text-white ">Coloca todos tus datos por favor</h5>
             </div>
             <div class="card-body">
               <form role="form" class="user" method="post">
-                {% csrf_token %} {% for field in form %}
-                <label for="" class="form-label">{{field.label}}</label>
+                {% csrf_token %} 
+                
+                {% for field in form %}
+                <label for="" class="form-label text-white ">{{field.label}}</label>
                 <div class="mb-3">
-                  <input type="{{field.field.widget.input_type}}" class="form-control" name="{{field.name}}" placeholder="{{field.field.widget.attrs.placeholder}}" value="{{field.value | default:'' }}">
-                  {% if field.errors %}
-                  <ul class="errorlist">
-                    {% for error in field.errors %}
-                      <li>{{ error }}</li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
+                  <input type="{{field.field.widget.input_type}}" class="form-control " name="{{field.name}}" placeholder="{{field.field.widget.attrs.placeholder}}" value="{{field.value | default:'' }}">
+                  <small id="helpId" class="form-text text-danger">{{ field.errors }}</small> 
                 </div>
                 {% endfor %}
                 <div class="text-center">
                   <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Registrarse</button>
                 </div>
-                <p class="text-sm mt-3 mb-0">ya tienes cuenta? <a href="javascript:;" class="text-dark font-weight-bolder">Inicio sesion</a></p>
+                <p class="text-sm mt-3 mb-0 text-white ">¿ya tienes cuenta? <a href="javascript:;" class="text-dark font-weight-bolder">Inicio sesion</a></p>
               </form>
             </div>
           </div>
