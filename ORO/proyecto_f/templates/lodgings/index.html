@@ -10,13 +10,15 @@
         <h4 class="m-0 font-weight-bold text-primary">Cabaña</h4>
     </div>
     <div class="card-body">
-        <div class="table-responsive">            
-            <a href="{% url 'create_lodging' %}" class="btn btn-primary btn-icon-split mb-3">
-                <span class="icon text-white-50">
-                  <i class="fas fa-plus"></i>
-              </span>
-              <span class="text">Crear cabaña</span>
-            </a>
+        <div class="table-responsive">
+            {% if request.user.is_superuser or request.user.is_user %}          
+                <a href="{% url 'create_lodging' %}" class="btn btn-primary btn-icon-split mb-3">
+                    <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Crear cabaña</span>
+                </a>
+            {% endif  %}
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
@@ -26,7 +28,9 @@
                         <th>Capacidad</th>
                         <th>Descripcion</th>
                         <th>Tipo Cabaña</th>
+                        {% if request.user.is_superuser or request.user.is_user %}     
                         <th>Estados</th>
+                        {% endif  %}
                         <th>Acciones</th>                        
                     </tr>
                 </thead>                
@@ -38,16 +42,18 @@
                     <td>{{ lodging.price }}</td>
                     <td>{{ lodging.capacity }}</td>
                     <td>{{ lodging.description }}</td>    
-                    <td>{{ lodging.typelodging }}</td>                                       
-                    <td>
-                        <form action="{% url 'lodging_status' lodging.id %}" method="POST">
-                            {% csrf_token %}                            
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if lodging.status %} checked {% endif %} onchange="this.form.submit()">
-                                <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
-                            </div>                     
-                        </form>
-                    </td>
+                    <td>{{ lodging.typelodging }}</td>   
+                    {% if request.user.is_superuser or request.user.is_user %}                                      
+                        <td>
+                            <form action="{% url 'lodging_status' lodging.id %}" method="POST">
+                                {% csrf_token %}                            
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if lodging.status %} checked {% endif %} onchange="this.form.submit()">
+                                    <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
+                                </div>                     
+                            </form>  
+                        </td>
+                    {% endif  %}
                     <td>
                         <a href="" class="btn btn-info btn-circle btn-sm " data-bs-toggle="modal" data-bs-target="#modalId" data-lodging-id="{{ lodging.id }}" >
                             <i class="fas fa-info-circle"></i>

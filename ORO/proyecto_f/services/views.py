@@ -8,8 +8,13 @@ from django.http import JsonResponse
 
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def create_service(request):
+    if not request.user.is_superuser:
+        return redirect('services') 
     form = ServiceForm(request.POST or None, request.FILES or None)
     if form.is_valid() and request.method == 'POST':
         try:
@@ -21,8 +26,9 @@ def create_service(request):
     return render(request, 'services/create.html', {'form': form})
 
 def services(request):    
-    services_list = Service.objects.all()    
-    return render(request, 'services/index.html', {'services_list': services_list})
+    services_list = Service.objects.all()
+    usuario = request.user
+    return render(request, 'services/index.html', {'services_list': services_list, 'usuario': usuario })
 
 def change_status_service(request, service_id):
     service = Service.objects.get(pk=service_id)
@@ -36,6 +42,7 @@ def detail_service(request, service_id):
     return JsonResponse(data)
 
 def delete_service(request, service_id):
+    
     service = Service.objects.get(pk=service_id)
     try:
         service.delete()        
@@ -44,7 +51,10 @@ def delete_service(request, service_id):
         messages.error(request, 'No se puede eliminar el Servicio porque está asociado a una reserva.')
     return redirect('services')
 
+@login_required
 def edit_service(request, service_id):
+    if not request.user.is_superuser:
+        return redirect('services') 
     service = Service.objects.get(pk=service_id)
     form = ServiceForm(request.POST or None, request.FILES or None, instance=service)
     if form.is_valid() and request.method == 'POST':
