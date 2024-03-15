@@ -105,4 +105,69 @@ def edit_payment(request, payment_id):
     return render(request, 'payments/edit.html', {'form': form})
 
 
+from django.http import HttpResponse
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from .models import Payment
+from collections import defaultdict
+from io import BytesIO
+import datetime
 
+def generate_payment_report(request):
+    # Obtener todos los pagos
+    payments = Payment.objects.all()
+
+    # Agrupar los pagos por mes
+    monthly_payments = defaultdict(int)
+    for payment in payments:
+        month = payment.date.strftime('%Y-%m')
+        monthly_payments[month] += payment.value
+
+    # Ordenar los pagos por valor
+    top_payments = sorted(payments, key=lambda x: x.value, reverse=True)[:5]
+
+    # Obtener el número total de pagos
+    total_payments = len(payments)
+
+    # Crear un buffer de bytes para almacenar el PDF
+    buffer = BytesIO()
+
+    # Crear el documento PDF
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    styles = getSampleStyleSheet()
+
+    # Crear una lista para contener los elementos del PDF
+    elements = []
+
+    # Agregar el título
+    title = Paragraph("Reporte de Pagos", styles['Title'])
+    elements.append(title)
+    elements.append(Spacer(1, 12))
+
+    # Agregar la suma total de pagos agrupados por mes
+    elements.append(Paragraph("Suma Total de Pagos por Mes:", styles['Heading2']))
+    for month, total in monthly_payments.items():
+        elements.append(Paragraph(f"{month}: ${total}", styles['Normal']))
+    elements.append(Spacer(1, 12))
+
+    # Agregar el top 5 de pagos
+    elements.append(Paragraph("Top 5 de Pagos:", styles['Heading2']))
+    for payment in top_payments:
+        elements.append(Paragraph(f"{payment.date.strftime('%Y-%m-%d')}: ${payment.value}", styles['Normal']))
+    elements.append(Spacer(1, 12))
+
+    # Agregar el número total de pagos
+    elements.append(Paragraph(f"Número Total de Pagos: {total_payments}", styles['Heading2']))
+
+    # Construir el PDF
+    pdf.build(elements)
+
+    # Obtener el contenido del buffer y crear la respuesta HTTP
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="reporte_pagos.pdf"'
+    response.write(pdf_buffer)
+    return response
