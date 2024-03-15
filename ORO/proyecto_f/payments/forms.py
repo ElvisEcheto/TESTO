@@ -1,9 +1,9 @@
 from django import forms
 from . models import Payment
-from reservations.models import Reservation
+
 
 class PaymentForm(forms.ModelForm):
-    reservation = forms.ModelChoiceField(queryset=Reservation.objects.all()),
+
     class Meta:
         model = Payment
         fields = "__all__"
@@ -12,10 +12,11 @@ class PaymentForm(forms.ModelForm):
             'reservation': 'Reservacion',
             'date': 'Fecha',
             'value': 'Valor',
-            'methodpay': 'Metodo',       
+            'methodpay': 'Método',       
         }
         widgets = {
+            'reserva': forms.TextInput(attrs={'placeholder': 'Reserva'}),
             'date': forms.DateInput(attrs={'type':'date'}),
-            'value': forms.NumberInput(attrs={'placeholder': 'Ingrese el precio del libro'}),
-            'methodpay': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
+            'value': forms.NumberInput(attrs={'placeholder': 'Ingrese el monto'}),
+            'methodpay': forms.TextInput(attrs={'placeholder': 'Método'}),
         }

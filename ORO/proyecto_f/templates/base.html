@@ -22,6 +22,11 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="{% static './css/argon-dashboard.css' %}" rel="stylesheet" />
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  
+
+
+
 </head>
 
 <body class="g-sidenav-show   bg-primary"  onload="mostrarHora()">
@@ -347,21 +352,36 @@
         <script src="{% static './js/core/bootstrap.min.js'  %}"></script>
         <script src="{% static './js/plugins/perfect-scrollbar.min.js'  %}"></script>
         <script src="{% static './js/plugins/smooth-scrollbar.min.js' %}"></script>
-            <!-- Github buttons -->
+             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>
             <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
             <script src="{% static '/js/argon-dashboard.min.js' %}"></script>
             
-  
-  
-  
+            <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+            <script>
+              $(document).ready(function() {
+                  $('#dataTable').DataTable({
+                      "paging": true,
+                      "lengthChange": true,
+                      "searching": true,
+                      "ordering": true,
+                      "info": true,
+                      "autoWidth": false,
+                      "scrollX": false, // Permitir desplazamiento horizontal
+                      "language": {
+                          "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json"
+                      }
+                  });
+              });
+              </script>
           <!-- Page level plugins -->
-          <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-          <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+          
   
           <!-- Page level custom scripts -->
-          <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
-          <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+        
       </body>
   
   </html>

@@ -144,7 +144,7 @@ def generate_payment_report(request):
     # Agregar el título
     title = Paragraph("Reporte de Pagos", styles['Title'])
     elements.append(title)
-    elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 5))
 
     # Agregar la suma total de pagos agrupados por mes
     elements.append(Paragraph("Suma Total de Pagos por Mes:", styles['Heading2']))

@@ -3,7 +3,7 @@
 {% block title %}Library Store{% endblock %}
 
 {% block content %}
-
+<div class="card">
     <div class="card-header py-3">
         <h4 class="m-0 font-weight-bold text-primary">Reservas</h4>
     </div>
@@ -15,67 +15,65 @@
                 </span>
                 <span class="text">Crear reserva</span>
             </a>
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Codigo</th>
-                        <th>Fecha</th>
-                        <th>Fecha</th>
-                        <th>Fecha</th>
+                        <th>Código</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
                         <th>Valor</th>
                         <th>Cliente</th>
-                        <th>Estados reserva</th>
+                        <th>Estado Reserva</th>
                         <th>Acciones</th>                        
                     </tr>
                 </thead>                
                 <tbody>
-                {% for reservation in reservations_list %}
-                <tr>
-                    <td>{{ reservation.id }}</td>
-                    <td>{{ reservation.daterr }}</td>
-                    <td>{{ reservation.datess }}</td>
-                    <td>{{ reservation.dateff }}</td>
-                    <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
-                    <td>{{ reservation.costumer }}</td>
-                    <td>{{ reservation.rstatu }}</td>
-                    <td class="d-flex flex-wrap">
-                        <a href="{% url 'detail_reservation' reservation.id %}" class="icon icon-shape bg-primary text-center rounded-circle">
-                            <i class="fas fa-info-circle text-lg opacity-10"></i>
-                        </a>
-                        <a href="{% url 'edit_reservation' reservation.id %}" class="icon icon-shape bg-warning text-center rounded-circle">
-                            <i class="fas fa-edit text-lg opacity-10"></i>
-                        </a>
-                        <a href="{% url 'payment_reservation' reservation.id %}" class="icon icon-shape bg-success text-center rounded-circle">
-                            <i class="fa fa-money text-lg opacity-10"></i>
-                        </a>
-                        <a href="{% url 'generate_pdf' reservation.id %}" class="icon icon-shape bg-dark text-center rounded-circle">
-                            <i class="fa fa-file-pdf"></i>
-                        </a>
-                        <a href="{% url 'cancelar_reserva' reservation.id %}" class="icon icon-shape bg-danger text-center rounded-circle">
-                            <i class="fa fa-times"></i>
-                        </a>
-                        <a href="{% url 'generate_reporte' reservation.id %}" class="icon icon-shape bg-info text-center rounded-circle">
-                            <i class="fa fa-file"></i>
-                        </a>
-                    </td>
-
-                </tr>
-                {% endfor %}                   
+                    {% for reservation in reservations_list %}
+                    <tr>
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.daterr }}</td>
+                        <td>{{ reservation.dateff }}</td>
+                        <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
+                        <td>{{ reservation.costumer }}</td>
+                        <td>{{ reservation.rstatu }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-sm btn-success">
+                                <i class="fa fa-money"></i>
+                            </a>
+                            <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-sm btn-dark">
+                                <i class="fa fa-file-pdf"></i>
+                            </a>
+                            <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-sm btn-danger">
+                                <i class="fa fa-times"></i>
+                            </a>
+                            <a href="{% url 'generate_reporte' reservation.id %}" class="btn btn-sm btn-info">
+                                <i class="fa fa-file"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}                   
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 
-    {% if messages %}
-    {% for message in messages %}
-        <script>
-            swal({                
-                text: "{{ message }}",
-                icon: "{{ message.tags }}",
-                button: "OK",
-            });
-        </script>
-    {% endfor %}
+{% if messages %}
+{% for message in messages %}
+<script>
+    swal({                
+        text: "{{ message }}",
+        icon: "{{ message.tags }}",
+        button: "OK",
+    });
+</script>
+{% endfor %}
 {% endif %}
 
 {% endblock %}

@@ -173,7 +173,7 @@ def edit_reservation(request, reservation_id):
         reservation.save()
 
         # Redireccionar y mostrar un mensaje de éxito
-        messages.success(request, '¡La reserva se ha editado exitosamente!')
+        messages.success(request, '¡Pago exitoso!')
         return redirect('reservations')
 
     # Calcular el total para mostrar en la vista
