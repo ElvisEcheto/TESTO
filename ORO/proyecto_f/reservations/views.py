@@ -365,8 +365,9 @@ def generate_reporte(request, reservation_id):
 
     # Agregar los detalles de la reserva como párrafos
     details = [
-        f"Precio: {reservation.price}",
-        f"Estado: {reservation.costumer}",
+        f"Derecho a la reserva: {reservation.id}",
+        f"Con el precio precio: {reservation.price}",
+        f"Cuenta con el estado: {reservation.costumer}",
     ]
     for detail in details:
         elements.append(Paragraph(detail, styles['Normal']))
@@ -376,7 +377,7 @@ def generate_reporte(request, reservation_id):
     if reservation_payments:
         elements.append(Paragraph("Pagos:", styles['Heading2']))
         for reservation_payment in reservation_payments:
-            payment_detail = f" {reservation_payment.date}: ${reservation_payment.value}"
+            payment_detail = f" Pago{reservation_payment.date}: ${reservation_payment.value}"
             elements.append(Paragraph(payment_detail, styles['Normal']))
             elements.append(Spacer(1, 3))
 
