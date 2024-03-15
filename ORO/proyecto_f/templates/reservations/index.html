@@ -38,24 +38,24 @@
                     <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
                     <td>{{ reservation.costumer }}</td>
                     <td>{{ reservation.rstatu }}</td>
-                    <td>
-                        <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-info btn-circle btn-sm">
-                            <i class="fas fa-info-circle"></i>
+                    <td class="d-flex flex-wrap">
+                        <a href="{% url 'detail_reservation' reservation.id %}" class="icon icon-shape bg-primary text-center rounded-circle">
+                            <i class="fas fa-info-circle text-lg opacity-10"></i>
                         </a>
-                        <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-warning btn-circle btn-sm">
-                            <i class="fas fa-edit"></i>
+                        <a href="{% url 'edit_reservation' reservation.id %}" class="icon icon-shape bg-warning text-center rounded-circle">
+                            <i class="fas fa-edit text-lg opacity-10"></i>
                         </a>
-                        <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-success btn-circle btn-sm">
-                            <i class="fa fa-money"></i>
+                        <a href="{% url 'payment_reservation' reservation.id %}" class="icon icon-shape bg-success text-center rounded-circle">
+                            <i class="fa fa-money text-lg opacity-10"></i>
                         </a>
-                        <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-danger btn-circle btn-sm">
-                            <i class="fa fa-money"></i>
+                        <a href="{% url 'generate_pdf' reservation.id %}" class="icon icon-shape bg-dark text-center rounded-circle">
+                            <i class="fa fa-file-pdf"></i>
                         </a>
-                        <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-dark btn-circle btn-sm">
-                            <i class="fa fa-money"></i>
+                        <a href="{% url 'cancelar_reserva' reservation.id %}" class="icon icon-shape bg-danger text-center rounded-circle">
+                            <i class="fa fa-times"></i>
                         </a>
-                        <a href="{% url 'generate_reporte' reservation.id %}" class="btn btn-danger btn-circle btn-sm">
-                            <i class="fa fa-money"></i>
+                        <a href="{% url 'generate_reporte' reservation.id %}" class="icon icon-shape bg-info text-center rounded-circle">
+                            <i class="fa fa-file"></i>
                         </a>
                     </td>
 
