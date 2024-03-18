@@ -8,7 +8,13 @@ from django.http import JsonResponse
 
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
 def create_lodging(request):
+    if not request.user.is_superuser:
+        return redirect('lodgings') 
     form = LodgingForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -19,7 +25,10 @@ def lodgings(request):
     lodgings_list = Lodging.objects.all()    
     return render(request, 'lodgings/index.html', {'lodgings_list': lodgings_list})
 
+@login_required
 def change_status_lodging(request, lodging_id):
+    if not request.user.is_superuser:
+        return redirect('lodgings') 
     lodging = Lodging.objects.get(pk=lodging_id)
     lodging.status = not lodging.status
     lodging.save()
@@ -30,7 +39,10 @@ def detail_lodging(request, lodging_id):
     data = { 'name': lodging.name, 'price': lodging.price, 'description': lodging.description}
     return JsonResponse(data)
 
+@login_required
 def delete_lodging(request, lodging_id):
+    if not request.user.is_superuser:
+        return redirect('lodgings') 
     lodging = Lodging.objects.get(pk=lodging_id)
     try:
         lodging.delete()        
@@ -39,8 +51,10 @@ def delete_lodging(request, lodging_id):
         messages.error(request, 'No se puede eliminar la cabaña porque está asociado a una reserva.')
     return redirect('lodgings')
 
-
+@login_required
 def edit_lodging(request, lodging_id):
+    if not request.user.is_superuser:
+        return redirect('lodgings') 
     lodging = Lodging.objects.get(pk=lodging_id)
     form = LodgingForm(request.POST or None, request.FILES or None, instance=lodging)
     if form.is_valid() and request.method == 'POST':

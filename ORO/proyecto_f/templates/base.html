@@ -34,8 +34,8 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html" target="_blank">
-        <img src="{% static './img/logo-ct-dark.png'  %}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">DENCANSE EN HOTEL</span>
+        <img src="{% static '/img/logo-removebg-preview.png'  %}" class="navbar-brand-img h-400" alt="main_logo">
+        <span class="ms-1 font-weight-bold">CELESTIAL GLAMPING</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -62,9 +62,9 @@
         <li class="nav-item">
           <a class="nav-link " href="{% url 'services' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+              <i class="ni ni-bell-55 text-success text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Servicio</span>
+            <span class=" ms-1">Servicio</span>
           </a>
         </li>
         <li class="nav-item">
@@ -80,7 +80,7 @@
         <li class="nav-item">
           <a class="nav-link " href="{% url 'reservations' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-app text-info text-sm opacity-10"></i>
+              <i class="ni ni-house text-info text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Reservas</span>
           </a>
@@ -260,24 +260,26 @@
         </div>
       </div>
     </nav>
+
     <div class="container-fluid py-4">
       <div class="row mt-4">
-        <div class="col-lg-12 mb-lg-0">
-          <div class="card z-index-2 h-100">
-            <div class="card-body p-3">
-              <div class="chart">
+          <div class="col-lg-12 mb-lg-0">
+              <div class="card z-index-2 h-100">
+                  <div class="card-body p-3">
+                       <div class="chart">
     <!-- Código del menú -->
     {% block content %}
 
     {% endblock %}
     <!-- Código del footer -->
-        <canvas id="chart-line" class="chart-canvas"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <canvas id="chart-line" class="chart-canvas"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
         <footer class="footer  ">
         <div class="container-fluid">
             <div class="row align-items-center justify-content-lg-between">

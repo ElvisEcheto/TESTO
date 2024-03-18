@@ -8,7 +8,13 @@ from django.contrib import messages
 
 from .forms import CostumerForm
 
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
 def create_costumer(request):
+    if not request.user.is_superuser:
+        return redirect('costumers') 
     form = CostumerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -24,7 +30,10 @@ def costumers(request):
     costumers_list = Costumer.objects.all()    
     return render(request, 'costumers/index.html', {'costumers_list': costumers_list })
 
+@login_required
 def change_status_costumer(request, costumer_id):
+    if not request.user.is_superuser:
+        return redirect('costumers') 
     costumer = Costumer.objects.get(pk=costumer_id)
     costumer.status = not costumer.status
     costumer.save()
@@ -35,7 +44,10 @@ def detail_costumer(request, costumer_id):
     data = { 'name': costumer.name, 'document': costumer.document, 'email': costumer.email, 'phone' : costumer.phone,}    
     return JsonResponse(data)
 
+@login_required
 def delete_costumer(request, costumer_id):
+    if not request.user.is_superuser:
+        return redirect('costumers') 
     costumer = Costumer.objects.get(pk=costumer_id)
     try:
         costumer.delete()        
@@ -44,7 +56,10 @@ def delete_costumer(request, costumer_id):
         messages.error(request, 'No se puede eliminar el cliente porque está asociado a una Reserva.')
     return redirect('costumers')
 
+@login_required
 def edit_costumer(request, costumer_id):
+    if not request.user.is_superuser:
+        return redirect('costumers') 
     costumer = Costumer.objects.get(pk=costumer_id)
     form = CostumerForm(request.POST or None, request.FILES or None, instance=costumer)
     if form.is_valid() and request.method == 'POST':

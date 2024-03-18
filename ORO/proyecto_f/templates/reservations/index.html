@@ -3,7 +3,7 @@
 {% block title %}Library Store{% endblock %}
 
 {% block content %}
-<div class="card">
+
     <div class="card-header py-3">
         <h4 class="m-0 font-weight-bold text-primary">Reservas</h4>
     </div>
@@ -29,11 +29,12 @@
                 </thead>                
                 <tbody>
                     {% for reservation in reservations_list %}
+                    {% if reservation.costumer.email == request.user.email %}
                     <tr>
                         <td>{{ reservation.id }}</td>
                         <td>{{ reservation.daterr }}</td>
                         <td>{{ reservation.dateff }}</td>
-                        <td>{{ reservation.price }}</td> <!-- Mostrar el precio total de la reserva -->
+                        <td>{{ reservation.price }}</td> 
                         <td>{{ reservation.costumer }}</td>
                         <td>{{ reservation.rstatu }}</td>
                         <td class="text-center">
@@ -57,12 +58,13 @@
                             </a>
                         </td>
                     </tr>
+                    {% endif %} 
                     {% endfor %}                   
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+
 
 {% if messages %}
 {% for message in messages %}

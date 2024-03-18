@@ -30,7 +30,10 @@ def services(request):
     usuario = request.user
     return render(request, 'services/index.html', {'services_list': services_list, 'usuario': usuario })
 
+@login_required
 def change_status_service(request, service_id):
+    if not request.user.is_superuser:
+        return redirect('services') 
     service = Service.objects.get(pk=service_id)
     service.status = not service.status
     service.save()
@@ -41,8 +44,10 @@ def detail_service(request, service_id):
     data = { 'name': service.name, 'price': service.price, 'description': service.description }    
     return JsonResponse(data)
 
+@login_required
 def delete_service(request, service_id):
-    
+    if not request.user.is_superuser:
+        return redirect('services') 
     service = Service.objects.get(pk=service_id)
     try:
         service.delete()        

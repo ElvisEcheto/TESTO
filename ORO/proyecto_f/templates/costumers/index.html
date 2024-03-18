@@ -39,6 +39,7 @@
                 </thead>                
                 <tbody>
                     {% for costumer in costumers_list %}
+                    {% if costumer.email == request.user.email %}
                     <tr>
                     <td>{{ costumer.name }}</td>
                     <td>{{ costumer.document }}</td>
@@ -65,11 +66,13 @@
                         </a>
                     </td>
                     </tr>
+                    {% endif %} 
                     {% endfor %}                                     
                 </tbody>
             </table>
         </div>
     </div>
+
 
 
 <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">

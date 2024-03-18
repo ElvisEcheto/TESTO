@@ -57,11 +57,13 @@ def payment_reservation(request, id):
 
 
 
+from django.contrib.auth.decorators import login_required
 
 
-
-
+@login_required
 def create_payment(request):
+    if not request.user.is_superuser:
+        return redirect('payments') 
     form = PaymentForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -83,7 +85,10 @@ def detail_payment(request, payment_id):
     data = { 'date': payment.date, 'value': payment.value, 'methodpay': payment.methodpay }    
     return JsonResponse(data)
 
+@login_required
 def delete_payment(request, payment_id):
+    if not request.user.is_superuser:
+        return redirect('payments') 
     payment = Payment.objects.get(pk=payment_id)
     try:
         payment.delete()        
@@ -92,7 +97,11 @@ def delete_payment(request, payment_id):
         messages.error(request, 'No se puede eliminar el pago porque está asociado a una tabla externa.')
     return redirect('payments')
 
+
+@login_required
 def edit_payment(request, payment_id):
+    if not request.user.is_superuser:
+        return redirect('payments') 
     payment = Payment.objects.get(pk=payment_id)
     form = PaymentForm(request.POST or None, request.FILES or None, instance=payment)
     if form.is_valid() and request.method == 'POST':
@@ -114,8 +123,10 @@ from .models import Payment
 from collections import defaultdict
 from io import BytesIO
 
-
+@login_required
 def generate_payment_report(request):
+    if not request.user.is_superuser:
+        return redirect('payments') 
     # Obtener todos los pagos
     payments = Payment.objects.all()
 
