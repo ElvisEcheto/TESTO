@@ -39,7 +39,6 @@
                 </thead>                
                 <tbody>
                     {% for costumer in costumers_list %}
-                    {% if costumer.email == request.user.email %}
                     <tr>
                     <td>{{ costumer.name }}</td>
                     <td>{{ costumer.document }}</td>
@@ -66,7 +65,6 @@
                         </a>
                     </td>
                     </tr>
-                    {% endif %} 
                     {% endfor %}                                     
                 </tbody>
             </table>

@@ -25,8 +25,11 @@ def create_costumer(request):
             messages.error(request, 'Ocurrió un error al crear un cliente.')         
         return redirect('costumers')    
     return render(request, 'costumers/create.html', {'form': form})
-
-def costumers(request):    
+ 
+@login_required
+def costumers(request):   
+    if not request.user.is_superuser:
+        return redirect('index')  
     costumers_list = Costumer.objects.all()    
     return render(request, 'costumers/index.html', {'costumers_list': costumers_list })
 
