@@ -8,12 +8,6 @@ from .forms import PaymentForm
 
 from django.contrib import messages
 
-
-
-
-
-
-from django.shortcuts import render
 from datetime import datetime
 from django.shortcuts import redirect
 
@@ -115,9 +109,8 @@ def edit_payment(request, payment_id):
 
 
 from django.http import HttpResponse
-from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from .models import Payment
 from collections import defaultdict

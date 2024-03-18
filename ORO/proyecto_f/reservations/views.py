@@ -1,9 +1,9 @@
 from io import BytesIO
 from django.shortcuts import render, redirect
 from reservations.models import Reservation
-from .forms import ReservationForm
+
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
+
 from django.contrib import messages
 from datetime import datetime
 from costumers.models import Costumer
@@ -202,7 +202,7 @@ def edit_reservation(request, reservation_id):
 
 
 from django.shortcuts import redirect
-from django.urls import reverse
+
 
 def delete_booking_cabin(request, id):
     rlodging = Rlodging.objects.get(pk=id)
@@ -237,7 +237,7 @@ def is_valid_price(price, field_type):
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from reportlab.lib import colors
+
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
