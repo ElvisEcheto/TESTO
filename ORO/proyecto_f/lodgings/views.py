@@ -46,7 +46,7 @@ def delete_lodging(request, lodging_id):
     lodging = Lodging.objects.get(pk=lodging_id)
     try:
         lodging.delete()        
-        messages.success(request, 'Cabaña eliminado correctamente.')
+        messages.success(request, 'La cabaña eliminado correctamente.')
     except:
         messages.error(request, 'No se puede eliminar la cabaña porque está asociado a una reserva.')
     return redirect('lodgings')
