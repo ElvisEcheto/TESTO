@@ -279,7 +279,7 @@ def generate_pdf(request, reservation_id):
         f"Fecha de Salida: {reservation.dateff}",
         f"Precio: {reservation.price}",
         f"Estado: {reservation.rstatu}",
-        f"Estado: {reservation.costumer}",
+        f"cliente: {reservation.costumer}",
     ]
     for detail in details:
         elements.append(Paragraph(detail, styles['Normal']))
