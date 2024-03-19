@@ -4,75 +4,53 @@
 
 {% block content %}
 
-
-
-
     <div class="card-header py-3">
-        <h4 class="m-0 font-weight-bold text-primary">Cabaña</h4>
+        <h4 class="m-0 font-weight-bold text-primary text-center">Cabañas</h4>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            {% if request.user.is_superuser or request.user.is_user %}          
-                <a href="{% url 'create_lodging' %}" class="btn btn-primary btn-icon-split mb-3">
-                    <span class="icon text-white-50">
+        <div class="text-center mb-3">
+            <a href="{% url 'create_lodging' %}" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
-                <span class="text">Crear cabaña</span>
-                </a>
-            {% endif  %}
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Capacidad</th>
-                        <th>Descripcion</th>
-                        <th>Tipo Cabaña</th>
-                        {% if request.user.is_superuser or request.user.is_user %}     
-                        <th>Estados</th>
-                        {% endif  %}
-                        <th>Acciones</th>                        
-                    </tr>
-                </thead>                
-                <tbody>
-                    {% for lodging in lodgings_list %}
-                    <tr>
-                    <td><img src="{{ lodging.image.url }}" alt="" width="50"></td>
-                    <td>{{ lodging.name }}</td>
-                    <td>{{ lodging.price }}</td>
-                    <td>{{ lodging.capacity }}</td>
-                    <td>{{ lodging.description }}</td>    
-                    <td>{{ lodging.typelodging }}</td>   
-                    {% if request.user.is_superuser or request.user.is_user %}                                      
-                        <td>
+                <span class="text">Crear Cabaña</span>
+            </a>
+        </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+                {% for lodging in lodgings_list %}
+                <div class="col mb-4"> 
+                    <div class="card h-100" style="width: 16rem;">
+                        <img src="{{ lodging.image.url }}" class="card-img-top img-fluid" alt="..." style="max-height: 150px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ lodging.name }}</h5>
+                            <p class="card-text">{{ lodging.description }}</p>
+                            <p class="card-text">Precio: {{ lodging.price }}</p>
+                        </div>
+                        {% if user.is_staff %}
+                        <div class="card-footer text-center">
                             <form action="{% url 'lodging_status' lodging.id %}" method="POST">
                                 {% csrf_token %}                            
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if lodging.status %} checked {% endif %} onchange="this.form.submit()">
+                                <div class="custom-control custom-switch d-inline-block">
+                                    <input class="custom-control-input" type="checkbox" id="customSwitch{{ forloop.counter }}" {% if lodging.status %} checked {% endif %} onchange="this.form.submit()">
                                     <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
-                                </div>                     
-                            </form>  
-                        </td>
-                    {% endif  %}
-                    <td>
-                        <a href="" class="btn btn-info btn-circle btn-sm " data-bs-toggle="modal" data-bs-target="#modalId" data-lodging-id="{{ lodging.id }}" >
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-                        <a href="{% url 'edit_lodging' lodging.id %}" class="btn btn-warning btn-circle btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="{% url 'delete_lodging' lodging.id %}" class="deleteBtn btn btn-danger btn-circle btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
-                    </tr>
-                    {% endfor %}                                     
-                </tbody>
-            </table>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <a href="" class="btn btn-info btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#modalId" data-lodging-id="{{ lodging.id }}">Ver Detalles</a>
+                                <a href="{% url 'edit_lodging' lodging.id %}" class="btn btn-warning btn-sm mb-1">Editar</a>
+                                <a href="{% url 'delete_lodging' lodging.id %}" class="deleteBtn btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
 
 
 
