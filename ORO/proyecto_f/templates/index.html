@@ -19,10 +19,7 @@
                   <h5 class="font-weight-bolder">
                     ${{ total_payments|floatformat:3 }}
                   </h5>
-                  <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder">+55%</span>
-                    since yesterday
-                  </p>
+                 
                 </div>
               </div>
               <div class="col-4 text-end">
@@ -46,10 +43,6 @@
                   <h5 class="font-weight-bolder">
                     {{costumers}}
                   </h5>
-                  <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder">+3%</span>
-                    since last week
-                  </p>
                 </div>
               </div>
               <div class="col-4 text-end">
@@ -71,10 +64,7 @@
                   <h5 class="font-weight-bolder">
                     {{ total_reservations }}
                   </h5>
-                  <p class="mb-0">
-                    <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                    since last quarter
-                  </p>
+                  
                 </div>
               </div>
               <div class="col-4 text-end">
@@ -133,6 +123,8 @@
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3">
             <h3 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h3>
+            <h5> Servicios con los que contamos </h5>
+            <br>
             
 
           <div class="d-flex flex-wrap  ">

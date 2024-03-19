@@ -53,7 +53,7 @@
           {% if request.user.is_superuser or request.user.is_user %}
           <a class="nav-link " href="{% url 'costumers' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+              <i class="fa fa-user-circle-o text-warning text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Clientes</span>
           </a>
@@ -62,7 +62,7 @@
         <li class="nav-item">
           <a class="nav-link " href="{% url 'services' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-bell-55 text-success text-sm opacity-10"></i>
+              <i class="fa fa-tag text-dark text-sm opacity-10"></i>
             </div>
             <span class=" ms-1">Servicio</span>
           </a>
@@ -71,7 +71,7 @@
           {% if request.user.is_superuser or request.user.is_user %}
           <a class="nav-link " href="{% url 'typelodgings' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-app text-info text-sm opacity-10"></i>
+              <i class="fa fa-key text-warning text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Tipo de cabaña</span>
           </a>
@@ -80,7 +80,7 @@
         <li class="nav-item">
           <a class="nav-link " href="{% url 'reservations' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-house text-info text-sm opacity-10"></i>
+              <i class="fa fa-bed text-info text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Reservas</span>
           </a>
@@ -89,7 +89,7 @@
           {% if request.user.is_superuser or request.user.is_user %}
           <a class="nav-link " href="{% url 'payments' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
+              <i class="fa fa-money text-success text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Pagos</span>
           </a>
@@ -98,7 +98,7 @@
        <li class="nav-item">
           <a class="nav-link " href="{% url 'lodgings' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+              <i class="fa fa-home text-dark text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Cabañas</span>
           </a>
@@ -107,7 +107,7 @@
           {% if request.user.is_superuser or request.user.is_user %}
           <a class="nav-link " href="{% url 'typedocuments' %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
+              <i class="fa fa-id-card text-warning text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Tipo de documento</span>
           </a>
