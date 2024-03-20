@@ -33,13 +33,13 @@
               <div class="card card-plain">
                 <div class="card-header pb-0 text-start">
                   <h4 class="font-weight-bolder">Inicio</h4>
-                  <p class="mb-0">Registra tus datos aqui</p>
+                  <p class="mb-0">Inserta los datos aqui</p>
                 </div>
                 <div class="card-body">
                   <form  class="user" method="post" role="form">
                     {% csrf_token %}
                     <div class="mb-3">
-                      <input type="username" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="username" placeholder="Ingresa tu usuario">
+                      <input type="username" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="username" placeholder="Ingresa tu correo">
                     </div>
                     <div class="mb-3">
                       <input type="password" class="form-control form-control-lg" id="exampleInputPassword" placeholder="Contraseña" name="password">
@@ -52,12 +52,12 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
-                    ¿No recuerdas tu contraseña?
-                    <a href="{% url 'restore' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
+                    Recupera contraseña haciendo
+                    <a href="{% url 'restore' %}" class="text-primary text-gradient font-weight-bold">clic aqui</a>
                   </p>
                   <p class="mb-4 text-sm mx-auto">
-                    ¿No tienes una cuenta?
-                    <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
+                    Registrate haciendo
+                    <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">clic aqui</a>
                   </p>
                 </div>
               </div>

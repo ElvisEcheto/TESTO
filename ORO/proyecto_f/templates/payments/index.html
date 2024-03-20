@@ -29,8 +29,9 @@
                 </thead>                
                 <tbody>
                     {% for payment in payments_list %}
+                    {% if payment.reservation.costumer.email == request.user.email %}
                     <tr>
-                    <td>{{ payment.reservation.id }}</td>
+                    <td>{{ payment.reservation.id }} - {{ payment.reservation.costumer}}</td>
                     <td>{{ payment.date }}</td>
                     <td>{{ payment.value }}</td>
                     <td>{{ payment.methodpay }}</td>                                         
@@ -50,6 +51,7 @@
                         </a>
                     </td>
                     </tr>
+                    {% endif %}  
                     {% endfor %}                                     
                 </tbody>
             </table>

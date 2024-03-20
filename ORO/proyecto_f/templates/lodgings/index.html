@@ -21,8 +21,8 @@
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
                 {% for lodging in lodgings_list %}
-                <div class="col mb-4"> 
-                    <div class="card h-100" style="width: 16rem;">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 mb-4"> 
+                    <div class="card h-100" style="width: 18rem;">
                         <img src="{{ lodging.image.url }}" class="card-img-top img-fluid" alt="..." style="max-height: 150px;">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ lodging.name }}</h5>

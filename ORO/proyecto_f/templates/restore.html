@@ -33,7 +33,7 @@
               <div class="card card-plain">
                 <div class="card-header pb-0 text-start">
                   <h4 class="font-weight-bolder">Nueva contraseña</h4>
-                  <p class="mb-0">Colaca tu correo</p>
+                  <p class="mb-0">Coloca el correo</p>
                 </div>
                 <div class="card-body">
                   
@@ -41,7 +41,7 @@
                     {% csrf_token %}
                    
                     <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Ingresa tu email">
+                      <input type="email" class="form-control form-control-lg" id="exampleInputEmail" aria-describedby="emailHelp" name="email" placeholder="Ingresa tu correo">
                       {% if messages %}
                         {% for message in messages %}
                           <div class="text-warning " role="alert">
@@ -59,11 +59,11 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-2 text-sm mx-auto">
-                    ¿Quieres volver?
+                    Iniciar sesion haciendo
                     <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
                   </p>
                   <p class="mb-4 text-sm mx-auto">
-                    ¿No tienes una cuenta?
+                    Registrate haciendo
                     <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">click aqui</a>
                   </p>
                 </div>

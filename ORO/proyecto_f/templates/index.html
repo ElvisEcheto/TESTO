@@ -10,8 +10,8 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         
         
-        <div class="card "  >
-          <div class="card-body p-3">
+        <div class="card h-100"  >
+          <div class="card-body  p-3">
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
@@ -102,14 +102,7 @@
       </div>
 
 
-              <a
-                name=""
-                id=""
-                class="btn btn-warning  mt-4"
-                href="#"
-                role="button"
-                >AYUDA</a
-              >
+    
 
       
 
@@ -117,26 +110,18 @@
     
     {%  endif  %}
 
-
+    {% if not request.user.is_superuser %}
     <div class="row mt-4 rounded ">
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card z-index-2 h-100">
           <div class="card-header pb-0 pt-3">
-            <h3 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h3>
-            <h5> Servicios con los que contamos </h5>
+            <h2 class="text-capitalize mt-3">Bienvenido  {{ usuario.first_name}}</h2>
+            
             <br>
             
 
           <div class="d-flex flex-wrap  ">
-            {% for service in services %}
-            <div class="card me-2  " style="width: 12rem;">
-              <img src="{{ service.image.url }}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h6 class="card-title fs-6">{{ service.name }}</h6>
-                <p class="card-text fs-6">{{ service.description }}</p>
-              </div>
-            </div>
-            {% endfor %}
+            <h5>Estamos encantados de darte la bienvenida a nuestro paraíso de lujo en la naturaleza. En este lugar mágico, encontrarás la combinación perfecta entre la comodidad de un hotel de primera categoría y la belleza serena del aire libre.</h5>
           </div>
 
 
@@ -161,7 +146,7 @@
           <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
             <div class="carousel-inner border-radius-lg h-100">
               <div class="carousel-item h-100 active" style="background-image: url('/static/img/carousel-1.jpg');
-    background-size: cover;">
+      background-size: cover;">
                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                   <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                     <i class="ni ni-camera-compact text-dark opacity-10"></i>
@@ -172,7 +157,7 @@
               </div>
               {% for lodging in lodgings %}
               <div class="carousel-item h-100" style="background-image: url('{{lodging.image.url}}');
-    background-size: cover;">
+      background-size: cover;">
                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                   <h5 class="text-white mb-1">{{lodging.name}}</h5>
                   <p> {{lodging.description}} </p>
@@ -180,7 +165,7 @@
               </div>
               {% endfor %}
               <div class="carousel-item h-100" style="background-image: url('/static/img/carousel-3.jpg');
-    background-size: cover;">
+      background-size: cover;">
                 <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                   <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                     <i class="ni ni-trophy text-dark opacity-10"></i>
@@ -201,7 +186,32 @@
           </div>
         </div>
       </div>
+      {%  endif  %}
+
+
+
     </div>
+    {% if not request.user.is_superuser %}
+      {% for service in services %}
+      <div class="card  mt-5">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ service.image.url }}" class="img-fluid" alt=""  style="width: 16rem;">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ service.name }}</h5>
+              <p class="card-text">{{ service.description }}</p>
+              <p class="card-text">Precio: {{ service.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+      
+  </div>
+  {% if request.user.is_superuser or request.user.is_user %}
     <div class="row mt-4">
       <div class="col-lg-7 mb-lg-0 mb-4">
         <div class="card ">
@@ -244,6 +254,7 @@
           </div>
         </div>
       </div>
+      
       <div class="col-lg-5">
         <div class="card">
           <div class="card-header pb-0 p-3">
@@ -273,43 +284,15 @@
                 </tbody>
               </table>
             </div>
-            
 
           </div>
         </div>
       </div>
+      {%  endif  %}
     </div>
 
-    <footer class="footer pt-3  ">
-      <div class="container-fluid">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6 mb-lg-0 mb-4">
-            <div class="copyright text-center text-sm text-muted text-lg-start">
-              Contigo aun en <script>
-                document.write(new Date().getFullYear())
-              </script>,
-          
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
+
+
   </div>
 </main>
 
