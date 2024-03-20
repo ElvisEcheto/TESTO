@@ -22,11 +22,11 @@
             <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
                 {% for lodging in lodgings_list %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 mb-4"> 
-                    <div class="card h-100" style="width: 18rem;">
+                    <div class="card h-100"  style="width: 221px;">
                         <img src="{{ lodging.image.url }}" class="card-img-top img-fluid" alt="..." style="max-height: 150px;">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ lodging.name }}</h5>
-                            <p class="card-text">{{ lodging.description }}</p>
+                            <p class="card-text" style="width: 170px;">{{ lodging.description }}</p>
                             <p class="card-text">Precio: {{ lodging.price }}</p>
                         </div>
                         {% if user.is_staff %}

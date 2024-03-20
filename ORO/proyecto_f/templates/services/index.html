@@ -22,11 +22,11 @@
             <div class="row text-center  justify-content-center">
                 {% for service in services_list %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 mb-4"> <!-- Ajusté el tamaño de la columna y el margen inferior -->
-                    <div class="card h-100" style="width: 18rem;">
+                    <div class="card h-100" style="width: 221px;">
                         <img src="{{ service.image.url }}" class="card-img-top img-fluid" alt="..." style="max-height: 150px;">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{ service.name }}</h5>
-                            <p class="card-text">{{ service.description }}</p>
+                            <p class="card-text" style="width: 170px;">{{ service.description }}</p>
                             <p class="card-text">Precio: {{ service.price }}</p>
                         </div>
                         {% if user.is_staff %}
