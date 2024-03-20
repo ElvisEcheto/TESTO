@@ -12,6 +12,6 @@ class RstatuForm(forms.ModelForm):
             'description' : 'Descripcion',         
         }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
-            'description': forms.TextInput(attrs={'placeholder': 'Ingrese el código del libro'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Ingrese el nombre '}),
+            'description': forms.TextInput(attrs={'placeholder': 'Ingrese la descripción'}),
         }

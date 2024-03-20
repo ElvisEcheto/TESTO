@@ -21,7 +21,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Nombre</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
                         <th>Estados</th>
                         <th>Acciones</th>                        
                     </tr>
@@ -91,7 +91,7 @@ function loadRstatuDetails(rstatuId) {
                     // Actualizar el contenido del modal con los detalles del libro
                     document.getElementById("rstatu-details").innerHTML =
                         "<p><strong>Nombre:</strong> " + data.name + "</p>" +
-                        "<p><strong>Descripcion:</strong> " + data.description + "</p>" ;            
+                        "<p><strong>Descripción:</strong> " + data.description + "</p>" ;            
                     $('#modalId').modal('show'); // Mover esta línea aquí
                 } else {
                     console.error('Error fetching rstatu details. Status code: ' + xhr.status);

@@ -32,7 +32,7 @@
                         <th>Nombre</th>
                         <th>Documento</th>
                         <th>Correo</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Estados</th>
                         <th>Acciones</th>                        
                     </tr>
@@ -107,7 +107,7 @@ function loadCostumerDetails(costumerId) {
                         "<p><strong>Nombre:</strong> " + data.name + "</p>" +
                         "<p><strong>Documento:</strong> " + data.document + "</p>" +
                         "<p><strong>Correo:</strong> " + data.email + "</p>" +               
-                        "<p><strong>Telefono:</strong> " + data.phone + "</p>";          
+                        "<p><strong>Teléfono:</strong> " + data.phone + "</p>";          
                     $('#modalId').modal('show'); // Mover esta línea aquí
                 } else {
                     console.error('Error fetching costumer details. Status code: ' + xhr.status);

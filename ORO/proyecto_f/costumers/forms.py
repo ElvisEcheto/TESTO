@@ -14,7 +14,7 @@ class CostumerForm(forms.ModelForm):
             'document': 'Documento',
             'email': 'Correo',
             'typedocument': 'Tipo de documento',
-            'phone': 'Telefono',                  
+            'phone': 'Teléfono',                  
         }
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Ejemplo: Andrés Felipe Gómez Sáez'}),
