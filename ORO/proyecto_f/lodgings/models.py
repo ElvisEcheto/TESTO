@@ -2,7 +2,7 @@ from django.db import models
 
 class Lodging(models.Model):
     image = models.ImageField(upload_to='static/lodgings_images', null=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     price = models.IntegerField()
     capacity= models.IntegerField()
     description = models.CharField(max_length=255)
