@@ -4,7 +4,7 @@ from . models import Lodging
 from typelodgings.models import Typelodging
 
 class LodgingForm(forms.ModelForm):
-    typelodging = forms.ModelChoiceField(queryset=Typelodging.objects.filter(status=True).order_by('name'))
+    typelodging = forms.ModelChoiceField(queryset=Typelodging.objects.filter(status=True).order_by('name'), label="Tipo cabaña")
     class Meta:
         model = Lodging
         fields = "__all__"
