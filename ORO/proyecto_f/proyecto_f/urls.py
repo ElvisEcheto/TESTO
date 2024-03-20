@@ -36,5 +36,5 @@ urlpatterns = [
     path('',views.lading, name='lading'),
     path('Register',views.register, name='register'),
     path('Restore',views.recover_password, name='restore'),
-
+    path('help/', views.help,name='help'),
 ]
