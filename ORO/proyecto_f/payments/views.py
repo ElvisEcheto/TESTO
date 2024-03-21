@@ -46,7 +46,9 @@ def payment_reservation(request, id):
             return redirect('reservations') 
         
         except Exception as e:
-            return redirect('reservations')         
+            messages.success(request, 'Pago creada con éxito')
+            return redirect('reservations')        
+         
     return render(request, 'payment.html', {'reservation': reservation, 'total_payments': total_payments})
 
 

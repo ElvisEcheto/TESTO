@@ -59,7 +59,39 @@
                         </td>
                     </tr>
                     {% endif %} 
-                    {% endfor %}                   
+                    {% endfor %}         
+                    {% for reservation in reservations_list %}
+           
+                    <tr>
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.daterr }}</td>
+                        <td>{{ reservation.dateff }}</td>
+                        <td>{{ reservation.price }}</td> 
+                        <td>{{ reservation.costumer }}</td>
+                        <td>{{ reservation.rstatu }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'detail_reservation' reservation.id %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'payment_reservation' reservation.id %}" class="btn btn-sm btn-success">
+                                <i class="fa fa-money"></i>
+                            </a>
+                            <a href="{% url 'generate_pdf' reservation.id %}" class="btn btn-sm btn-dark">
+                                <i class="fa fa-file-pdf"></i>
+                            </a>
+                            <a href="{% url 'cancelar_reserva' reservation.id %}" class="btn btn-sm btn-danger">
+                                <i class="fa fa-times"></i>
+                            </a>
+                            <a href="{% url 'generate_reporte' reservation.id %}" class="btn btn-sm btn-info">
+                                <i class="fa fa-file"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    {% endfor %}              
                 </tbody>
             </table>
         </div>

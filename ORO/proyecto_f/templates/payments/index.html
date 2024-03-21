@@ -10,7 +10,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <a href="{% url 'create_payment' %}" class="btn btn-primary btn-icon-split mb-3">
+            <a href="{% url 'generate_payment_report' %}" class="btn btn-primary btn-icon-split mb-3">
                 <span class="icon text-white-50">
                   <i class="fas fa-plus"></i>
               </span>
@@ -52,7 +52,32 @@
                     </td>
                     </tr>
                     {% endif %}  
-                    {% endfor %}                                     
+                    {% endfor %}
+                    {% for payment in payments_list %}
+
+                    <tr>
+                    <td>{{ payment.reservation.id }} - {{ payment.reservation.costumer}}</td>
+                    <td>{{ payment.date }}</td>
+                    <td>{{ payment.value }}</td>
+                    <td>{{ payment.methodpay }}</td>                                         
+                    <td>
+                        <form action="{% url 'payment_status' payment.id %}" method="POST">
+                            {% csrf_token %}                            
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch{{ forloop.counter }}" {% if payment.status %} checked {% endif %} onchange="this.form.submit()">
+                                <label class="custom-control-label" for="customSwitch{{ forloop.counter }}"></label>
+                            </div>                     
+                        </form>
+                    </td>
+                    <td>
+                        
+                        <a href="{% url 'delete_payment' payment.id %}" class="deleteBtn btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </td>
+                    </tr>
+         
+                    {% endfor %}                                   
                 </tbody>
             </table>
         </div>

@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 
+
 @login_required
 def create_lodging(request):
     if not request.user.is_superuser:

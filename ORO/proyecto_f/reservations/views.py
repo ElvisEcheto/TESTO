@@ -22,8 +22,8 @@ from decimal import Decimal
 
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
-    lodgings_list = Lodging.objects.all()
-    services_list = Service.objects.all()
+    lodgings_list = Lodging.objects.filter(status=True)
+    services_list = Service.objects.filter(status=True)
 
     # Calcula days_difference aquí
     datess = request.POST.get('datess')  # Obtén la fecha de inicio desde la solicitud
@@ -173,7 +173,7 @@ def edit_reservation(request, reservation_id):
         reservation.save()
 
         # Redireccionar y mostrar un mensaje de éxito
-        messages.success(request, '¡Pago exitoso!')
+        messages.success(request, 'Reserva creada con éxito')
         return redirect('reservations')
 
     # Calcular el total para mostrar en la vista

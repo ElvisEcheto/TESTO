@@ -98,8 +98,9 @@ def dasboard(request):
 def index(request):
     usuario = request.user
     total_payments = Payment.objects.all().aggregate(total=models.Sum('value'))['total'] or 0
-    total_reservations = Reservation.objects.count()
-    costumers = Costumer.objects.all().count()
+    total_reservations = Reservation.objects.filter(rstatu='En ejecución').count()
+    
+    costumers = Costumer.objects.filter(status=True).count()
     lodgings = Lodging.objects.all()
     services = Service.objects.all()
     reservations = Reservation.objects.all().order_by('-price')[:5]
