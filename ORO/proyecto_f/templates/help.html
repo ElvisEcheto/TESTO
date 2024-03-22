@@ -4,74 +4,140 @@
 
 {% block content %}
 
-<div class="container" style="margin-top: 50px; margin-bottom: -120px;">
-    <div class="row">
-        <div class="col-md-4">
-            <a href="{% url 'costumers' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-user-circle-o text-warning fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Clientes</p>
-                </div>
-            </a>
-        </div>
-        
-        <div class="col-md-4">
-            <a href="{% url 'services' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-tag text-dark fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Servicios</p>
-                </div>
-            </a>
-        </div>
-        
-        <div class="col-md-4">
-            <a href="{% url 'typelodgings' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-tag text-warning fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Tipo Cabañas</p>
-                </div>
-            </a>
-        </div>
-    </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <a href="{% url 'reservations' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-bed text-primary fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Reservas</p>
-                </div>
-            </a>
-        </div>
-        
-        <div class="col-md-4">
-            <a href="{% url 'payments' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-money text-success fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Pagos</p>
-                </div>
-            </a>
-        </div>
-        
-        <div class="col-md-4">
-            <a href="{% url 'lodgings' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-home text-dark fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Cabañas</p>
-                </div>
-            </a>
-        </div>
-    </div>
 
-    <div class="row mt-4 justify-content-center">
-        <div class="col-md-4">
-            <a href="{% url 'typedocuments' %}" class="card text-center">
-                <div class="card-body">
-                    <i class="fa fa-id-card text-danger fa-5x" style="margin-bottom: 20px;"></i>
-                    <p class="card-text">Tipo Documento</p>
-                </div>
-            </a>
+<div class="container">
+    <h3 class=" text-center ">Menu de ayuda</h3>
+    <hr>
+    <h3 class="  ">Hacer clic en unas de las opciones te mostrara las diferentes funciones de cada opcion, hacer clic en una de ellas te mostrara un video de como funciona</h3>
+    <div class="row ms-10 mt-7">
+      <div class="col-lg-4 col-md-6">
+        <div class="btn-group">
+          <!-- Primer botón -->
+          <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="card-body">
+              <i class="fa fa-user-circle-o text-warning fa-5x" style="margin-bottom: 20px;"></i>
+              <p class="card-text">Clientes</p>
+            </div>
+          </a>
+          <div class="dropdown-menu">
+            <div class="dropdown-item bg-dark text-light">MENU</div>
+            <a class="dropdown-item" href="#tab2Id">Crear</a>
+            <a class="dropdown-item" href="#tab3Id">Editar</a>
+            <a class="dropdown-item" href="#tab4Id">Eliminar</a>
+          </div>
         </div>
+      </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+            <!-- Segundo botón -->
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-tag text-dark fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Servicios</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-tag text-warning fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Tipo Cabañas</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-tag text-warning fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Tipo Cabañas</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-bed text-primary fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Reservas</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-money text-success fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Pagos</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="btn-group">
+                <a class="nav-link mb-6" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="card-body">
+                        <i class="fa fa-home text-dark fa-5x" style="margin-bottom: 20px;"></i>
+                        <p class="card-text">Cabañas</p>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item bg-dark text-light">MENU</div>
+                    <a class="dropdown-item" href="#tab2Id">Action</a>
+                    <a class="dropdown-item" href="#tab3Id">Another action</a>
+                    <a class="dropdown-item" href="#tab4Id">Action</a>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>
+
+    
+    
+
+
+
+  
 {% endblock %}

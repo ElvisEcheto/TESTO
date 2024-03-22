@@ -162,7 +162,8 @@ def register(request):
                     name = form.cleaned_data['name'] + ' ' + form.cleaned_data['last_name']
                     costumer = Costumer(None, name, document=document, email=email, phone=phone)
                     costumer.save()
-                    return redirect('login')               
+                    return redirect('login')     
+            messages.success(request, 'Pago creada con éxito')          
             return redirect('login')    
     return render(request, 'register.html', {'form': form})
 

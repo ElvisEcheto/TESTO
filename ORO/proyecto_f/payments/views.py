@@ -43,7 +43,9 @@ def payment_reservation(request, id):
             elif int(total_p['total']) >= reservation.price:
                 reservation.rstatu = 'En ejecución'        
             reservation.save()
-            return redirect('reservations') 
+            messages.success(request, 'Pago creada con éxito')
+            return redirect('reservations')
+        
         
         except Exception as e:
             messages.success(request, 'Pago creada con éxito')

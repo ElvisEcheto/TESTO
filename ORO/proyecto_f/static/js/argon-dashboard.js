@@ -753,3 +753,25 @@ function darkMode(el) {
   }
 };
 
+document.addEventListener("DOMContentLoaded", function() {
+  var btn = document.getElementById("popover-btn");
+  var popover = document.getElementById("popover-content");
+
+  btn.addEventListener("click", function() {
+    if (popover.style.display === "none") {
+      popover.style.display = "block";
+      var rect = btn.getBoundingClientRect();
+      popover.style.top = rect.bottom + "px";
+      popover.style.left = rect.left + "px";
+    } else {
+      popover.style.display = "none";
+    }
+  });
+
+  document.addEventListener("click", function(event) {
+    if (!btn.contains(event.target) && !popover.contains(event.target)) {
+      popover.style.display = "none";
+    }
+  });
+});
+

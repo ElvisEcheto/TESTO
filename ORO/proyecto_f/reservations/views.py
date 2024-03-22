@@ -89,7 +89,19 @@ def create_reservation(request):
                 service=service,
                 price=services_price[i]
             )
-            rservice.save()              
+            rservice.save()            
+
+        for lodging_id in lodgings_Id:
+            lodging = Lodging.objects.get(pk=int(lodging_id))
+            lodging.status = False
+            lodging.save()
+        
+        # Cambiar el estado de los servicios a inactivo
+        for service_id in services_Id:
+            service = Service.objects.get(pk=int(service_id))
+            service.status = False
+            service.save()  
+
         messages.success(request, 'Reserva creada con éxito.')
         return redirect('reservations')
     return render(request, 'reservations/create.html', {'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'days_difference': days_difference})
@@ -298,14 +310,6 @@ def generate_pdf(request, reservation_id):
         for reservation_lodging in reservation_lodgings:
             lodging_detail = f"- {reservation_lodging.lodging.name}: ${reservation_lodging.price}"
             elements.append(Paragraph(lodging_detail, styles['Normal']))
-            elements.append(Spacer(1, 3))
-
-
-    if reservation_payments:
-        elements.append(Paragraph("Pagos:", styles['Heading2']))
-        for reservation_payment in reservation_payments:
-            payment_detail = f"- {reservation_payment.date}: ${reservation_payment.value}"
-            elements.append(Paragraph(payment_detail, styles['Normal']))
             elements.append(Spacer(1, 3))
 
 
