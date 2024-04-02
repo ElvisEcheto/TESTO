@@ -61,7 +61,7 @@
                     {% endif %} 
                     {% endfor %}         
                     {% for reservation in reservations_list %}
-           
+                    {% if request.user.is_superuser or request.user.is_user %}
                     <tr>
                         <td>{{ reservation.id }}</td>
                         <td>{{ reservation.daterr }}</td>
@@ -90,7 +90,7 @@
                             </a>
                         </td>
                     </tr>
-
+                    {% endif %} 
                     {% endfor %}              
                 </tbody>
             </table>

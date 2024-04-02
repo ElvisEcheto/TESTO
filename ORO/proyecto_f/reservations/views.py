@@ -22,8 +22,8 @@ from decimal import Decimal
 
 def create_reservation(request):
     costumers_list = Costumer.objects.all()
-    lodgings_list = Lodging.objects.filter(status=True)
-    services_list = Service.objects.filter(status=True)
+    lodgings_list = Lodging.objects.all()
+    services_list = Service.objects.all()
 
     # Calcula days_difference aquí
     datess = request.POST.get('datess')  # Obtén la fecha de inicio desde la solicitud
@@ -35,8 +35,8 @@ def create_reservation(request):
         dateff_date = datetime.strptime(dateff, '%Y-%m-%d').date()
         days_difference = (dateff_date - datess_date).days
     else:
-        days_difference = 0  # Define un valor por defecto si las fechas no están presentes   
-    
+        days_difference = 0  # Define un valor por defecto si las fechas no están presentes
+
     if request.method == 'POST':
         # Obtener el correo electrónico del cliente del formulario
         costumer_email = request.POST['costumer']
@@ -46,9 +46,9 @@ def create_reservation(request):
         except Costumer.DoesNotExist:
             # Manejar la situación en la que no se encuentra un Costumer
             costumer = None  # Asignar None para manejarlo en la lógica de creación de la reserva
-        
+
         datess_str = request.POST['datess']
-        dateff_str = request.POST['dateff']        
+        dateff_str = request.POST['dateff']
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
 
@@ -59,21 +59,21 @@ def create_reservation(request):
         total_value_str = request.POST['totalValue']
         total_value = Decimal(total_value_str)
 
-        reservation = Reservation.objects.create(                   
-            daterr=datetime.now().date(),                            
+        reservation = Reservation.objects.create(
+            daterr=datetime.now().date(),
             datess=datess,
             dateff=dateff,
             price=total_value,  # Utilizar el valor convertido a Decimal
             rstatu='Reservado',
             costumer=costumer  # Asignar el objeto Costumer o None si no se encontró
         )
-        reservation.save()        
+        reservation.save()
         lodgings_Id = request.POST.getlist('lodgingId[]')
         lodgings_price = request.POST.getlist('lodgingPrice[]')
         services_Id = request.POST.getlist('serviceId[]')
-        services_price = request.POST.getlist('servicePrice[]')       
-                
-        for i in range(len(lodgings_Id)):            
+        services_price = request.POST.getlist('servicePrice[]')
+
+        for i in range(len(lodgings_Id)):
             lodging = Lodging.objects.get(pk=int(lodgings_Id[i]))
             rlodging = Rlodging.objects.create(
                 reservation=reservation,
@@ -81,7 +81,7 @@ def create_reservation(request):
                 price=lodgings_price[i]
             )
             rlodging.save()
-        
+
         for i in range(len(services_Id)):
             service = Service.objects.get(pk=int(services_Id[i]))
             rservice = Rservice.objects.create(
@@ -89,19 +89,7 @@ def create_reservation(request):
                 service=service,
                 price=services_price[i]
             )
-            rservice.save()            
-
-        for lodging_id in lodgings_Id:
-            lodging = Lodging.objects.get(pk=int(lodging_id))
-            lodging.status = False
-            lodging.save()
-        
-        # Cambiar el estado de los servicios a inactivo
-        for service_id in services_Id:
-            service = Service.objects.get(pk=int(service_id))
-            service.status = False
-            service.save()  
-
+            rservice.save()
         messages.success(request, 'Reserva creada con éxito.')
         return redirect('reservations')
     return render(request, 'reservations/create.html', {'costumers_list': costumers_list, 'lodgings_list': lodgings_list, 'services_list': services_list, 'days_difference': days_difference})
@@ -115,8 +103,8 @@ def detail_reservation(request, reservation_id):
     payments = Payment.objects.filter(reservation=reservation)
     return render(request, 'reservations/detail.html', {'reservation': reservation, 'rlodgings': rlodgings, 'rservices': rservices, 'payments': payments})
 
-def reservations(request):    
-    reservations_list = Reservation.objects.all()    
+def reservations(request):
+    reservations_list = Reservation.objects.all()
     return render(request, 'reservations/index.html', {'reservations_list': reservations_list})
 
 
@@ -126,7 +114,7 @@ def edit_reservation(request, reservation_id):
     reservation = Reservation.objects.get(pk=reservation_id)
     rlodgings = Rlodging.objects.filter(reservation=reservation)
     rservices = Rservice.objects.filter(reservation=reservation)
-    
+
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
     services_list = Service.objects.all()
@@ -185,7 +173,7 @@ def edit_reservation(request, reservation_id):
         reservation.save()
 
         # Redireccionar y mostrar un mensaje de éxito
-        messages.success(request, 'Reserva creada con éxito')
+        messages.success(request, '¡Editado exitoso!')
         return redirect('reservations')
 
     # Calcular el total para mostrar en la vista
