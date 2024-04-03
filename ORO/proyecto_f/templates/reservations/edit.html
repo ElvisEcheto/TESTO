@@ -34,10 +34,22 @@
 
     <!-- Selección de cliente -->
     <div class="mb-3">
-        <label for="costumer" class="form-label">Cliente (Email)</label>
-        <input type="text" class="form-control" name="costumer" id="costumer" aria-describedby="costumerError" value="{{ reservation.costumer.email }}" readonly>
-        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un correo electrónico válido.</small>
+        <label for="costumer" class="form-label">Cliente</label>
+        {% if user.is_superuser %}
+        <!-- Dropdown for administrators -->
+        <select class="form-select" id="costumer" name="costumer">
+            <option value="">Seleccionar cliente</option>
+            {% for costumer in costumers_list %}
+                <option value="{{ costumer.email }}" {% if costumer.email == reservation.costumer.email %} selected {% endif %}>{{ costumer.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <!-- Readonly input for regular users -->
+        <input type="text" class="form-control" id="costumer" name="costumer" value="{{ reservation.costumer.name }}" readonly>
+        {% endif %}
+        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un cliente válido.</small>
     </div>
+    
     
 
     <!-- Selección de cabañas -->

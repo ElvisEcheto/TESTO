@@ -27,9 +27,22 @@
 
     <div class="mb-3">
         <label for="costumer" class="form-label">Cliente (Email)</label>
-        <input type="text" class="form-control" name="costumer" id="costumer" aria-describedby="costumerError" value="{{ user.email }}" readonly>
-        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un correo electrónico válido.</small>
+        {% if user.is_superuser %}
+        <!-- Dropdown for administrators -->
+        <select class="form-select" id="costumer" name="costumer">
+            <option value="">Seleccionar usuario</option>
+            {% for costumer in costumers_list %}
+                <option value="{{ costumer.email }}">{{ costumer.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <!-- Readonly input for regular users -->
+        <input type="text" class="form-control" id="costumer" name="costumer" value="{{ user.email }}" readonly>
+        {% endif %}
+        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un cliente válido.</small>
     </div>
+    
+    
 
     <div class="mb-3">
         <label for="lodging" class="form-label">Cabañas</label>

@@ -111,39 +111,41 @@ def reservations(request):
 from django.core.exceptions import ObjectDoesNotExist
 
 def edit_reservation(request, reservation_id):
-    reservation = Reservation.objects.get(pk=reservation_id)
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
     rlodgings = Rlodging.objects.filter(reservation=reservation)
     rservices = Rservice.objects.filter(reservation=reservation)
-
     costumers_list = Costumer.objects.all()
     lodgings_list = Lodging.objects.all()
     services_list = Service.objects.all()
-
-    total = 0  # Inicializamos la variable total
-    total_with_days = 0  # Inicializamos el total con los días multiplicados
+    
+    total = 0
+    total_with_days = 0
 
     if request.method == 'POST':
-        # Procesar el formulario
         datess_str = request.POST.get('datess')
         dateff_str = request.POST.get('dateff')
         datess = datetime.strptime(datess_str, '%Y-%m-%d')
         dateff = datetime.strptime(dateff_str, '%Y-%m-%d')
 
-        # Calcular los días de diferencia entre las fechas
         days_difference = (dateff - datess).days
 
-        # Actualizar la reserva con los nuevos valores
         reservation.datess = datess
         reservation.dateff = dateff
         reservation.rstatu = 'Reservado'
 
-        # Guardar las nuevas cabañas y servicios seleccionados
+        costumer_email = request.POST.get('costumer')
+        try:
+            costumer = Costumer.objects.get(email=costumer_email)
+            reservation.costumer = costumer  # Asignar el nuevo cliente a la reserva
+        except Costumer.DoesNotExist:
+            # Manejar la situación en la que no se encuentra un Costumer
+            pass
+
         lodgings_Id = request.POST.getlist('lodgingId[]')
         lodgings_price = request.POST.getlist('lodgingPrice[]')
         services_Id = request.POST.getlist('serviceId[]')
         services_price = request.POST.getlist('servicePrice[]')
 
-        # Guardar los nuevos registros
         for i in range(len(lodgings_Id)):
             try:
                 lodging = Lodging.objects.get(pk=int(lodgings_Id[i]))
@@ -166,25 +168,21 @@ def edit_reservation(request, reservation_id):
                 price=float(services_price[i])
             )
 
-        # Calcular el total y asignarlo a la reserva
         total = sum(float(price) for price in lodgings_price + services_price)
         total_with_days = total * days_difference
         reservation.price = total_with_days
         reservation.save()
 
-        # Redireccionar y mostrar un mensaje de éxito
         messages.success(request, '¡Editado exitoso!')
         return redirect('reservations')
 
-    # Calcular el total para mostrar en la vista
     total = sum(rlodging.price for rlodging in rlodgings) + sum(rservice.price for rservice in rservices)
     total_with_days = total * (reservation.dateff - reservation.datess).days
-    
-    # Formatear el total para mostrar 0 en lugar de 0.00 cuando sea un número entero
-    if total % 1 == 0:  # Verificar si el total es un número entero
-        total = int(total)  # Convertir a entero si es necesario
+
+    if total % 1 == 0:
+        total = int(total)
     else:
-        total = '{:.2f}'.format(total)  # De lo contrario, mantener dos decimales
+        total = '{:.2f}'.format(total)
     
     return render(request, 'reservations/edit.html', {
         'reservation': reservation,
@@ -194,9 +192,8 @@ def edit_reservation(request, reservation_id):
         'rlodgings': rlodgings,
         'rservices': rservices,
         'total': total,
-        'total_with_days': total_with_days,  # Pasamos el total con los días multiplicados
+        'total_with_days': total_with_days,
     })
-
 
 
 
