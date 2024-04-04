@@ -32,23 +32,10 @@
     <!-- Mensaje de días y total -->
     <div id="message" class="text-success"></div>
 
-    <!-- Selección de cliente -->
-    <div class="mb-3">
-        <label for="costumer" class="form-label">Cliente</label>
-        {% if user.is_superuser %}
-        <!-- Dropdown for administrators -->
-        <select class="form-select" id="costumer" name="costumer">
-            <option value="">Seleccionar cliente</option>
-            {% for costumer in costumers_list %}
-                <option value="{{ costumer.email }}" {% if costumer.email == reservation.costumer.email %} selected {% endif %}>{{ costumer.name }}</option>
-            {% endfor %}
-        </select>
-        {% else %}
-        <!-- Readonly input for regular users -->
-        <input type="text" class="form-control" id="costumer" name="costumer" value="{{ reservation.costumer.name }}" readonly>
-        {% endif %}
-        <small id="costumerError" class="form-text text-danger" style="display: none;">Por favor ingresa un cliente válido.</small>
-    </div>
+<div class="mb-3">
+    <label for="costumer" class="form-label">Cliente</label>
+    <input type="text" class="form-control" id="costumer" name="costumer" value="{{ reservation.costumer.name }}" readonly>
+</div>
     
     
 
@@ -110,9 +97,9 @@
                     </td>
                     <td>{{ rlodging.price }}</td>
                     <td>
-                        <a href="{% url 'delete_booking_cabin' rlodging.id %}" class="btn btn-danger btn-circle btn-sm">
+                        <button type="button" class="btn btn-danger btn-circle btn-sm delete-lodging" data-id="{{ rlodging.id }}">
                             <i class="fas fa-trash"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -125,9 +112,9 @@
                     </td>
                     <td>{{ rservice.price }}</td>
                     <td>
-                        <a href="{% url 'delete_service_cabin' rservice.id %}" class="btn btn-danger btn-circle btn-sm">
+                        <button type="button" class="btn btn-danger btn-circle btn-sm delete-service" data-id="{{ rservice.id }}">
                             <i class="fas fa-trash"></i>
-                        </a>
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -155,7 +142,45 @@
 </form>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Manejar la eliminación de cabañas
+$(document).on("click", ".delete-lodging", function() {
+    var id = $(this).data("id");
+    var price = parseFloat($(this).closest('tr').find('td:eq(1)').text()); // Obtener el precio del elemento a eliminar
+    totalReservation(-price); // Restar el precio del elemento eliminado del total
+    $.ajax({
+        type: "GET",
+        url: "{% url 'delete_booking_cabin' 0 %}".replace('0', id),
+        success: function() {
+            $(this).closest("tr").remove(); // Eliminar la fila de la tabla después de restar el precio del total
+            updateTotalAndMessage(); // Actualizar el total después de eliminar la reserva
+        }.bind(this), // 'bind' para que 'this' haga referencia al botón dentro de la función de éxito AJAX
+        error: function(xhr, status, error) {
+            console.error("Error al eliminar la cabaña:", error);
+        }
+    });
+});
+
+// Manejar la eliminación de servicios
+$(document).on("click", ".delete-service", function() {
+    var id = $(this).data("id");
+    var price = parseFloat($(this).closest('tr').find('td:eq(1)').text()); // Obtener el precio del elemento a eliminar
+    totalReservation(-price); // Restar el precio del elemento eliminado del total
+    $.ajax({
+        type: "GET",
+        url: "{% url 'delete_service_cabin' 0 %}".replace('0', id),
+        success: function() {
+            $(this).closest("tr").remove(); // Eliminar la fila de la tabla después de restar el precio del total
+            updateTotalAndMessage(); // Actualizar el total después de eliminar la reserva
+        }.bind(this), // 'bind' para que 'this' haga referencia al botón dentro de la función de éxito AJAX
+        error: function(xhr, status, error) {
+            console.error("Error al eliminar el servicio:", error);
+        }
+    });
+});
 </script>
+
 
 <script>
     lodgings_added = [];
@@ -456,6 +481,7 @@ $(document).ready(function() {
 });
 
 </script>
+
 <script>
 $(document).ready(function() {
     // Función para calcular el número de días entre dos fechas
